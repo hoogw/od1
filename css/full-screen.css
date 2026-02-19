@@ -1,0 +1,486 @@
+
+
+/* Make Iframe to fit 100% of container's remaining height https://stackoverflow.com/questions/325273/make-iframe-to-fit-100-of-containers-remaining-height */
+body, html {width: 100%; height: 100%; margin: 0; padding: 0}
+
+
+
+
+
+
+/* - - - -  full page dark theme - - - -   always at top - - - -   */
+
+
+:root {
+  color-scheme: dark;
+  font-family: monospace,sans-serif;
+}
+
+input,button {
+  font-size: xx-small;
+}
+
+/* dark theme set link color white, for blue color use this line*/
+a {
+  color: revert; /* Restores the default blue color for unvisited links */
+}
+
+
+
+
+
+.back  {
+  font-size:small; 
+  font-weight: bolder; 
+  font-family: monospace; 
+  font-style: oblique; 
+  color:yellow;
+}
+
+.letsgo {
+  font-size: small; 
+  font-weight: bolder; 
+  font-family: monospace; 
+  font-style: oblique; 
+  color:yellow;
+}
+.current_rest_api_endpoint {
+  font-size: small; 
+  font-weight: bolder; 
+  font-family: monospace; 
+  font-style: oblique;
+  color:yellow;
+}
+.login-token {
+  font-size: xx-small; 
+  font-weight: lighter; 
+  font-style: oblique; 
+}
+
+
+
+
+/*   - - - -    end - - - -  full page dark theme - - - -   always at top - - - -   */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* scrollable flexbox sample is here  https://www.bennadel.com/blog/4499-sanity-check-using-overflow-scrolling-on-css-flexbox-panels.htm */
+
+
+
+/* for different size of screen, sample is here  https://www.w3schools.com/Css/css3_flexbox_responsive.asp */
+
+
+
+
+.flex-container {
+  
+  display: flex ;
+
+  bottom: 0px ;
+  left: 0px ;
+  position: fixed ;
+  right: 0px ;
+  top: 0px ;
+  z-index: 1 ;
+
+}
+
+
+/*
+  Sanity check that flex "panels" will scroll properly when they have
+  overflow:auto applied to them. And, won't just grow in strange ways when they
+  have too much content.
+*/
+/* for 3 panel */
+.flex-3-left,  /* free */
+.flex-3-middle,
+.flex-3-right,
+
+/* for 2 panel */
+.flex-2-left, /* free */
+.flex-2-right,
+
+
+/* for 4 panel */
+.flex-4-panel-1,
+.flex-4-panel-2,
+.flex-4-panel-3,
+.flex-4-panel-4, /* free */
+
+/* for 3 panel */
+.flex-3-panel-1,
+.flex-3-panel-2,
+.flex-3-panel-3, /* free */
+
+
+
+/* for map in middle, have left, right, 3 panel */
+.map-3-left,
+.map-3-middle,
+.map-3-right,
+
+
+
+
+.map-3-left-width-undefined,
+.map-3-middle-width-auto,
+.map-3-right-width-undefined
+{
+  overflow: auto ;
+  overscroll-behavior: contain ;
+  
+}
+
+
+    /* default for 2k,4k,5k  more than 2000px */
+    .flex-3-left {
+      flex: 1 1 auto ;
+    }
+    .flex-3-middle {
+      flex: 0 0 auto ;
+      width: 800px ;
+    }
+    .flex-3-right {
+      flex: 0 0 auto ;
+      width: 800px ;
+    }
+
+
+
+
+    .flex-2-left {
+      flex: 1 1 auto ;
+    }
+    .flex-2-right {
+      flex: 0 0 auto ;
+      width: 1500px ;
+    }
+
+    
+
+    .flex-4-panel-4 {
+      flex: 1 1 auto ;
+    }
+    .flex-4-panel-1 {
+      flex: 0 0 auto ;
+      width: 400px ;
+    }
+    .flex-4-panel-2 {
+      flex: 0 0 auto ;
+      width: 400px ;
+    }
+    .flex-4-panel-3 {
+      flex: 0 0 auto ;
+      width: 400px ;
+    }
+
+    
+
+     .flex-3-panel-3 {
+      flex: 1 1 auto ;
+    }
+    .flex-3-panel-1 {
+      flex: 0 0 auto ;
+      width: 400px ;
+    }
+    .flex-3-panel-2 {
+      flex: 0 0 auto ;
+      width: 400px ;
+    }
+    
+
+
+
+          /* for HD 1920x1080  max 2000px */
+          @media screen and (max-width: 2000px) {
+            .flex-3-middle {
+              width: 600px ;
+            }
+            .flex-3-right {
+              width: 600px ;
+            }
+
+            .flex-2-right {
+              width: 1200px ;
+            }
+
+
+             .flex-4-panel-1 {
+                 width: 350px ;
+              }
+              .flex-4-panel-2 {
+                width: 350px ;
+              }
+              .flex-4-panel-3 {
+                width: 350px ;
+              }
+           
+
+
+              .flex-3-panel-1 {
+                 width: 350px ;
+              }
+              .flex-3-panel-2 {
+                width: 350px ;
+              }
+            
+          }
+
+          @media screen and (max-width: 1800px) {
+            .flex-3-middle {
+              width: 500px ;
+            }
+            .flex-3-right {
+              width: 500px ;
+            }
+
+
+            .flex-2-right {
+              width: 1000px ;
+            }
+
+
+            flex-4-panel-1 {
+               width: 300px ;
+              }
+              .flex-4-panel-2 {
+               width: 300px ;
+              }
+              .flex-4-panel-3 {
+                width: 300px ;
+              }
+
+              .flex-3-panel-1 {
+                 width: 300px ;
+              }
+              .flex-3-panel-2 {
+                width: 300px ;
+              }
+           
+          }
+
+          @media screen and (max-width: 1500px) {
+            .flex-3-middle {
+              width: 400px ;
+            }
+            .flex-3-right {
+              width: 400px ;
+            }
+
+            .flex-2-right {
+              width: 800px ;
+            }
+
+
+             flex-4-panel-1 {
+               width: 250px ;
+              }
+              .flex-4-panel-2 {
+               width: 250px ;
+              }
+              .flex-4-panel-3 {
+                width: 250px ;
+              }
+
+
+               .flex-3-panel-1 {
+                 width: 250px ;
+              }
+              .flex-3-panel-2 {
+                width: 250px ;
+              }
+
+           
+          }
+          
+          @media screen and (max-width: 1000px) {
+            .flex-3-middle {
+              width: 300px ;
+            }
+            .flex-3-right {
+              width: 300px ;
+            }
+
+            .flex-2-right {
+             width: 600px ;
+            }
+
+             flex-4-panel-1 {
+                width: 200px ;
+              }
+              .flex-4-panel-2 {
+                width: 200px ;
+              }
+              .flex-4-panel-3 {
+                width: 200px ;
+              }
+
+
+               .flex-3-panel-1 {
+                 width: 200px ;
+              }
+              .flex-3-panel-2 {
+                width: 200px ;
+              }
+            
+          }
+
+          @media screen and (max-width: 800px) {
+            .flex-3-middle {
+              width: 200px ;
+            }
+            .flex-3-right {
+              width: 200px ;
+            }
+
+            .flex-2-right {
+              width: 400px ;
+            }
+
+
+              flex-4-panel-1 {
+                width: 150px ;
+              }
+              .flex-4-panel-2 {
+                width: 150px ;
+              }
+              .flex-4-panel-3 {
+               width: 150px ;
+              }
+
+
+               .flex-3-panel-1 {
+                 width: 150px ;
+              }
+              .flex-3-panel-2 {
+                width: 150px ;
+              }
+
+
+          }
+
+          @media screen and (max-width: 500px) {
+            .flex-3-middle {
+              width: 100px ;
+            }
+            .flex-3-right {
+              width: 100px ;
+            }
+
+            .flex-2-right {
+              width: 200px ;
+            }
+
+          
+            flex-4-panel-1 {
+                width: 50px ;
+              }
+              .flex-4-panel-2 {
+                width: 50px ;
+              }
+              .flex-4-panel-3 {
+                width: 50px ;
+              }
+
+
+               .flex-3-panel-1 {
+                 width: 50px ;
+              }
+              .flex-3-panel-2 {
+                width: 50px ;
+              }
+
+          }
+
+
+
+
+
+
+
+
+
+
+ /* for map tag, height must defined here*/
+    .map-class-height-undefined {
+      height: 100%   /* default 100%, without header,footer line, otherwise should adjust inline style=height 90%     700px; */
+    }
+    .map-3-left-width-undefined {
+      flex: 0 0 auto ;
+    }
+    .map-3-middle-width-auto {
+      flex: 1 1 auto ;
+    }
+    .map-3-right-width-undefined {
+      flex: 0 0 auto ;
+    }
+
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+/* Make Iframe to fit 100% of container's remaining height https://stackoverflow.com/questions/325273/make-iframe-to-fit-100-of-containers-remaining-height */
+
+.row-container {display: flex; width: 100%; height: 100%; flex-direction: column; }
+/*.first-row {}*/
+.second-row { flex-grow: 1; border: none; margin: 0; padding: 0; }
+
+/* Make Iframe to fit 100% of container's remaining height */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  utility always at bottom */
+
+  .flex-row {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    /* border: 1px dotted grey; */
+  }
+
+
+ 
+  .flex-column {
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .font-size-xx-small{
+    font-size: xx-small;
+  }

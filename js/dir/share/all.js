@@ -2765,14 +2765,26 @@ function  use_what_model_to_open_popup(_modelNumber_, _name_, _type_, _url_, _id
 
                 default:
 
-                    // parent is server2/root 
-                    _newTab_link =  window.location.origin + window.location.pathname.replace('root/home1.html', 'lyr/layer.html')
-                     // parent is server/server 
-                    _newTab_link =  window.location.origin + window.location.pathname.replace('svr/server.html', 'lyr/layer.html')
-                    // parent is hub
-                    _newTab_link =  window.location.origin + window.location.pathname.replace('hub/layer/hub.html', 'rest/lyr/layer.html')
-                    _newTab_link =  window.location.origin + window.location.pathname.replace('hub/layer/opendata.html', 'rest/lyr/layer.html')
 
+                   if (window.location.pathname.includes('root/home1.html')){
+                        // parent is server2/root 
+                        _newTab_link =  window.location.origin + window.location.pathname.replace('root/home1.html', 'lyr/layer.html')
+
+                   } else if (window.location.pathname.includes('svr/server.html')){
+
+                        // parent is server/server 
+                        _newTab_link =  window.location.origin + window.location.pathname.replace('svr/server.html', 'lyr/layer.html')
+                   } else if (window.location.pathname.includes('hub/layer/hub.html')){
+                    
+                        // parent is hub
+                        _newTab_link =  window.location.origin + window.location.pathname.replace('hub/layer/hub.html', 'rest/lyr/layer.html')
+
+                    } else if (window.location.pathname.includes('hub/layer/opendata.html')){
+                        // parent is hub
+                        _newTab_link =  window.location.origin + window.location.pathname.replace('hub/layer/opendata.html', 'rest/lyr/layer.html')
+                    } 
+                    
+                    
 
 
                     _newTab_link += '?org=' + _name_  //selected_relative_path  

@@ -606,10 +606,7 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
         update_url_parameter('select_layer_id', selected_node_layer_id);
         update_url_parameter('select_layer_text', selected_node_text);
 
-        //   "Raster Layer",   "Raster Catalog Layer" 
-        if (selected_node_type.includes("Raster")) {
-            selected_node_type = "Raster Layer";
-        }
+        
 
         //switch(_selected_type[0]) {     // this is true value
         switch(selected_node_type) {               // this is generalized value

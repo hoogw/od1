@@ -2813,11 +2813,6 @@ function open_popup(_id, _name, _type, _url ){
 
 
 
-
-
-
-
-
 function open_popup_server(_name, _type, _url ){
 
    
@@ -2829,11 +2824,15 @@ function open_popup_server(_name, _type, _url ){
     //_newTab_link =  url_template_server
 
     // use relative path is best way 
-    // parent is rest
-     var _newTab_link =  window.location.origin + window.location.pathname.replace('root/servers2.html', 'svr/server.html')
-          
-    // parent is hub
-      _newTab_link =  window.location.origin + window.location.pathname.replace('hub/layer/hub.html', 'rest/svr/server.html')
+    
+     var _newTab_link
+     if (window.location.pathname.includes('root/servers2.html')){
+        // parent is rest
+        _newTab_link =  window.location.origin + window.location.pathname.replace('root/servers2.html', 'svr/server.html')
+     } else if (window.location.pathname.includes('hub/layer/hub.html')){
+        // parent is hub
+        _newTab_link =  window.location.origin + window.location.pathname.replace('hub/layer/hub.html', 'rest/svr/server.html')
+     }
 
 
      
@@ -2845,16 +2844,36 @@ function open_popup_server(_name, _type, _url ){
 
             //window.open(_newTab_link, "mozillaWindow", "popup");
             window.open(_newTab_link, "_blank", "popup");
-
-
 }
+
+
+
+
 
 // only for online
 function open_popup_online(_site_name, _site_url){
 
 
+    // template is fixed, will not use  
+   // var _newTab_link = url_template_online
 
-    var _newTab_link = url_template_online
+
+   console.log(" window.location.origin + window.location.pathname",  window.location.origin + window.location.pathname)
+   console.log("window.location.pathname.replace('hub/site/opendata.html', 'online/layers.html'", window.location.pathname.replace('hub/site/opendata.html', 'online/layers.html'))
+   console.log(" new tab link", window.location.origin + window.location.pathname.replace('hub/site/opendata.html', 'online/layers.html'))
+    
+   // use relative path is best way 
+    // parent is hub/site
+    var _newTab_link
+    if (window.location.pathname.includes('hub/site/opendata.html')){
+      _newTab_link =  window.location.origin + window.location.pathname.replace('hub/site/opendata.html', 'online/layers.html')
+    } else if (window.location.pathname.includes('hub/site/hub.html')){
+       _newTab_link =  window.location.origin + window.location.pathname.replace('hub/site/hub.html', 'online/layers.html')
+    }
+      
+
+
+
     _newTab_link += "?model=6122"
     _newTab_link += '&url=' + _site_url
     _newTab_link += '&org=' + _site_name

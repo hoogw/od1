@@ -1,0 +1,433 @@
+
+
+
+
+
+google search keyword:       opendata.arcgis.com/api/v3/search
+
+
+
+
+Anything you're looking at in the Portal home app is driven from an API...
+all info is from arcgis online rest api,
+
+
+
+
+
+how to get view count from arcgis portal
+https://community.esri.com/thread/214080-portal-items-number-of-views
+
+
+https://developers.arcgis.com/rest/users-groups-and-items/item.htm
+
+
+example:  zone-catalina  
+
+   both work
+    https://www.arcgis.com/sharing/rest/content/items/a22e7905d67f4330bbec630eebd38419?f=json
+     https://www.arcgis.com/sharing/content/items/a22e7905d67f4330bbec630eebd38419?f=json
+
+
+
+
+arcgis portal:
+ 
+https://developers.arcgis.com/rest/users-groups-and-items/portal-self.htm
+
+
+
+
+
+hub v3 api
+
+original:  
+    https://gist.github.com/jgravois/1b7ec5080e992a59f65cf7a2190e4365
+
+hoogw:
+https://gist.github.com/hoogw
+https://gist.github.com/hoogw/902e75e569d851cc6a37fe3eff3b1cac
+
+
+
+
+
+example:
+
+ layer detail api : dataset id = item id + _ + layer id 
+                     a22e7905d67f4330bbec630eebd38419_26  = a22e7905d67f4330bbec630eebd38419 + _ + 26
+
+                   https://hub.arcgis.com/api/v3/datasets/{dataset_id}
+                   https://hub.arcgis.com/api/v3/datasets/a22e7905d67f4330bbec630eebd38419_26
+
+
+layer meta info ( with view count, html ): 
+              https://www.arcgis.com/home/item.html?id={item_id}
+              https://www.arcgis.com/home/item.html?id=a22e7905d67f4330bbec630eebd38419
+
+
+
+
+***** we need this api for view count  ***** 
+layer meta info ( with view count, json ): 
+           https://www.arcgis.com/sharing/content/items/{item_id}?f=json
+           https://www.arcgis.com/sharing/content/items/a22e7905d67f4330bbec630eebd38419?f=json
+
+
+
+
+
+
+arcgis server rest api view count:
+
+         https://developers.arcgis.com/rest/enterprise-administration/server/servicestatistics.htm
+         https://<service-url>/statistics
+
+         https://maps.lacity.org/arcgis/rest/services/Mapping/NavigateLA/MapServer/statistics?f=json
+
+
+
+
+
+
+         0Z"
+          keyword: ["community"]
+          landingPage: "http://opendata.london.ca/datasets/b182bb23422244ff85e9d8bcc3eb561d"
+          license: "http://opendata.london.ca/datasets/b182bb23422244ff85e9d8bcc3eb561d/license.json"
+          lunr_id: "117"
+          modified: "2019-09-25T18:42:40.000Z"
+          publisher: {source: "acodispo_London"}
+          title: "City of London Street Map Index"
+
+
+
+
+
+        feature table distribution do not have KML and shapefile
+
+             feature table example: (https://transparentgov.net/json2tree/esri/online/hub.html?url=https://opendata.london.ca/&org=City%20of%20London%20Open%20Data&_center_lat=42.978&_center_long=-81.23&_center_zoom=11)
+             #1 is 
+
+                      @type: "dcat:Dataset"
+                      accessLevel: "public"
+                      contactPoint: {@type: "vcard:Contact", fn: "acodispo_London"}
+                      description: "<p>This feature class contains locational and cartographic styling attributes. Additional street lighting attributes which pertain to specific components of the street light feature (i.e. pole, arm and lamp attributes) are exposed through predefined relationship classes or by joining or relating the component attribute tables to this feature class.</p><p>Street light poles and locations are approximate for information purposes only. For other uses, locations should be field inspected and measured for accuracy.</p>"
+                      distribution: Array(4)
+                      0: {@type: "dcat:Distribution", title: "ArcGIS Hub Dataset", format: "Web Page", mediaType: "text/html", accessURL: "http://opendata.london.ca/datasets/6aec170337de4d1b8b0dc55794c8aa68_22"}
+                      1: {@type: "dcat:Distribution", title: "Esri Rest API", format: "Esri REST", mediaType: "application/json", accessURL: "https://maps.london.ca/arcgisa/rest/services/OpenData/OpenData_Transportation/MapServer/22"}
+                      2: {@type: "dcat:Distribution", title: "GeoJSON", format: "GeoJSON", mediaType: "application/vnd.geo+json", accessURL: "http://opendata.london.ca/datasets/6aec170337de4d1…2.geojson?outSR={"latestWkid":26917,"wkid":26917}"}
+                      3: {@type: "dcat:Distribution", title: "CSV", format: "CSV", mediaType: "text/csv", accessURL: "http://opendata.london.ca/datasets/6aec170337de4d1…68_22.csv?outSR={"latestWkid":26917,"wkid":26917}"}
+
+
+
+
+
+
+
+
+
+                feature layer distribution have KML and shapefile  
+                example:
+
+                      @type: "dcat:Dataset"
+                      accessLevel: "public"
+                      contactPoint: {@type: "vcard:Contact", fn: "acodispo_London"}
+                      description: " This feature class can be used in addition to other Sewer feature classes to create a representation of the municipal sewer network. Subtype Code defines Type.  There is no distinction between Assumed and Unassumed."
+                      distribution: Array(6)
+                      0: {@type: "dcat:Distribution", title: "ArcGIS Hub Dataset", format: "Web Page", mediaType: "text/html", accessURL: "http://opendata.london.ca/datasets/69ccb6a5bbf748e2b03311c95331cb75_3"}
+                      1: {@type: "dcat:Distribution", title: "Esri Rest API", format: "Esri REST", mediaType: "application/json", accessURL: "https://maps.london.ca/arcgisa/rest/services/OpenData/OpenData_Environment/MapServer/3"}
+                      2: {@type: "dcat:Distribution", title: "GeoJSON", format: "GeoJSON", mediaType: "application/vnd.geo+json", accessURL: "http://opendata.london.ca/datasets/69ccb6a5bbf748e…3.geojson?outSR={"latestWkid":26917,"wkid":26917}"}
+                      3: {@type: "dcat:Distribution", title: "CSV", format: "CSV", mediaType: "text/csv", accessURL: "http://opendata.london.ca/datasets/69ccb6a5bbf748e…b75_3.csv?outSR={"latestWkid":26917,"wkid":26917}"}
+                      4: {@type: "dcat:Distribution", title: "KML", format: "KML", mediaType: "application/vnd.google-earth.kml+xml", accessURL: "http://opendata.london.ca/datasets/69ccb6a5bbf748e…b75_3.kml?outSR={"latestWkid":26917,"wkid":26917}"}
+                      5: {@type: "dcat:Distribution", title: "Shapefile", format: "ZIP", mediaType: "application/zip", accessURL: "http://opendata.london.ca/datasets/69ccb6a5bbf748e…b75_3.zip?outSR={"latestWkid":26917,"wkid":26917}"}
+
+                
+
+
+
+                      full example: 
+
+                      @type: "dcat:Dataset"
+                      accessLevel: "public"
+                      contactPoint: {@type: "vcard:Contact", fn: "acodispo_London"}
+                      description: " This feature class can be used in addition to other Sewer feature classes to create a representation of the municipal sewer network. Subtype Code defines Type.  There is no distinction between Assumed and Unassumed."
+                      distribution: Array(6)
+                      0: {@type: "dcat:Distribution", title: "ArcGIS Hub Dataset", format: "Web Page", mediaType: "text/html", accessURL: "http://opendata.london.ca/datasets/69ccb6a5bbf748e2b03311c95331cb75_3"}
+                      1: {@type: "dcat:Distribution", title: "Esri Rest API", format: "Esri REST", mediaType: "application/json", accessURL: "https://maps.london.ca/arcgisa/rest/services/OpenData/OpenData_Environment/MapServer/3"}
+                      2: {@type: "dcat:Distribution", title: "GeoJSON", format: "GeoJSON", mediaType: "application/vnd.geo+json", accessURL: "http://opendata.london.ca/datasets/69ccb6a5bbf748e…3.geojson?outSR={"latestWkid":26917,"wkid":26917}"}
+                      3: {@type: "dcat:Distribution", title: "CSV", format: "CSV", mediaType: "text/csv", accessURL: "http://opendata.london.ca/datasets/69ccb6a5bbf748e…b75_3.csv?outSR={"latestWkid":26917,"wkid":26917}"}
+                      4: {@type: "dcat:Distribution", title: "KML", format: "KML", mediaType: "application/vnd.google-earth.kml+xml", accessURL: "http://opendata.london.ca/datasets/69ccb6a5bbf748e…b75_3.kml?outSR={"latestWkid":26917,"wkid":26917}"}
+                      5: {@type: "dcat:Distribution", title: "Shapefile", format: "ZIP", mediaType: "application/zip", accessURL: "http://opendata.london.ca/datasets/69ccb6a5bbf748e…b75_3.zip?outSR={"latestWkid":26917,"wkid":26917}"}
+                      length: 6
+                      __proto__: Array(0)
+                      identifier: "http://opendata.london.ca/datasets/69ccb6a5bbf748e2b03311c95331cb75_3"
+                      issued: "2019-06-21T15:07:12.000Z"
+                      keyword: (4) ["sewer", "network", "nodes", "environment"]
+                      landingPage: "http://opendata.london.ca/datasets/69ccb6a5bbf748e2b03311c95331cb75_3"
+                      license: "http://opendata.london.ca/datasets/69ccb6a5bbf748e2b03311c95331cb75_3/license.json"
+                      modified: "2019-11-07T16:50:54.000Z"
+                      publisher: {source: "acodispo_London"}
+                      spatial: "0,-90,-81.127,43.0552"
+                      theme: ["geospatial"]
+                      title: "Sewer Other Nodes"
+
+--------------------------------------------------------
+
+
+      for search.js only 
+
+
+      hubType or type will tell you it is feature layer or feature table(no map)
+
+
+      possible type: 
+
+                            
+                            1)
+                            hubType: "Feature Layer"
+                            hubType: "Feature Service"   // same as feature layer
+                            
+                            hubType: "Feature Collection"   //  because no url provided, so only item page 
+
+
+
+
+
+
+                           2)
+                           hubType: "Table"
+                                     // handle as feature table
+
+
+
+
+
+
+                            3)
+                            hubType: "GeoJson"
+
+                                 not handle, because not provide local domain, we need "local domain/datasets/id.geojson" as download link
+                                 
+                                 so we only provide original html page, for download geojson or json 
+
+                                 In future, we can get local domain by orgId, but that need extra ajax to get, will do in future.
+
+
+                                   //not included in this search result: http://opendata.ajax.ca  not host on esri,  ___id.geojson only available this domain.
+                                                             // this search result only have this:   https://exploreajax.ajax.ca/mapajax/rest/services/
+                                                             // can't make geojson icon, because only id.geojson available, but not domain. 
+                                                             // geojson download URL is:   domain/datasets/id.geojson
+                                
+
+
+
+
+                           4)
+                            hubType: "Raster Layer"
+
+                                 not handle, just show original page
+
+
+
+
+
+
+                           5)
+                            hubType: "Web Scene"
+
+                                 not handle, just show original page
+         
+
+
+
+
+                           6)
+                            hubtype = 'Web Map' or 'Web Mapping Application'
+
+                                 not handle, just show original page
+
+
+
+
+
+                          7)
+                            hubType: "Shapefile"
+
+                                 not handle, just show original page
+
+
+
+
+
+
+                          8) 
+                          hubType:: "Image"
+
+
+                            not handle, just show original page
+
+
+
+
+
+
+      Feature Layer example: 
+    
+      hubType: "Feature Layer"
+      type: "Feature Layer"
+
+
+
+             
+      attributes:
+            access: "public"
+            additionalResources: []
+            advancedQueryCapabilities: {supportsStatistics: true, supportsSqlExpression: true, supportsQueryWithResultType: true, supportsOrderBy: true, supportsQueryRelatedPagination: true, …}
+            categories: []
+            collection: ["Dataset"]
+            commentsEnabled: true
+            composeStatus: {retries: 0, pass: true, lastRetriedAt: 1591004214594}
+            composedAt: 1591004214580
+            content: "Feature Service"
+            contentSecurityPolicy: null
+            created: 1590077035000
+            currentVersion: 10.7
+            description: ""
+            displayField: "Field1"
+            downloadable: true
+            enrichCoverage: "local"
+            enrichQuality: 65
+            errors: []
+            extent: {coordinates: Array(2), type: "envelope"}
+            fieldNames: (71) ["OBJECTID", "Field1", "Accident_Index", "Vehicle_Reference", "Vehicle_Type", "Towing_and_Articulation", "Vehicle_Manoeuvre", "Vehicle_Location_Restricted_Lan", "Vehicle_Location-Restricted_Lane", "Junction_Location", "Skidding_and_Overturning", "Hit_Object_in_Carriageway", "Vehicle_Leaving_Carriageway", "Hit_Object_off_Carriageway", "F1st_Point_of_Impact", "1st_Point_of_Impact", "Was_Vehicle_Left_Hand_Drive_", "Was_Vehicle_Left_Hand_Drive?", "Journey_Purpose_of_Driver", "Sex_of_Driver", "Age_of_Driver", "Age_Band_of_Driver", "Engine_Capacity__CC_", "Engine_Capacity_(CC)", "Propulsion_Code", "Age_of_Vehicle", "Driver_IMD_Decile", "Driver_Home_Area_Type", "Vehicle_IMD_Decile", "Location_Easting_OSGR", "Location_Northing_OSGR", "Longitude", "Latitude", "Police_Force", "Accident_Severity", "Number_of_Vehicles", "Number_of_Casualties", "Date", "Day_of_Week", "Time", "Local_Authority__District_", "Local_Authority_(District)", "Local_Authority__Highway_", "Local_Authority_(Highway)", "F1st_Road_Class", "1st_Road_Class", "F1st_Road_Number", "1st_Road_Number", "Road_Type", "Speed_limit", "Junction_Detail", "Junction_Control", "F2nd_Road_Class", "2nd_Road_Class", "F2nd_Road_Number", "2nd_Road_Number", "Pedestrian_Crossing_Human_Contr", "Pedestrian_Crossing-Human_Control", "Pedestrian_Crossing_Physical_Fa", "Pedestrian_Crossing-Physical_Facilities", "Light_Conditions", "Weather_Conditions", "Road_Surface_Conditions", "Special_Conditions_at_Site", "Carriageway_Hazards", "Urban_or_Rural_Area", "Did_Police_Officer_Attend_Scene", "Did_Police_Officer_Attend_Scene_of_Accident", "LSOA_of_Accident_Location", "geometry", "Field"]
+            fields: (58) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+            geometryType: "esriGeometryPoint"
+            groupIds: []
+            hasApi: true
+            hubType: "Feature Layer"
+            id: "b9a4310a14514cbca44acef6d8ec85c0_6"
+            itemModified: 1591004169000
+            layer: {extent: {…}, supportsApplyEditsWithGlobalIds: false, maxRecordCount: 2000, type: "Feature Layer", hasStaticData: false, …}
+            layers: [{…}]
+            license: "none"
+            licenseInfo: ""
+            maxRecordCount: 2000
+            metadata: {metadata: {…}}
+            modified: 1590077050943
+            modifiedProvenance: "layer.editingInfo.lastEditDate"
+            name: "Speed Limit 20 LDN"
+            objectIdField: "OBJECTID"
+            openData: false
+            owner: "student.UWE"
+            recordCount: 627
+            searchDescription: ""
+            server: {allowGeometryUpdates: true, supportsApplyEditsWithGlobalIds: false, maxRecordCount: 2000, description: "", units: "esriMeters", …}
+            serverCapabilities: "Query"
+            serviceSpatialReference: {latestWkid: 3857, wkid: 102100}
+            size: 33816576
+            source: "student.UWE"
+            sourceProvenance: "item.owner"
+            structuredLicense: {type: "none"}
+            supportedQueryFormats: "JSON, geoJSON"
+            supportsAdvancedQueries: true
+            tags: (4) ["London", "Accident", "Cycling", "DualCarriageway"]
+            thumbnail: "thumbnail/thumbnail.png"
+            thumbnailUrl: "thumbnail/thumbnail.png"
+            type: "Feature Layer"
+            typeCategories: ["Dataset"]
+            typeKeywords: (8) ["ArcGIS Server", "Data", "Feature Access", "Feature Service", "Metadata", "Multilayer", "Service", "Hosted Service"]
+            url: "https://services1.arcgis.com/FQMgDfaSplXrXkUI/arcgis/rest/services/RoadType_DualCarriageway_LDN_WFL1/FeatureServer/6"
+            useStandardizedQueries: true
+            validExtent: true
+            xFrameOptions: null
+            __proto__: Object
+            id: "b9a4310a14514cbca44acef6d8ec85c0_6"
+            links: {self: "http://opendata.arcgis.com/api/v3/datasets/b9a4310a14514cbca44acef6d8ec85c0_6", rawEs: "http://opendata.arcgis.com/api/es/datasets/b9a4310a14514cbca44acef6d8ec85c0_6", itemPage: "https://www.arcgis.com/home/item.html?id=b9a4310a14514cbca44acef6d8ec85c0", esriRest: "https://www.arcgis.com/sharing/content/items/b9a4310a14514cbca44acef6d8ec85c0?f=json"}
+            meta: {highlights: {…}, matchedFields: Array(0)}
+            type: "dataset"
+
+
+
+
+
+            .....................
+
+
+            feature table example: 
+                      
+                        hubType: "Table"
+                        type: "Table"
+
+
+        attributes:
+              access: "public"
+              additionalResources: []
+              advancedQueryCapabilities: {supportsStatistics: true, supportsSqlExpression: true, supportsQueryWithResultType: true, supportsOrderBy: true, supportsQueryRelatedPagination: true, …}
+              categories: []
+              collection: ["Dataset"]
+              commentsEnabled: true
+              composeStatus: {retries: 0, pass: true, lastRetriedAt: 1575143741635}
+              composedAt: 1575143741634
+              content: "Feature Service"
+              contentSecurityPolicy: null
+              created: 1575139612000
+              currentVersion: 10.7
+              description: null
+              displayField: "RefName"
+              downloadable: true
+              enrichCoverage: "local"
+              enrichQuality: 60
+              errors: []
+              extent: {coordinates: Array(2), type: "envelope"}
+              fieldNames: (10) ["OBJECTID_1", "X", "Y", "OBJECTID", "Theme", "Layer", "FeatureCode", "CadType", "RefName", "Angle"]
+              fields: (10) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+              groupIds: []
+              hasApi: true
+              hubType: "Table"
+              id: "a2d0be9f465c49dc9e0b12db0e2ac8be_3"
+              itemModified: 1575139705000
+              layer: {supportsApplyEditsWithGlobalIds: false, maxRecordCount: 2000, type: "Table", hasStaticData: false, editingInfo: {…}, …}
+              layers: [{…}]
+              license: "none"
+              licenseInfo: null
+              maxRecordCount: 2000
+              metadata: {metadata: {…}}
+              modified: 1575139620954
+              modifiedProvenance: "layer.editingInfo.lastEditDate"
+              name: "Tree Inventory.csv"
+              objectIdField: "OBJECTID_1"
+              openData: false
+              owner: "ERTH3500_rc752692"
+              recordCount: 851162
+              searchDescription: null
+              server: {allowGeometryUpdates: true, supportsApplyEditsWithGlobalIds: false, maxRecordCount: 2000, description: "", units: "esriMeters", …}
+              serverCapabilities: "Query"
+              serviceSpatialReference: {latestWkid: 26917, wkid: 26917}
+              size: 157900800
+              source: "ERTH3500_rc752692"
+              sourceProvenance: "item.owner"
+              structuredLicense: {type: "none"}
+              supportedQueryFormats: "JSON, geoJSON"
+              supportsAdvancedQueries: true
+              tags: (5) ["Tree Density", "London", "Ontario", "Census Tract", "ERTH 3500"]
+              thumbnail: "thumbnail/thumbnail.png"
+              thumbnailUrl: "thumbnail/thumbnail.png"
+              type: "Table"
+              typeCategories: ["Dataset"]
+              typeKeywords: (8) ["ArcGIS Server", "Data", "Feature Access", "Feature Service", "Metadata", "Multilayer", "Service", "Hosted Service"]
+              url: "https://services1.arcgis.com/jYHC0Oa2n7z2uKcM/arcgis/rest/services/Tree_Density_in_London_Ontario_WFL1/FeatureServer/3"
+              useStandardizedQueries: true
+              validExtent: true
+              xFrameOptions: null
+              __proto__: Object
+              id: "a2d0be9f465c49dc9e0b12db0e2ac8be_3"
+              links: {self: "http://opendata.arcgis.com/api/v3/datasets/a2d0be9f465c49dc9e0b12db0e2ac8be_3", rawEs: "http://opendata.arcgis.com/api/es/datasets/a2d0be9f465c49dc9e0b12db0e2ac8be_3", itemPage: "https://www.arcgis.com/home/item.html?id=a2d0be9f465c49dc9e0b12db0e2ac8be", esriRest: "https://www.arcgis.com/sharing/content/items/a2d0be9f465c49dc9e0b12db0e2ac8be?f=json"}
+              meta: {highlights: {…}, matchedFields: Array(0)}
+              type: "dataset"
+
+
+*/
+
+
+
+

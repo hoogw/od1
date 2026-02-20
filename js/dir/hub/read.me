@@ -1,0 +1,215 @@
+
+
+v3 api on github 
+
+jgravois/hub_v3_search_api_ref.md
+https://gist.github.com/jgravois/1b7ec5080e992a59f65cf7a2190e4365
+
+
+
+hamhands/v3.md
+https://gist.github.com/hamhands/b6d1f0f514678b88cdc01070bf006263
+
+
+
+
+
+api: 
+https://developers.google.com/custom-search/v1/introduction
+
+
+
+
+
+
+How to update list, 
+
+
+
+1). go to hub.com, left bottom filter, date updated, select  2000.1.1 - 2021.1.1
+https://hub.arcgis.com/search?collection=site&modified=2021-01-02T08%3A00%3A00.000Z%7C2023-01-02T07%3A59%3A59.999Z&sort=Date%20Updated%7Cmodified%7Cdesc
+
+
+2). click next button, 
+catch https-request url as "modified" 
+
+3). replace modified with created, run this url again,
+
+4). at response json bottom, looking for total number matched. That is the total number.
+
+
+Hub has 10000 max return count limit, do not over limit, break down into years
+
+
+
+
+doc - hub search v1 api
+https://hub.arcgis.com/api/search/definition/#/default/CollectionController_getSiteCollections
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+arcgis opendata api v3 search
+
+Hub has 10000 max return count limit, do not over limit, break down into years
+Not use  "&filter[openData]=true" only 10s more count on each search.
+
+
+Correct, but missing some, because there are some hub, region is undefined.
+region: "US", totalCount: 10038,
+https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&filter[region]=US
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+
+test  only  arcgis opendata api v3 search test
+
+
+
+          list everything, totalCount: 18366077
+          https://opendata.arcgis.com/api/v3/search
+
+
+          site only, totalCount: 26267,
+          https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)
+
+
+          site only, totalCount: 25696,
+          https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&filter[openData]=true
+
+
+
+          from modified: "2025/01/01",  to today's endDate: "eventsBefore(1743107028119)"
+          totalCount: 5136,
+          https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&filter[modified]=2025/01/01
+
+          from modified: "2024/01/01",  to today's endDate: "eventsBefore(1743107127451)"
+          totalCount: 12357
+          https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&filter[modified]=2024/01/01
+
+
+          
+
+
+          from 2025/01/01 to today's totalCount: 803,
+          collection: "any(Site)",
+          created: "2025/01/01",
+          isCancelled: "eventsEq(false)",
+          status: "not(private,draft,planned)",
+          endDate: "eventsBefore(1743101049659)"
+          https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&filter[created]=2025/01/01
+
+
+
+
+          from 2023/01/01 to today's totalCount: 9665,
+          queryParameters: {
+               filter: {
+                              collection: "any(Site)",
+                              created: "2023/01/01",
+                              isCancelled: "eventsEq(false)",
+                              status: "not(private,draft,planned)",
+                              endDate: "eventsBefore(1743102785172)
+                        }
+          },
+          https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&filter[created]=2023/01/01
+
+
+
+          totalCount: 3279
+          https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&q=created:between(2024-01-01T00:00:00Z,2025-01-01T00:00:00Z)
+
+
+          totalCount: 4054
+          https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&q=created:between(2023-01-01T00:00:00Z,2024-01-01T00:00:00Z)
+
+
+https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&q=created:between(2018-01-01T00:00:00Z,2019-01-01T00:00:00Z)
+
+
+
+
+
+          https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&filter[startDate]=1735718400000&filter[endDate]=1743058799999&filter[created]=2025/03/20
+
+
+          https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&filter[created]=2024/03/20&filter[endDate]=1735718400000
+
+
+
+
+
+
+
+
+
+keyword, doc for search arcgis online
+https://doc.arcgis.com/en/arcgis-online/reference/advanced-search.htm#:~:text=Boolean%20operators,-Boolean%20operators%20allow&text=The%20AND%20operator%20is%20the,to%20an%20intersection%20using%20sets.&text=The%20OR%20operator%20links%20two,%22recent%20fires%22%20OR%20fires.&text=The%20NOT%20operator%20excludes%20items,the%20query%20California%20NOT%20Imagery.&text=Similar%20to%20the%20NOT%20operator,use%20the%20query%20California%20%2DImagery.
+
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+
+ basic
+          var ___url_string_full_list ="https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)"
+
+
+          There is no api doc, but you can get from here:
+              only opendata=true, sort by created time 
+              parameter, look at, network traffic from   https://hub.arcgis.com/search?collection=Site&sort=-created
+              sort= -created (date created),  -modified (date updated),  name (title)
+              -  '-' in front of the attribute name means descending order 
+         var ___url_string_full_list ="https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&filter[openData]=true&sort=-created"
+
+     
+
+
+
+
+
+
+
+       opendata.arcgis.com api v3 search
+
+
+               google search keyword:       opendata.arcgis.com/api/v3/search
+
+            discuss: 
+
+            https://community.esri.com/t5/arcgis-hub-questions/is-all-open-data-from-hubs-available-on-hub-arcgis-com/td-p/388330
+
+
+
+
+               api v3 search 
+               https://gist.github.com/hamhands/b6d1f0f514678b88cdc01070bf006263
+          
+         
+
+          fork gist:
+              https://gist.github.com/hoogw/a60f3b491dfe73d03e7a12d2bc38f875
+ 
+
+
+
+            md is markdown file, visual studio code, right click .md file, choose open preview
+
+            v3.md                         Jan, 2021
+            hub_v3_search_api_ref.md      February 5th, 2019
+
+

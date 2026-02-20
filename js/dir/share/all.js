@@ -2765,10 +2765,15 @@ function  use_what_model_to_open_popup(_modelNumber_, _name_, _type_, _url_, _id
 
                 default:
 
-                    // for server2/root 
+                    // parent is server2/root 
                     _newTab_link =  window.location.origin + window.location.pathname.replace('root/home1.html', 'lyr/layer.html')
-                     // for server/server 
+                     // parent is server/server 
                     _newTab_link =  window.location.origin + window.location.pathname.replace('svr/server.html', 'lyr/layer.html')
+                    // parent is hub
+                    _newTab_link =  window.location.origin + window.location.pathname.replace('hub/layer/hub.html', 'rest/lyr/layer.html')
+                    _newTab_link =  window.location.origin + window.location.pathname.replace('hub/layer/opendata.html', 'rest/lyr/layer.html')
+
+
 
                     _newTab_link += '?org=' + _name_  //selected_relative_path  
                     _newTab_link += '&url=' + _url_   //selected_node_path 
@@ -2824,8 +2829,13 @@ function open_popup_server(_name, _type, _url ){
     //_newTab_link =  url_template_server
 
     // use relative path is best way 
+    // parent is rest
      var _newTab_link =  window.location.origin + window.location.pathname.replace('root/servers2.html', 'svr/server.html')
           
+    // parent is hub
+      _newTab_link =  window.location.origin + window.location.pathname.replace('hub/layer/hub.html', 'rest/svr/server.html')
+
+
      
             _newTab_link += '?org=' + _name  
             _newTab_link += '&url=' + _url 

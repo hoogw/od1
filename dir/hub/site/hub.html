@@ -1,0 +1,74 @@
+<!doctype HTML>
+<html>
+  <head>
+    <title id="title">site</title>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../../favicon.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+  </head>
+  <body>
+    
+           <a href="https://hub.arcgis.com/api/search/v1/collections/site">HubSite</a>
+         
+            <span>Start date:</span>   
+            <input id="start_date"  type="text" value="2026-01-01T14:48:00.000+09:00"/>
+
+
+            
+            <span>End date:</span>   
+            <input id="end_date"  type="text" value="2026-02-01T14:48:00.000+09:00"/>
+
+
+           
+            <span>Collection:</span>   
+            <input id="collection_data"  type="text" value="'Hub Site Application', 'Site Application'"/>
+
+           
+            <span>OpenData:</span>   
+            <input id="open_date"  type="text" value="true"/>
+
+
+              <br>
+          
+            <button id='start_streaming_button'>
+              start
+            </button> 
+
+            <button id='stop_streaming_button'>
+              stop 
+            </button> 
+
+            
+            
+            <label id="counter_label"></label>
+
+             <input id="filter_by" name="filter_by"  type='search' placeholder='filter by'/>
+
+             
+   
+          <div id="json-renderer"></div>
+      
+    
+    <!--  ----- mark.js  --> 
+        <script src="../../../js/lib/mark.js/mark.min.js" type="text/javascript"></script>
+        <script src="../../../js/lib/mark.js/jquery.mark.min.js" type="text/javascript"></script>
+        <link href="../../../stylesheets/mark.js.css" rel="stylesheet" type="text/css"/>
+    <!--  end ---- mark.js  --> 
+
+
+    <link href="../../../stylesheets/full-screen.css" rel="stylesheet" type="text/css"/>
+    
+   <script src="../../../js/esri/arcgis_common.js"></script>
+   <script src="../../../js/esri/share/all.js"></script>
+
+   <script src="../../../js/esri/hub/site/hub.js"></script>
+   <script src="../../../js/esri/hub/site/site-share.js"></script>
+   
+   
+      </body>
+</html>

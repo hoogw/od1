@@ -318,21 +318,9 @@ var  base_url = '';
            // get full list
           
            var csv_realtimelive = "https://mappingsupport.com/p/arcgis_list/list-federal-state-county-city-GIS-servers.csv"
-           var csv_backup = "https://transparentgov.net/data/live_data/list-federal-state-county-city-GIS-servers.csv"
-
-           //var mappingsupport_csv_url = csv_realtimelive // for production by default
-           var mappingsupport_csv_url = csv_backup       // for test
-
-
-           var mappingsupport_json
-           var column_name_array
-           var row_array
-           var categorized_inputCurrent_array=[]
-           var federal_inputCurrent_array=[]
-           var state_inputCurrent_array=[]
-           var county_inputCurrent_array=[]
-           var city_inputCurrent_array=[]
-           var other_inputCurrent_array=[]
+           var mappingsupport_csv_url = "https://transparentgov.net/data/live_data/list-federal-state-county-city-GIS-servers-2026-2-11-(8473).csv"
+           
+         
 
          // no parameter, all use global var
           function build_url_base_template(){

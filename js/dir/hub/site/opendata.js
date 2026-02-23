@@ -99,21 +99,20 @@ if (urlExistsOrNot){
   console.log("exist, skip, nothing to do", ___siteUrl)
 } else {
   // not exist, add new
-                  site_array.push({
-                     "site-name": _title,
-                     "site-source": _source,
-
+              site_array.push({
+                     "site-name": _name,
+                     "site-source": "",
                      "site-url": ___siteUrl,
                      "org-id": hub_orgId,
                      "org-short-name": org_short_name,
-                     "org-name": "",
-                     "org-email": "",
-                     "owner": "",
-                     "region": "",
-                     "view-count": hub_numViews,
-                     "created-timestamp": "",
+                     "org-name": hub_orgName,
+                     "org-email": hub_orgContactEmail,
+                     "owner": hub_owner,
+                     "region": hub_region,
+                      "view-count": "",
+                     "created-timestamp": hub_created_timestamp,
                      "created ": hub_created,
-                     "modified-timestamp": "",
+                     "modified-timestamp": hub_modified_timestamp,
                      "modified ": hub_modified,
                   })
 

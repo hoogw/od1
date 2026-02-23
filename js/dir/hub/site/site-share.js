@@ -159,7 +159,7 @@ var stop_search_status = false;
 
             if (site_array){
               var final_csv_string = parse_json_to_csv_string(site_array)
-              saveStringAsFile('root.csv', final_csv_string)
+              saveStringAsFile('site.csv', final_csv_string)
             }
 
           

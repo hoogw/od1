@@ -2,6 +2,10 @@
 
 
 
+var site_array = []
+
+
+
 
 
 var input_current       // whole array of json, without filter, 
@@ -148,7 +152,21 @@ var stop_search_status = false;
                                           // $("#filter_by").change(search_layer_now);
 
 
+ /**/
+      //  - - - download csv  - - - 
+      /**/
+          $("#download_csv_button").on("click", function() {
 
+            if (site_array){
+              var final_csv_string = parse_json_to_csv_string(site_array)
+              saveStringAsFile('root.csv', final_csv_string)
+            }
+
+          
+          });
+      /**/
+      //  - - -  end  - - -   download csv    - - - 
+      /**/
 
 
 

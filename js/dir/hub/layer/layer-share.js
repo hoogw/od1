@@ -1,6 +1,26 @@
  
 
 
+
+
+//  [ { org(organization name): xxx,  root-url: xxxxx}  ]
+var unique_org_root_url_array = []
+
+
+
+// not unique, include every record in search result
+// [ { org(organization name): xxx,  root-url: xxxxx,  layer-name: xx, layer-id: xx, layer-url: xxx}  ]
+var layer_url_array = []
+// feature server only, without layer id
+//  [ { org(organization name): xxx,  root-url: xxxxx,  server-name: xx, server-url: xxx}  ]
+var server_url_array = []
+
+
+
+
+
+
+
  // in use,  dataset only, feature layer, feature table, geojson, shapefile, csv only, NOT include web map, scene, etc..... search 'london' have 1.2k 
 var ___url_search_data ="https://opendata.arcgis.com/api/v3/search?&filter[openData]=true&agg[fields]=collection" 
 
@@ -38,22 +58,6 @@ var ___url_search_data ="https://opendata.arcgis.com/api/v3/search?&filter[openD
 
 
 
-//  [ { org(organization name): xxx,  root-url: xxxxx}  ]
-var unique_org_root_url_array = []
-
-
-
-// not unique, include every record in search result
-// [ { org(organization name): xxx,  root-url: xxxxx,  layer-name: xx, layer-id: xx, layer-url: xxx}  ]
-var layer_url_array = []
-// feature server only, without layer id
-//  [ { org(organization name): xxx,  root-url: xxxxx,  server-name: xx, server-url: xxx}  ]
-var server_url_array = []
-
-
-
-
-
 
 
 
@@ -63,33 +67,7 @@ var _search_data_content
 var _search_content_split
 
     
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-                     
-                     
-
-
-
-                                
+          
                                 
 
   
@@ -222,40 +200,31 @@ var _search_content_split
 
 
 
+                  function init_search_button_event_handler(){
+                        
+                    /**/
+                    //  - - - download csv  - - - 
+                    /**/
+                        $("#download_csv_button").on("click", function() {
 
+                          if (unique_org_root_url_array){
+                            var final_csv_string = parse_json_to_csv_string(unique_org_root_url_array)
+                            saveStringAsFile('root.csv', final_csv_string)
+                          }
 
+                          if (layer_url_array){
+                            var final_csv_string2 = parse_json_to_csv_string(layer_url_array)
+                            saveStringAsFile('layer.csv', final_csv_string2)
+                          }
 
-
-
-                                 
-
-
-
-    function init_search_button_event_handler(){
-           
-      /**/
-      //  - - - download csv  - - - 
-      /**/
-          $("#download_csv_button").on("click", function() {
-
-            if (unique_org_root_url_array){
-              var final_csv_string = parse_json_to_csv_string(unique_org_root_url_array)
-              saveStringAsFile('root.csv', final_csv_string)
-            }
-
-            if (layer_url_array){
-              var final_csv_string2 = parse_json_to_csv_string(layer_url_array)
-              saveStringAsFile('layer.csv', final_csv_string2)
-            }
-
-            if (server_url_array){
-              var final_csv_string3 = parse_json_to_csv_string(server_url_array)
-              saveStringAsFile('server.csv', final_csv_string3)
-            }
-          });
-      /**/
-      //  - - -  end  - - -   download csv    - - - 
-      /**/
+                          if (server_url_array){
+                            var final_csv_string3 = parse_json_to_csv_string(server_url_array)
+                            saveStringAsFile('server.csv', final_csv_string3)
+                          }
+                        });
+                    /**/
+                    //  - - -  end  - - -   download csv    - - - 
+                    /**/
 
 
 
@@ -264,24 +233,24 @@ var _search_content_split
 
 
 
-                // click search
-             
-                
-              // when user click 'x'  or  when user click 'enter' to 'search' , both will trigger 'on search' event. you can't tell which is which, both will fire this event.  https://stackoverflow.com/questions/2977023/how-do-you-detect-the-clearing-of-a-search-html5-input
-              $('#filter_by').on('search', search_layer_now);
-          
+                              // click search
+                          
+                              
+                            // when user click 'x'  or  when user click 'enter' to 'search' , both will trigger 'on search' event. you can't tell which is which, both will fire this event.  https://stackoverflow.com/questions/2977023/how-do-you-detect-the-clearing-of-a-search-html5-input
+                            $('#filter_by').on('search', search_layer_now);
+                        
 
-                  
+                                
 
-                  // fire when user every stroke any key  
-                  $("#filter_by").on('keyup',search_layer_now);
-                  
-                  // only fire when text field loose focus,  not fire when stroke any key  
-                  // when use choose option from autocomplete dropdwon list, field will loose focus, will fire this change event
-                  // works, but use alternative way >>>>>  autocomplete_options.onAutocomplete:  search_layer_now  //Callback for when autocompleted.
-                  // $("#filter_by").change(search_layer_now);
+                                // fire when user every stroke any key  
+                                $("#filter_by").on('keyup',search_layer_now);
+                                
+                                // only fire when text field loose focus,  not fire when stroke any key  
+                                // when use choose option from autocomplete dropdwon list, field will loose focus, will fire this change event
+                                // works, but use alternative way >>>>>  autocomplete_options.onAutocomplete:  search_layer_now  //Callback for when autocompleted.
+                                // $("#filter_by").change(search_layer_now);
 
-    }
+                  }
 
 
 
@@ -289,6 +258,16 @@ var _search_content_split
 
 
 
+
+
+
+
+
+
+
+
+
+                  
 
 /**/
 

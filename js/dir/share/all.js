@@ -2178,52 +2178,153 @@ async function get_mapserver_info_html(mapserver_url){
 
 
 
-        function turn_on_detail_panel() {
-
-            $('#detail_panel').show();
-           
-            detail_panel_status = true;
-
-        }
 
 
-
-        function turn_off_detail_panel(){
-
-                    
-                $('#detail_panel').hide();
+      
+ /**/
+                  //  --- papaparse   --- 
+                  /**/
+                  
+                  var inputType = "string";
+                  var stepped = 0, rowCount = 0, errorCount = 0, firstError;
+                  var start, end;
+                  var firstRun = true;
+                  // do not limit length
+                  //var maxUnparseLength = 1000000;
+          
+          
+          
                
-                detail_panel_status = false;
-
-        }
-
-
-
-
-    function populate_namingLink(_map_server_url_, _layer_id_,  _layer_name_ , _type_){
-
-                // must destroy last time old tree
-                $('#jstree_naming').jstree('destroy');
-                $("#jstree_naming").html('');
-
-                var _node_path_ = null // no use, 
-                var _layer_absolute_path_url = _map_server_url_ + '/' +  _layer_id_
-                console.log('create tree icon flatjson:    _layer_absolute_path_url', _layer_absolute_path_url)
-                console.log('create tree icon flatjson:    _map_server_url_', _map_server_url_)
-                console.log('create tree icon flatjson:    _layer_id_', _layer_id_)
-                console.log('create tree icon flatjson:    _layer_name_', _layer_name_)
-                console.log('create tree icon flatjson:    _type_', _type_)
-                console.log('create tree icon flatjson:    _node_path_', _node_path_)
-                var tree_icon_flatjson = create_tree_icon_flatjson(_map_server_url_, _layer_id_,  _layer_name_ , _type_, _node_path_)
-
-                jstree_folder(tree_icon_flatjson)
-    }
+          
+          
+                  // must wait until csv parse completed at function completeFn
+                  function parse_json_to_csv_string(_csv_ready_json){
 
 
+                      
+          
+                      //  . . . papaparse  . . . demo . . .  https://www.papaparse.com/demo
+          
+                      stepped = 0;
+                      rowCount = 0;
+                      errorCount = 0;
+                      firstError = undefined;
+          
+
+                      start = now();
+                      var csv_string = Papa.unparse(_csv_ready_json, 
+                     
+                          // config see demo.js https://www.papaparse.com/demo
+                          {
+                            delimiter: ',', // The delimiting character. Usually comma or tab. Default is comma.
+                            header: true, // Keys data by field name rather than an array.
+                            dynamicTyping: true, // Turns numeric data into numbers and true/false into booleans.
+                            //skipEmptyLines: true, // By default, empty lines are parsed; check to skip.
+                            // preview: 100, //If > 0, stops parsing after this many rows.
+                            // step: stepFn, // not use, only when very large file
+                            // encoding: 'UTF-8', // Only applies when reading local files. Default is specified by the browser (usually UTF-8).
+                            //worker: false, // Uses a separate thread so the web page doesn't lock up.
+                            // comments: '',  // If specified, skips lines starting with this string.
+                            complete: completeFn,
+                            error: errorFn,
+                            //download: true,
+                          }
+                        )
+
+                        end = now();
 
 
+                     // do not limit length   
+                     // if (csv_string.length > maxUnparseLength){
+                     //     csv_string = csv_string.substr(0, maxUnparseLength);
+                     //      console.log("(Results truncated for brevity)");
+                     // }
+                  
+                      console.log('final csv string ', csv_string);
 
 
+                      return csv_string
+                      
+                      // . . . end  . . . papaparse  . . . 
+          
+                  }
+           
+            
+                    function stepFn(results, parser)
+                    {
+                      stepped++;
+                      if (results)
+                      {
+                        if (results.data)
+                          rowCount += results.data.length;
+                        if (results.errors)
+                        {
+                          errorCount += results.errors.length;
+                          firstError = firstError || results.errors[0];
+                        }
+                      }
+                    }
+          
+                    function completeFn(results)
+                    {
+                      end = now();
+          
+                      if (results && results.errors)
+                      {
+                        if (results.errors)
+                        {
+                          errorCount = results.errors.length;
+                          firstError = results.errors[0];
+                        }
+                        if (results.data && results.data.length > 0)
+                          rowCount = results.data.length;
+                      }
+          
+                      printStats("Parse complete",  results);
+
+                     
+                      
+          
+                    }
+          
+          
+          
+          
+          
+          
+                    function errorFn(err, file)
+                    {
+                      end = now();
+                    }
+          
+          
+                    function now()
+                    {
+                      return typeof window.performance !== 'undefined'
+                          ? window.performance.now()
+                          : 0;
+                    }
+          
+          
+          
+                    function printStats(msg)
+                    {
+                      if (msg)
+                        console.log(msg);
+                      console.log("       Time:", (end-start || "(Unknown; your browser does not support the Performance API)"), "ms");
+                      console.log("  Row count:", rowCount);
+                      if (stepped)
+                        console.log("    Stepped:", stepped);
+                      console.log("     Errors:", errorCount);
+                      if (errorCount)
+                        console.log("First error:", firstError);
+                    }
+          
+          
+          /**/
+          //  --- end  ---  papaparse    --- 
+          /**/
+             
 
 
 

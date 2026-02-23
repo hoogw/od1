@@ -2,10 +2,6 @@
 
 
 
-var site_array = []
-
-
-
 
 function rendering_json_to_html(_results) {
 
@@ -143,7 +139,14 @@ if (hub_orgId){ esri_hosted_arcgis_server_url = 'https://services.arcgis.com/'  
    
               html += '</li>';
 
-              
+
+
+// check if already exist, will skip exist, only need unique             
+var urlExistsOrNot = site_array.some(item => item["site-url"] == ___siteUrl); 
+if (urlExistsOrNot){
+  console.log("exist, skip, nothing to do", ___siteUrl)
+} else {
+  // not exist, add new
                   site_array.push({
                      "site-name": _title,
                      "site-source": _source,
@@ -161,6 +164,9 @@ if (hub_orgId){ esri_hosted_arcgis_server_url = 'https://services.arcgis.com/'  
                      "modified-timestamp": "",
                      "modified ": hub_modified,
                   })
+
+}//if 
+
 
       }// for
 
@@ -248,6 +254,7 @@ if (hub_orgId){ esri_hosted_arcgis_server_url = 'https://services.arcgis.com/'  
                                                     // in case of user clicked pause, when streaming ended, update the final result  
                                                     show_current(input_current)
                                                     console.log(' stop, killed, final showing ----###--- ',  input_current)
+                                                    console.log("stop, killed,, site_array", site_array)
 
 
                                                     // url  ...&sfilter_by=xxx,  show filtered results
@@ -312,6 +319,8 @@ if (hub_orgId){ esri_hosted_arcgis_server_url = 'https://services.arcgis.com/'  
                                         show_current(input_current)
                                         console.log(' stream ended, final showing ----###--- ',  input_current)
 
+                                        console.log("stream ended, site_array", site_array)
+                                        
                                         // url  ...&sfilter_by=xxx,  always, all time show filtered results
                                         filter_result_by_filter_by()
                         

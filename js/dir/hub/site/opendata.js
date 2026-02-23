@@ -1,6 +1,6 @@
 
 
-var site_array = []
+
 
 
 
@@ -92,26 +92,38 @@ org_home_gallery_url = org_home_page_url + portal_gallery_html
                   html += '</li>';
 
 
+                 
+// check if already exist, will skip exist, only need unique             
+var urlExistsOrNot = site_array.some(item => item["site-url"] == ___siteUrl); 
+if (urlExistsOrNot){
+  console.log("exist, skip, nothing to do", ___siteUrl)
+} else {
+  // not exist, add new
                   site_array.push({
-                     "site-name": _name,
-                     "site-source": "",
+                     "site-name": _title,
+                     "site-source": _source,
+
                      "site-url": ___siteUrl,
                      "org-id": hub_orgId,
                      "org-short-name": org_short_name,
-                     "org-name": hub_orgName,
-                     "org-email": hub_orgContactEmail,
-                     "owner": hub_owner,
-                     "region": hub_region,
-                      "view-count": "",
-                     "created-timestamp": hub_created_timestamp,
+                     "org-name": "",
+                     "org-email": "",
+                     "owner": "",
+                     "region": "",
+                     "view-count": hub_numViews,
+                     "created-timestamp": "",
                      "created ": hub_created,
-                     "modified-timestamp": hub_modified_timestamp,
+                     "modified-timestamp": "",
                      "modified ": hub_modified,
                   })
 
+}//if 
+
+
+
           }// for
 
-          site_array.push({})
+          
 
           html += '</ol>';
         } 

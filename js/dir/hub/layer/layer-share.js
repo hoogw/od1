@@ -163,10 +163,6 @@ var _search_content_split
 
                                                        }// for
 
-
-
-
-
                                                    }// if
 
                                                                       

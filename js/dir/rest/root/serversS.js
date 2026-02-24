@@ -362,8 +362,8 @@ function rendering_json_to_html(_results){
                 html += "&nbsp;"
                 html += '<span onclick="open_popup_server(\'' 
                 html +=   _relative_name + '\', \'' +  _current_services_type + '\', \'' +  _service_url
-                html += '\')" class="context" style="cursor: pointer; font-size:small;">' 
-                html +=    _relative_name  
+                html += '\')">' 
+                html +=   '<span class="context" style="cursor: pointer;font-size:small;">' +  _relative_name  +  '</span>'  
                 
                 html += '<span style="font-size:xx-small;"><sup>' + _current_services_type  +   '</sup></span>'
 

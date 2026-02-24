@@ -134,8 +134,9 @@ if ( content_type == 'feature_layer' ){
                     // text  -   context class for mark.js highlight , no tool-tip , no link
                     html += '<span onclick="open_popup(\''                    
                     html +=  this_layer_id + '\', \'' + _current_layer_name + '\', \'' + _current_layer_type + '\', \'' +  _____layer_url
-                    html += '\')" class="context" style="cursor: pointer; font-size:small;">' 
-                    html +=   _current_layer_name +  '</span>'   
+                    html += '\')">'
+                    html += '<span class="context" style="cursor: pointer;font-size:small;">' + _current_layer_name +  '</span>'  
+                    html +=  '</span>'  
                     
                     
             //    ++++++++++++++++   end  +++++++++++   open popup when click layer name     ++++++++++++++++ 

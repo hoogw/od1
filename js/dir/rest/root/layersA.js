@@ -608,10 +608,10 @@ function rendering_json_to_html(_results){
 
                 html += '<a href="#" onclick="open_popup(\'' 
                 html +=  this_layer_id + '\', \'' + _current_layer_name + '\', \'' + _current_layer_type + '\', \'' +  _____layer_url
-                html += '\')" class="context" style="cursor: pointer; font-size:small;">' 
+                html += '\')">' 
                 
                
-                html += '<span style="font-size:small;">' + _current_layer_name +  '</span>' 
+                html += '<span class="context" style="cursor: pointer;font-size:small;">' + _current_layer_name +  '</span>' 
                 
                 html += '</a>' 
 

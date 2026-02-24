@@ -78,10 +78,10 @@ org_home_gallery_url = org_home_page_url + portal_gallery_html
                     // text  -   context class for mark.js highlight , no tool-tip , no link
                     html += '<span class="context" onclick="open_popup_online(\''                    
                     html +=  _name + '\', \''  +  ___siteUrl
-                    html += '\')" class="context" style="cursor: pointer; font-size:small;">' 
+                    html += '\')">' 
                     
                     if (_name){
-                    html +=   _name 
+                      html += '<span class="context" style="cursor: pointer;font-size:small;">' +  _name  +  '</span>' 
                     }
                     
                     html +=  '</span>'    

@@ -604,11 +604,11 @@ function rendering_json_to_html(_results){
                 // text
                 html += '<span onclick="open_popup(\'' 
                 html +=  this_layer_id + '\', \'' + _current_layer_name + '\', \'' + _current_layer_type + '\', \'' +  _____layer_url
-                html += '\')" class="context" style="cursor: pointer; font-size:small;">' 
+                html += '\')">' 
                 
                 html += '<i class="' + custom_icon + '"></i>'
                 html += "&nbsp;"
-                html += '<span style="font-size:small;">' + _current_layer_name +  '</span>'   
+                html += '<span class="context" style="cursor: pointer;font-size:small;">' + _current_layer_name +  '</span>'   
                 html += '<span style="font-size:xx-small;">' + layerID_NAME_separator + '(' +  this_layer_id  +  ')</span>'
 
                 html += '<span style="font-size:xx-small;"><sup>' +  _current_layer_type  +   '</sup></span>'

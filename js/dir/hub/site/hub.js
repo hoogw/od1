@@ -119,11 +119,11 @@ if (hub_orgId){ esri_hosted_arcgis_server_url = 'https://services.arcgis.com/'  
                     // text  -   context class for mark.js highlight , no tool-tip , no link
                     html += '<span class="context" onclick="open_popup_online(\''                    
                     html +=  _source + '\', \''  +  ___siteUrl
-                    html += '\')" class="context" style="cursor: pointer; font-size:small;">' 
+                    html += '\')">' 
                     
 
                     if (_source){
-                    html +=   _source 
+                    html +=  '<span class="context" style="cursor: pointer;font-size:small;">' + _source  +  '</span>' 
                     }
                     
                     if (_title){

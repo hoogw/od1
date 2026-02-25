@@ -3,6 +3,15 @@
 
 
 
+      var standard_array = []
+      // only for self hosted domain ArcServer
+      var custom_domain_array = []
+      // only for arcgis.com domain with 16 serial number
+      var arcgis_domain_serialNo_array = []
+ 
+
+
+
 //  [ { org(organization name): xxx,  root-url: xxxxx}  ]
 var unique_org_root_url_array = []
 
@@ -257,11 +266,295 @@ var _search_content_split
 
 
 
+// any source csv will fit into only 3 column, 
+// name, org, url    
 
 
 
 
+// - - -  convert raw json to standard array for display in html  - - - 
+    
+var name, org, url;
+var _url_candidate
 
+var _name_candidate
+var _title_candidate
+var _owner_candidate
+var _orgId_candidate
+var _orgName_candidate
+
+var _serial_number
+var _any_instance
+var _domain_candidate
+
+var urlObject
+
+
+var start_position
+var urlExistsOrNot_customDomain
+var urlExistsOrNot_serialNo
+var this_element
+
+
+      // only for streaming, atlas, this is different from static
+    function convert_rawJson_to_jsonArray(raw_json_array){
+
+        var _this_pageStandardArray = []
+
+        console.log("before convert raw raw_json_array", raw_json_array)
+
+        for (let i = 1; i < raw_json_array.length; i++) {
+        
+
+        // must reset to empty for each loop
+          name = ""
+          org = "" 
+          url = ""
+          _url_candidate = ""
+          _name_candidate = ""
+          _title_candidate = ""
+          _owner_candidate = ""
+          _orgId_candidate = ""
+          _orgName_candidate = ""
+
+          _serial_number = ""
+          _any_instance = ""
+          _domain_candidate = ""
+
+          urlObject = ""
+
+
+          start_position = ""
+          urlExistsOrNot_customDomain = ""
+          urlExistsOrNot_serialNo = ""
+          this_element = ""
+          // must reset to empty for each loop
+
+
+          
+
+          _url_candidate = raw_json_array[i].url; 
+          // never to lower case, because it will mess up 16 serial number
+          //if (_url_candidate){ _url_candidate = _url_candidate.toLowerCase()}
+
+
+
+          _title_candidate = raw_json_array[i].title; // title means FeatureServer name, not org name
+          if (!(_title_candidate)){_title_candidate = "title"}
+          _owner_candidate = raw_json_array[i].owner; // owner means a real person, who upload this feature server or layer
+          if (!(_owner_candidate)){_owner_candidate = "owner"}
+          _orgId_candidate = raw_json_array[i].orgId; // half of orgId is empty
+          // use this URL to look up org name by orgId https://www.arcgis.com/sharing/rest/portals/<orgId>?f=json
+          if (!(_orgId_candidate)){
+            _orgId_candidate = "orgId"
+          } else {
+            /*
+            var org_name_response = await ajax_getjson_common("https://www.arcgis.com/sharing/rest/portals/" + _orgId_candidate + "?f=json");
+            if (org_name_response.name){
+                  _orgName_candidate = org_name_response.name
+            } else {
+                  _orgName_candidate = "orgName"
+            }
+            */
+          }
+          
+          //_name_candidate =_orgName_candidate  + " - " +  _orgId_candidate + " - " +  _owner_candidate  //+ " - " +  _title_candidate
+          
+          if (_orgId_candidate !== "orgId"){
+            _name_candidate = _orgId_candidate
+          } else if (_owner_candidate !== "owner"){
+            _name_candidate = _owner_candidate
+          } else {
+            _name_candidate = "org-name"
+          }
+
+
+
+
+          // skip tile.arcgis.com
+          if (_url_candidate 
+            && _url_candidate.includes("/rest/services") 
+            && !(_url_candidate.includes("tiles.arcgis.com"))  // do not handle tiles, so exclude them
+            && !(_url_candidate.includes("utility.arcgis.com"))  // these kind have 32 char serial number, always not working, so exclude them
+          ){
+            
+            
+            
+            start_position = _url_candidate.indexOf("/rest/services")
+            url = _url_candidate.substring(0,start_position) + "/rest/services"
+            urlExistsOrNot_customDomain = custom_domain_array.some(item => item["url"] == url); 
+            urlExistsOrNot_serialNo = arcgis_domain_serialNo_array.some(item => item["url"] == url); 
+            if ((urlExistsOrNot_customDomain) || (urlExistsOrNot_serialNo)){
+              // exist, skip, nothing to do
+            } else {
+              // not exist, add new
+
+
+
+              if (_name_candidate){
+                name = _name_candidate
+              } else {
+                name = "org-name" // url
+              }
+
+
+              
+              if (name.includes("http")){
+                
+
+                // joe put link http.... on name field, means, he don't know org name, so just temp use link
+                  name = "iii"
+              // fix bug, coeur d'Alene tribe
+              // and other special char should be removed.
+              } else if (name.includes("'")){
+                  name = name.replace("'","`");
+              } else if (name.includes("\\")){
+                  name = name.replace("\\", "");
+              } else if (name.includes("\/")){
+                  name = name.replace("\/","");
+              }
+              
+              
+              
+
+              
+              // get arcgis rest serverice instance name, 
+              _serial_number = get_serial_no_from_url(_url_candidate)
+              // if there is serical number, then do not need instance name
+              if (_serial_number){
+                        // 1st priority serial number
+                        org = _serial_number
+              } else {
+
+
+                        // 3rd priority, without special instance name, then use domain
+                        try {
+                          urlObject = new URL(_url_candidate);
+                          _domain_candidate = urlObject.hostname;
+                          org = _domain_candidate
+                        } catch{
+
+                        }
+
+
+
+                        // 2st priority, without serial number, then use instance name
+                        _any_instance = get_instance_from_url(_url_candidate)
+                        if (_any_instance){
+                                org = _domain_candidate + " - " +_any_instance
+                        } else{
+                        }
+              }
+              
+
+
+            
+              // check if this new url already exist or not
+
+              this_element = {
+                      "name":name,
+                      "org":org,  
+                      "url":url
+                    }
+
+
+
+              
+              if (_serial_number){
+                        // 32 serial number do not works, so ignore 32
+                        if (_serial_number.length < 17){
+                            arcgis_domain_serialNo_array.push(this_element) 
+                        }//if 32
+              } else {
+                        custom_domain_array.push(this_element)
+              }//if
+
+
+           
+
+              _this_pageStandardArray.push(this_element)
+              
+            }
+          }//if r e s t / s e r v i c e s
+
+        }//for
+
+
+
+        console.log("after convert standard array", _this_pageStandardArray)
+        return _this_pageStandardArray
+      }
+
+
+    // return empty string or serial number 
+    function get_serial_no_from_url(_sample_url){
+
+      // for https://utility.arcgis.com/usrsvcs/servers/b5a55d5911b246e2ab88fcc14d304f1f/rest/services
+      var re_32 = /\/[a-zA-Z0-9]{32}\/rest\/services/i
+
+
+      // for W7M7ugHEl8tg1wcM/ArcGIS/rest/services, "W7M7ugHEl8tg1wcM" will be used, 16 dig length
+      // ArcGIS/rest or arcgis/rest, use i for case-insensitive
+      var re_16 = /\/[a-zA-Z0-9]{16}\/arcgis\/rest\/services/i
+      
+      var _serial_16_start_position = _sample_url.search(re_16) + 1
+      var _serial_16_end_position = _serial_16_start_position + 16
+      var _serial_32_start_position = _sample_url.search(re_32) + 1
+      var _serial_32_end_position = _serial_32_start_position + 32
+      
+      
+      var _serial_number = ""
+      if (_serial_16_start_position > 1){
+        _serial_number = _sample_url.substring(_serial_16_start_position, _serial_16_end_position)
+      } else if (_serial_32_start_position > 1){
+        _serial_number = _sample_url.substring(_serial_32_start_position, _serial_32_end_position)
+      }
+
+      return _serial_number
+      
+    }
+
+
+    // return empty string if instance is arcgis, otherwise, return non-arcgis custom instance name
+    function get_instance_from_url(_sample_url){
+
+      // for /wetlandsmapservice/rest/services, "wetlandsmapservice" will be used, 
+            var re_any = /\/[^\/]*\/rest\/services/
+            var _any_start_position = _sample_url.search(re_any) + 1
+            var _any_end_position = _sample_url.indexOf("/rest/services")
+            var _any_instance = ""
+            if ((_any_start_position > 1) && (_any_end_position > 1)){
+              _any_instance = _sample_url.substring(_any_start_position, _any_end_position)
+              // ignore arcgis
+              if (_any_instance.toLowerCase() == 'arcgis'){
+                _any_instance = ""
+              }
+            }
+
+            return _any_instance
+    }
+
+
+    function fisherYatesShuffle(arr) {
+      let n = arr.length;
+
+      // While there remain elements to shuffle.
+      while (n > 0) {
+          // Pick a remaining element at random.
+          const i = Math.floor(Math.random() * n);
+          n--; // Decrement n (the number of remaining elements)
+
+          // And swap it with the current element.
+          [arr[n], arr[i]] = [arr[i], arr[n]];
+      }
+      return arr;
+    }
+
+
+
+
+//  - - -  end  - - -  convert raw json to standard array for display in html  - - - 
+    
 
                   
 
@@ -347,8 +640,7 @@ var _search_content_split
                   }
 
 
-                             
-
+                       
 
                                  
                    function search_by_url_param(){

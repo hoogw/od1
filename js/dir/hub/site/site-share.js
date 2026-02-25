@@ -16,7 +16,7 @@ var _filter_by // search filter by keyword
 
 
 var current_filter_result_count;
-var __total_item_count;
+
 
 
 // when stop search button clicked, this will become true.

@@ -1,4 +1,7 @@
 
+// only for what we have
+var __total_item_count;
+
 
 /**/        
 //  must use bootstrap-5-icon with jstree ,  color name and code see .css ,  https://icons.getbootstrap.com/#install
@@ -2925,12 +2928,12 @@ function open_popup(_id, _name, _type, _url ){
 
 
 
-
-function open_popup_server(_name, _type, _url ){
+// only for MapServer, or FeatureServer
+function open_popup_server(_name, _url ){
 
    
     console.log(" you click 1 layer, open pop up window _name", _name)
-    console.log(" you click 1 layer, open pop up window _type", _type)
+    
     console.log(" you click 1 layer, open pop up window _url", _url)
 
     // template is fixed, will not use  
@@ -2945,13 +2948,15 @@ function open_popup_server(_name, _type, _url ){
      } else if (window.location.pathname.includes('hub/layer/hub.html')){
         // parent is hub
         _newTab_link =  window.location.origin + window.location.pathname.replace('hub/layer/hub.html', 'rest/svr/server.html')
-     }
+     } else if (window.location.pathname.includes('hub/atlas/server.html')){
+        _newTab_link =  window.location.origin + window.location.pathname.replace('hub/atlas/server.html', 'rest/svr/server.html') 
+    }
 
 
      
             _newTab_link += '?org=' + _name  
             _newTab_link += '&url=' + _url 
-            _newTab_link += '&type=' + _type
+            
             _newTab_link += '&model=' + model // will pass model number to server.js
             console.log('_newTab_link', _newTab_link)
 
@@ -2995,4 +3000,35 @@ function open_popup_online(_site_name, _site_url){
     //window.open(_newTab_link, "mozillaWindow", "popup");
     window.open(_newTab_link, "_blank", "popup");
 
+}
+
+
+
+
+
+
+function open_popup_home(_name, _url ){
+
+   
+    console.log(" you click 1 root, open pop up window _name", _name)
+
+    console.log(" you click 1 root, open pop up window _url", _url)
+
+    // template is fixed, will not use  
+    //_newTab_link =  url_template_server
+
+    // use relative path is best way 
+    
+     var _newTab_link =  window.location.origin + "/open-data/dir/rest/root/home.html"
+    
+
+     
+            _newTab_link += '?org=' + _name  
+            _newTab_link += '&url=' + _url 
+           
+            _newTab_link += '&model=' + model // will pass model number to server.js
+            console.log('_newTab_link', _newTab_link)
+
+            //window.open(_newTab_link, "mozillaWindow", "popup");
+            window.open(_newTab_link, "_blank", "popup");
 }

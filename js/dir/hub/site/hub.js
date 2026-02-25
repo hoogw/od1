@@ -248,20 +248,7 @@ if (urlExistsOrNot){
                                           
                                                 // only run if  user clicked the stop button, killed streaming 
                                                 if (stop_search_status){
-                                                    
-                                                    // stop = true, means user clicked the stop button, killed streaming 
-
-                                                    // in case of user clicked pause, when streaming ended, update the final result  
-                                                    show_current(input_current)
-                                                    console.log(' stop, killed, final showing ----###--- ',  input_current)
-                                                    console.log("stop, killed,, site_array", site_array)
-
-
-                                                    // url  ...&sfilter_by=xxx,  show filtered results
-                                                    filter_result_by_filter_by()
-
-
-                                                    return;  // return streaming function ( include break for loop )
+                                                    break; // break for loop
                                                 }
                                           
                                           

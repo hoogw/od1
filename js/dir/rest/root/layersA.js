@@ -606,7 +606,7 @@ function rendering_json_to_html(_results){
                 html += '<i class="' + custom_icon + '"></i>'
                 html += "&nbsp;"
 
-                html += '<a href="#" onclick="open_popup(\'' 
+                html += '<a target="_blank" href="#" onclick="open_popup(\'' 
                 html +=  this_layer_id + '\', \'' + _current_layer_name + '\', \'' + _current_layer_type + '\', \'' +  _____layer_url
                 html += '\')">' 
                 

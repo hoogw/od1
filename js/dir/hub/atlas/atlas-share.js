@@ -1,6 +1,10 @@
  
 
 
+ // default is _ t i m e o u t =  2 0 0 0;  due to sometime, it slow response, 
+ // re-set it to 
+ _timeout = 9000;
+
 
 
       var standard_array = []

@@ -243,7 +243,9 @@ if (urlExistsOrNot){
                                       
                                           // each ajax get 1 page 20 item
 
-                                         for (i = 0; i < (__total_item_count / 10 ); i++) { 
+                                           var loop = __total_item_count / 10 
+
+                                         for (i = 0; i < (loop); i++) { 
                                           
                                           
                                                 // only run if  user clicked the stop button, killed streaming 

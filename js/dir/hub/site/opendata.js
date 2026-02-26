@@ -173,10 +173,10 @@ if (urlExistsOrNot){
             __total_item_count = _this_page_raw_return.meta.stats.totalCount;
           
           
-                    
+                    var loop = __total_item_count / 20 
                     
                         // each ajax get 1 page 20 item                     
-                        for (i = 0; i < (__total_item_count / 20 ); i++) { 
+                        for (i = 0; i < (loop); i++) { 
                         
                               // only run if  user clicked the stop button, killed streaming 
                               if (stop_search_status){

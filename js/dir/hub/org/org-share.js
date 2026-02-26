@@ -111,9 +111,7 @@ var _search_content_split
                                                         for (var i = 0; i < input_current.length; ++i) {
 
 
-                                                             //  not use : name + orgnization     
-                                                              //_test_string = input_current[i].attributes.name + ' ' + input_current[i].attributes.orgName;
-                                                              _test_string = input_current[i].attributes.name                                                   
+                                                             _test_string = input_current[i].name + input_current[i].org                                                  
                                                               _test_string = _test_string.toLowerCase();
                                                               
 
@@ -203,20 +201,12 @@ var _search_content_split
                     /**/
                         $("#download_csv_button").on("click", function() {
 
-                          if (unique_org_root_url_array){
-                            var final_csv_string = parse_json_to_csv_string(unique_org_root_url_array)
-                            saveStringAsFile('root.csv', final_csv_string)
+                          if (input_current){
+                            var final_csv_string = parse_json_to_csv_string(input_current)
+                            saveStringAsFile('org-opendata.csv', final_csv_string)
                           }
 
-                          if (layer_url_array){
-                            var final_csv_string2 = parse_json_to_csv_string(layer_url_array)
-                            saveStringAsFile('layer.csv', final_csv_string2)
-                          }
-
-                          if (server_url_array){
-                            var final_csv_string3 = parse_json_to_csv_string(server_url_array)
-                            saveStringAsFile('server.csv', final_csv_string3)
-                          }
+                          
                         });
                     /**/
                     //  - - -  end  - - -   download csv    - - - 

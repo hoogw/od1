@@ -79,10 +79,8 @@ var _search_content_split
                                                         for (var i = 0; i < input_current.length; ++i) {
 
 
-                                                             //  not use : name + orgnization     
-                                                              //_test_string = input_current[i].attributes.name + ' ' + input_current[i].attributes.orgName;
-                                                              _test_string = input_current[i].attributes.name                                                   
-                                                              _test_string = _test_string.toLowerCase();
+                                                            _test_string = input_current[i].name + input_current[i].org                                                 
+                                                            _test_string = _test_string.toLowerCase();
                                                               
 
 

@@ -197,7 +197,7 @@ function rendering_json_to_html(_results) {
                   }
 
                   if (_org){
-                    html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
+                    html +=  '<sup><span class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</span></sup>' 
                   }
 
                   html +=  '</span>'  
@@ -220,7 +220,7 @@ function rendering_json_to_html(_results) {
                   html +=  '</a>'
 
                   if (_org){
-                    html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
+                    html +=  '<sup><span class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</span></sup>' 
                   }
 
                  
@@ -231,16 +231,6 @@ function rendering_json_to_html(_results) {
 
 
 
-              
-        /*
-              // not use, but keep, open original url endpoint
-            
-              html += '<span onclick="window.open(\''                    
-              html +=  _accessURL + '\', \'_blank\')"'
-              html += ' class="context" style="cursor: pointer; font-size:xx-small;">' 
-              html +=   _current_layer_name +  '</span>'   
-              html +=  '<sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _orgName + '</sup>' 
-            */
             
             html += '</li>';  
             

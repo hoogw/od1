@@ -127,7 +127,7 @@ if (hub_orgId){ esri_hosted_arcgis_server_url = 'https://services.arcgis.com/'  
                     }
                     
                     if (_title){
-                      html += '<sup class="context"><small>'  + _title + '</small></sup>'
+                      html += '<sup><span class="context" style="cursor: pointer; font-size:xx-small;">'  + _title + '</span></sup>'
                     }
                     
                     html +=  '</span>'  

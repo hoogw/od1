@@ -289,30 +289,13 @@ var this_element
           //if (_url_candidate){ _url_candidate = _url_candidate.toLowerCase()}
 
 
-
           _title_candidate = raw_json_array[i].title; // title means FeatureServer name, not org name
-          if (!(_title_candidate)){_title_candidate = "title"}
+          
           _owner_candidate = raw_json_array[i].owner; // owner means a real person, who upload this feature server or layer
-          if (!(_owner_candidate)){_owner_candidate = "owner"}
+         
           _orgId_candidate = raw_json_array[i].orgId; // half of orgId is empty
           // use this URL to look up org name by orgId https://www.arcgis.com/sharing/rest/portals/<orgId>?f=json
-          if (!(_orgId_candidate)){
-            _orgId_candidate = "orgId"
-          } else {
-             _orgId_candidate = "orgId-" +  _orgId_candidate
-          }
           
-          //_name_candidate =_orgName_candidate  + " - " +  _orgId_candidate + " - " +  _owner_candidate  //+ " - " +  _title_candidate
-          
-          if (_orgId_candidate !== "orgId"){
-            _name_candidate = _orgId_candidate
-          } else if (_owner_candidate !== "owner"){
-            _name_candidate = _owner_candidate
-          } else {
-            _name_candidate = "org-name"
-          }
-
-
 
 
           // skip tile.arcgis.com
@@ -335,22 +318,48 @@ var this_element
 
 
 
-              if (_name_candidate){
-                name = _name_candidate
-              } else {
-                name = "org-name" // url
-              }
 
 
-              
-              if (name.includes("http")){
+              // convert orgId to org-name 
+             if (_orgId_candidate){
+                var org_name_response = await ajax_getjson_common("https://www.arcgis.com/sharing/rest/portals/" + _orgId_candidate + "?f=json");
                 
+                if (org_name_response.name){
+                  _orgName_candidate = org_name_response.name
+                }
+                if (org_name_response.orgUrl){
+                  _orgName_candidate += " - " + org_name_response.orgUrl
+                }
+                /*
+                if (org_name_response.orgPhone){
+                  name += " - " + org_name_response.orgPhone
+                }
+                */
+                if (org_name_response.orgEmail){
+                  _orgName_candidate += " - " + org_name_response.orgEmail
+                }
+                
+            }//if 
 
-                // joe put link http.... on name field, means, he don't know org name, so just temp use link
-                  name = "iii"
+
+          
+            if (_orgName_candidate){
+              _name_candidate = _orgName_candidate
+            } else if (_orgId_candidate){
+              _name_candidate = _orgId_candidate
+            } else if (_owner_candidate){
+              _name_candidate = _owner_candidate
+            } else {
+              _name_candidate = "org-name"
+            }
+
+             
+            name = _name_candidate
+             
+
               // fix bug, coeur d'Alene tribe
               // and other special char should be removed.
-              } else if (name.includes("'")){
+              if (name.includes("'")){
                   name = name.replace("'","`");
               } else if (name.includes("\\")){
                   name = name.replace("\\", "");
@@ -392,26 +401,7 @@ var this_element
               
 
 
-            // convert orgId to org-name 
-            if (name.includes("orgId-")){
-                var org_name_response = await ajax_getjson_common("https://www.arcgis.com/sharing/rest/portals/" + _orgId_candidate.replace("orgId-","") + "?f=json");
-                
-                if (org_name_response.name){
-                  name = org_name_response.name
-                }
-                if (org_name_response.orgUrl){
-                  name += " - " + org_name_response.orgUrl
-                }
-                /*
-                if (org_name_response.orgPhone){
-                  name += " - " + org_name_response.orgPhone
-                }
-                */
-                if (org_name_response.orgEmail){
-                  name += " - " + org_name_response.orgEmail
-                }
-                
-            }//if 
+            
           
               
 

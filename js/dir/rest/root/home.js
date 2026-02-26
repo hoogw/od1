@@ -350,7 +350,7 @@ folder_structure_flatjson = [
 
 
 
-     var _warning_message = '404 Not Found (Blocked by GIS Admin)';
+     var _warning_message = 'Nothing Found (Empty or Bad URL or Blocked by GIS Admin)';
 
 
             

@@ -62,57 +62,34 @@ async function start_streaming(){
         var _next_page_url = ___url_getJson;
         
         _this_page_raw_return = await ajax_getjson_common(_next_page_url);
+        console.log('this page raw return', _this_page_raw_return)
         
-        // only for search hub,           
         __total_item_count = _this_page_raw_return.meta.stats.totalCount;
+        console.log("total loop needed is : ", __total_item_count / 20)
           
-          
-        for (i = 0; i < (__total_item_count / 20 ); i++){ 
-              
-                    // only run if  user clicked the stop button, killed streaming 
-                    if (stop_search_status){
-                        break; // break for loop
-                    }
-              
-              
-              
-              
-              
-              
-              
-              
-                        _this_page_raw_return = {}
+        for (i = 0; i < (Math.floor(__total_item_count / 20 ));  i++){ 
 
-                        _this_page_raw_return = await ajax_getjson_common(_next_page_url);
+            // this is previous loop data
+            if ((_this_page_raw_return) && (_this_page_raw_return.results)){
               
-              
-                          
-                        if ((_this_page_raw_return) && (_this_page_raw_return.data)){
-                            
-                                  var __this_page_array = _this_page_raw_return.data
-                        
-                        
-                                      // we want to add new array from the beginning of old array, to show changing to the user. 
-                                      //https://stackoverflow.com/questions/8073673/how-can-i-add-new-array-elements-at-the-beginning-of-an-array-in-javascript
-                                        // input_current = input_current.concat(_this_page_raw_return.data);
-                                        
-                                        //hub.data.search.js:668 Uncaught (in promise) TypeError: input_current.unshift is not a function
-                                        //unshift only works for 1 element, not work for another array.
-                                        // input_current = input_current.unshift(_this_page_raw_return.data);
-                                        
-                                        
+              __this_page_array = await convert_rawJson_to_jsonArray(_this_page_raw_return.results);
+              rendering_json_to_html(__this_page_array)
 
-                                        // only for show user downloading progress, with latest result on top,
-                                        input_current = __this_page_array.concat(input_current);
-                                        display_count_info('', input_current.length, __total_item_count, 'counter_label')
-                                        rendering_json_to_html(__this_page_array)
+              // only for show user downloading progress, with latest result on top,
+              input_current = __this_page_array.concat(input_current);
+              display_count_info('', input_current.length, __total_item_count, 'counter_label')
 
-                                          _next_page_url = _this_page_raw_return.meta.next;
-                                          
+            }// if
+            
+            // only run if  user clicked the stop button, killed streaming 
+            if (stop_search_status){
+              break; // break for loop
+            }
               
-                        }// if
-                        
-                        
+              
+              _next_page_url = _this_page_raw_return.meta.next;
+              _this_page_raw_return = await ajax_getjson_common(_next_page_url);
+                       
         } // for pages
                           
         // in case of user clicked pause, when streaming ended, update the final result , show partial result for what we already have 
@@ -129,256 +106,311 @@ async function start_streaming(){
         
 
 
-//  for search.js only,   featuretable only have rest api, NO geojson, NO csv
-function rendering_json_to_html(_results) {
 
-    var html = '';            
-    html += '<div>';                           
-    if (_results.length > 0){                 
-        html += '<ol>';
-        for (var i = 0; i < _results.length; ++i){
+// - - -  convert raw json to standard array for display in html  - - - 
+    
+var name, org, url;
+var _url_candidate
 
+var _name_candidate
+var _source_candidate
+var _owner_candidate
+var _orgId_candidate
+var _orgName_candidate
+
+var _serial_number
+var _any_instance
+var _domain_candidate
+
+var urlObject
+
+
+var start_position
+var urlExistsOrNot_customDomain
+var urlExistsOrNot_serialNo
+var this_element
+
+
+      // only for streaming, atlas, this is different from static
+   async function convert_rawJson_to_jsonArray(raw_json_array){
+
+        var _this_pageStandardArray = []
+
+        console.log("before convert raw raw_json_array", raw_json_array)
+
+        for (let i = 1; i < raw_json_array.length; i++) {
         
-            // ...... attributes ......
-                var ___service_url= _results[i].attributes.url;     //"https://exploreajax.ajax.ca/mapajax/rest/services/Open_Data/Ajax_Open_Data/MapServer/5"
-                var _name = _results[i].attributes.name;     //name: "Ajax POI"
-                var _orgId = _results[i].attributes.orgId;    
-                var _orgName = _results[i].attributes.orgName;    
-                var _organization = _results[i].attributes.organization; 
-            // ...... end ..........  attributes ......
-                                                 
-                                                      
-         
+
+        // must reset to empty for each loop
+          name = ""
+          org = "" 
+          url = ""
+          _url_candidate = ""
+          _name_candidate = ""
+          _source_candidate = ""
+          _owner_candidate = ""
+          _orgId_candidate = ""
+          _orgName_candidate = ""
+
+          _serial_number = ""
+          _any_instance = ""
+          _domain_candidate = ""
+
+          urlObject = ""
 
 
-    /**/ 
-    // *********** hubType: feature layer,feature service ,only,  handle rest api URL   ***********
-    if (_hubType.toLowerCase().includes('feature')){
-    // *************** calculate layer id only ***************
-               
-                  
-                  var ___url_split_array = []
-                  var ___layer_id = -99999
-                  var ___layer_id_string = ''
-                  var ___url = ''
-                  
-                  if(typeof ___service_url !== "undefined"){
+          start_position = ""
+          urlExistsOrNot_customDomain = ""
+          urlExistsOrNot_serialNo = ""
+          this_element = ""
+          // must reset to empty for each loop
 
-                                                  ___url_split_array = ___service_url.split("/")
 
-                                                  console.log(' layer id is number ? ',  ___url_split_array[___url_split_array.length-1])
-                                                    
-                                                  if (isNaN(___url_split_array[___url_split_array.length-1])){
-                                                      ___layer_id = -99999
-                                                      ___url = ___service_url
-                                                      console.log(' this is feature server or map server, without layer id',  ___layer_id)
-                                                    } else {
-                                                      ___layer_id = ___url_split_array[___url_split_array.length-1]
-                                                      ___layer_id_string = '/'+ ___layer_id.toString()
-                                                      ___url = ___service_url.replace(___layer_id_string, "");
-                                                  }
-                  
+
+          _url_candidate = raw_json_array[i].attributes.url; 
+          // never to lower case, because it will mess up 16 serial number
+          //if (_url_candidate){ _url_candidate = _url_candidate.toLowerCase()}
+
+          _orgId_candidate = raw_json_array[i].attributes.orgId; 
+          // use this URL to look up org name by orgId https://www.arcgis.com/sharing/rest/portals/<orgId>?f=json
+          
+          _orgName_candidate = raw_json_array[i].attributes.orgName;
+
+          _source_candidate = raw_json_array[i].attributes.source; 
+          
+          _owner_candidate = raw_json_array[i].attributes.owner; // owner means a real person, who upload this feature server or layer
+          
+          
+
+
+
+
+          // skip tile.arcgis.com
+          if (_url_candidate 
+            && _url_candidate.includes("/rest/services") 
+            && !(_url_candidate.includes("tiles.arcgis.com"))  // do not handle tiles, so exclude them
+            && !(_url_candidate.includes("utility.arcgis.com"))  // these kind have 32 char serial number, always not working, so exclude them
+          ){
+            
+            
+            
+            start_position = _url_candidate.indexOf("/rest/services")
+            url = _url_candidate.substring(0,start_position) + "/rest/services"
+            urlExistsOrNot_customDomain = custom_domain_array.some(item => item["url"] == url); 
+            urlExistsOrNot_serialNo = arcgis_domain_serialNo_array.some(item => item["url"] == url); 
+            if ((urlExistsOrNot_customDomain) || (urlExistsOrNot_serialNo)){
+              // exist, skip, nothing to do
+            } else {
+              // not exist, add new
+
+
+
+
+              
+              if (_orgName_candidate){
+                _name_candidate = _orgName_candidate
+              } else if (_source_candidate){
+                _name_candidate = _source_candidate
+              } else if (_owner_candidate){
+                _name_candidate = _owner_candidate
+              } else if (_orgId_candidate){
+                _name_candidate =_orgId_candidate
+              } else {
+                _name_candidate = "org-name"
+              }
+
+              name = _name_candidate
+
+
+              
+             // fix bug, coeur d'Alene tribe
+              // and other special char should be removed.
+              if (name.includes("'")){
+                  name = name.replace("'","`");
+              } else if (name.includes("\\")){
+                  name = name.replace("\\", "");
+              } else if (name.includes("\/")){
+                  name = name.replace("\/","");
+              }
+              
+              
+              
+
+              
+              // get arcgis rest serverice instance name, 
+              _serial_number = get_serial_no_from_url(_url_candidate)
+              // if there is serical number, then do not need instance name
+              if (_serial_number){
+                        // 1st priority serial number
+                        org = _serial_number
+              } else {
+
+
+                        // 3rd priority, without special instance name, then use domain
+                        try {
+                          urlObject = new URL(_url_candidate);
+                          _domain_candidate = urlObject.hostname;
+                          org = _domain_candidate
+                        } catch{
+
+                        }
+
+
+
+                        // 2st priority, without serial number, then use instance name
+                        _any_instance = get_instance_from_url(_url_candidate)
+                        if (_any_instance){
+                                org = _domain_candidate + " - " +_any_instance
+                        } else{
+                        }
+              }
+              
+
+
+          
+              
+
+              this_element = {
+                      "name":name,
+                      "org":org,  
+                      "url":url
+                    }
+
+
+
+              
+              if (_serial_number){
+                        // 32 serial number do not works, so ignore 32
+                        if (_serial_number.length < 17){
+                            arcgis_domain_serialNo_array.push(this_element) 
+                        }//if 32
+              } else {
+                        custom_domain_array.push(this_element)
+              }//if
+
+
+           
+
+              _this_pageStandardArray.push(this_element)
+              
+            }
+          }//if r e s t / s e r v i c e s
+
+        }//for
+
+
+
+        console.log("after convert standard array", _this_pageStandardArray)
+        return _this_pageStandardArray
+      }
+
+
+
+
+
+//  - - -  end  - - -  convert raw json to standard array for display in html  - - - 
+    
+
+
+
+
+
+
+
+
+
+function rendering_json_to_html(_results) {
+      
+  var html = '';
+  html += '<div>';
+  if (_results.length > 0) {
+    html += '<ol>';
+    for (var i = 0; i < _results.length; ++i){
+
+       var _name = _results[i].name
+       var _org  = _results[i].org
+       var _url = _results[i].url
+
+       
+
+      
+
+          html += '<li>' 
+
+
+          // check url have 16 serial number or not
+          if (get_serial_no_from_url(_url)){
+
+            // for arcgis.com domain, with 16 serial number, use span tag
+
+                  html += '<span onclick="open_popup_home(\''                    
+                  html +=  _name + '\', \'' +  _url 
+                  html += '\')">' 
+
                   
 
-                                  // ---- fix bug, _results[i].rest_url = http://xxx, window.location.protocol must use http, can not use https(original), mix content error.
-                                                        var _link_protocal = window.location.protocol;
-                                                        var _link_url_parameter = ___service_url;
-                                                        if (_link_url_parameter.indexOf('http://') > -1)
-                                                    {
-
-                                                            // if resource url is http, force link protacal as http: 
-                                                            _link_protocal = 'http:'
-                                                        }// if
-                                                  // ------ end fix bug,
-                  
-                  
-                  
-                  } else {
-                      
-                      
-                      
-                      
+                  if (_name){
+                    html += '<span class="context" style="cursor: pointer;font-size:small;">' +  _name  +  '</span>' 
                   }
 
-    // ************** end ************** calculate layer id only ***************
-    /**/
-    /*  ... ... ....  naming match from hub.html to search.html  ... ... ....  */
+                  if (_org){
+                    html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
+                  }
 
-        var __layerId = ___layer_id
-      
-        var __restapi_url = ___url
-        // for esri classic v3.x only
-        var _accessURL = ___url + '/'+ ___layer_id
-
-    /*  ... ... .... end    ... ... ....  naming match from hub.html to search.html  ... ... ....  */
-    /**/
-            
+                  html +=  '</span>'  
+                  
+                  
 
 
-   
+            } else {
+
+              // for custom domain, without 16 serial number, use a tag
+
+               html += '<a target="_blank" href="#" onclick="open_popup_home(\''                    
+                  html +=  _name + '\', \'' +  _url
+                  html += '\')">' 
+
+                  if (_name){
+                    html += '<span class="context" style="cursor: pointer;font-size:small;">' +  _name  +  '</span>' 
+                  }
+
+                  html +=  '</a>'
+
+                  if (_org){
+                    html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
+                  }
+
+                 
 
 
-    // check if already exist, will skip exist, only need unique
-    var start_position = __restapi_url.indexOf("/rest/services")
-    var rest_endpoint_candidate = __restapi_url.substring(0,start_position) + "/rest/services"
-    var urlExistsOrNot = unique_org_root_url_array.some(item => item["root-url"] == rest_endpoint_candidate); 
-    if (urlExistsOrNot){
-      // exist, skip, nothing to do
-    } else {
-      // not exist, add new
-      unique_org_root_url_array.push({
-        "org":_orgName,  
-        "root-url": rest_endpoint_candidate
-      })
-      console.log("add new url", _orgName, rest_endpoint_candidate)
-    }
-
-  
-
-    if (___layer_id !== -99999){
-
-       // this is feature layer, layer id have something.
-       console.log("layer-id", __layerId)
-       console.log("layer-name", _name_stripedHtml)
-       console.log("layer-url", __restapi_url)
-       console.log("backgroundlayerurl=", _accessURL)
+            }//if
 
 
 
-      
 
-      var _current_layer_type = "Feature Layer"
-      var _current_layer_name = _name_stripedHtml
-      var this_layer_id = __layerId
-      var _____layer_url = __restapi_url
-
-
-      html += '<li>' 
-
-              html += '<span onclick="open_popup(\''                    
-              html +=  this_layer_id + '\', \'' + _current_layer_name + '\', \'' + _current_layer_type + '\', \'' +  _____layer_url
-              html += '\')" class="context" style="cursor: pointer; font-size:xx-small;">' 
               
-              if (_current_layer_name){
-                html +=   _current_layer_name
-              }
-
-              if (_orgName){
-                html +=  '<sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _orgName + '</sup>' 
-              }
-
-              html +=  '</span>' 
-
         /*
               // not use, but keep, open original url endpoint
+            
               html += '<span onclick="window.open(\''                    
               html +=  _accessURL + '\', \'_blank\')"'
               html += ' class="context" style="cursor: pointer; font-size:xx-small;">' 
               html +=   _current_layer_name +  '</span>'   
               html +=  '<sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _orgName + '</sup>' 
-        */
+            */
             
-      html += '</li>'; 
-
-     
-
-
-        // skip already exist record
-        var urlExistsOrNot = layer_url_array.some(item => item["layer-url"] == _accessURL); 
-        if (urlExistsOrNot){
-          // exist, skip, nothing to do
-        } else {
-                  // not exist, add new
-                  layer_url_array.push({
-                    "org":_orgName, 
-                    "layer-name":_name_stripedHtml,
-                    "layer-id": __layerId,
-                    "layer-url": _accessURL, 
-                    "server-url": __restapi_url,
-                    "root-url": rest_endpoint_candidate
-                  })
-        }//if
-
-
-    } else {
-
-                // feature server, don't have layer id, (id is -1)
-                console.log(' show link for feature server or map server, without layer id',  ___layer_id)
-                console.log("feature-server-url", __restapi_url)
-                console.log("feature-server-name", _name_stripedHtml)
-
-
-
-                 html += '<li>'
-
-                    html += '<span onclick="open_popup_server(\''                    
-                    html +=   _name_stripedHtml + '\', \''  +  'Feature Server'  +  '\', \''  +  __restapi_url
-                    html += '\')" class="context" style="cursor: pointer; font-size:small; font-weight:bold;">' 
-                    
-                    
-                    if (_name_stripedHtml){
-                      html +=   _name_stripedHtml
-                    }
-                    if (_orgName){
-                     html +=  '<sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _orgName + '</sup>' 
-                    }
-
-                    html +=     '</span>'   
-                   
-                 
-                 /*
-                 // not use, but keep, open original url endpoint
-                    html += '<span onclick="window.open(\''                    
-                    html +=  __restapi_url + '\', \'_blank\')"'
-                    html += ' class="context" style="cursor: pointer; font-size:small; font-weight:bold;">' 
-                    html +=   _name_stripedHtml +  '</span>'   
-                    html +=  '<sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _orgName + '</sup>' 
-                 */
-                html += '</li>';
-
-     
-
-
-                // skip already exist record
-                var urlExistsOrNot = server_url_array.some(item => item["server-url"] == __restapi_url); 
-                if (urlExistsOrNot){
-                  // exist, skip, nothing to do
-                } else {
-                          // not exist, add new
-                          server_url_array.push({
-                            "org":_orgName, 
-                            "server-name":_name_stripedHtml,
-                            "server-url": __restapi_url,
-                            "root-url": rest_endpoint_candidate
-                                                  })
-                }//if
-
-
-    }// if layer id -1
-
-} 
-                              
-// *********** end ***********   hubType: feature layer, collection, service only,  handle rest api URL   ***********
-                              /**/
-                                          
-                
-                                }// for
-                                                  
-                            html += '</ol>';
-                              
-                          } 
-                              
-                          
-                    html +='</div>'
-                                
-                    $('#json-renderer').html(html);
-                              
-}  // function
-
-
-
-
-
+            html += '</li>';  
+            
+            
+       
+    }// for
+    html += '</ol>';
+  } 
+  html +='</div>'
+   $('#json-renderer').html(html);
+            
+}  
+   
 
 
 

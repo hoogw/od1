@@ -103,11 +103,10 @@ async function start_streaming(){
         var _next_page_url = ___url_getJson + "&start=1" 
         
         _this_page_raw_return = await ajax_getjson_common(_next_page_url);
-        
         console.log('this page raw return', _this_page_raw_return)
        
           __total_item_count = _this_page_raw_return.total;
-          console.log("__total_item_count", __total_item_count / 100)
+          console.log("total loop needed is : ", __total_item_count / 100)
 
 
           for (i = 0; i < (Math.floor(__total_item_count / 100)); i++) { 
@@ -157,6 +156,9 @@ async function start_streaming(){
 }
                    
         
+
+
+
 
 
 
@@ -252,9 +254,6 @@ function rendering_json_to_html(_results) {
             
 }  
    
-
-
-
 
 
 

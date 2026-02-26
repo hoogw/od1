@@ -108,8 +108,9 @@ async function start_streaming(){
           __total_item_count = _this_page_raw_return.total;
           console.log("total loop needed is : ", __total_item_count / 100)
 
+          var loop = Math.floor(__total_item_count / 100)
 
-          for (i = 0; i < (Math.floor(__total_item_count / 100)); i++) { 
+          for (i = 0; i < (loop); i++) { 
 
               // this is previous loop data
               if ((_this_page_raw_return) && (_this_page_raw_return.results)){
@@ -119,7 +120,14 @@ async function start_streaming(){
 
                 // only for show user downloading progress, with latest result on top,
                 input_current = __this_page_array.concat(input_current);
-                display_count_info('', input_current.length, __total_item_count, 'counter_label')
+                // for count of item
+              display_count_info('', input_current.length, __total_item_count, 'counter_label')
+              // for count of loop
+              display_count_info('', i, loop, 'counter_label2')
+
+              } else {
+
+                console.log(" last loop is bad, nothing get back, just skip it, go next one")
 
               }// if
               
@@ -129,11 +137,13 @@ async function start_streaming(){
               }
               
              
-            
+              
               _next_page_url = ___url_getJson + "&start=" +  ((i * 100) + 1).toString();
               console.log(' for loop - next page url - ',  i, ((i * 100) + 1).toString() ,  _next_page_url)
-              
+              // if i is bad request, nothing get, just skip i, go to next loop i+1
               _this_page_raw_return = await ajax_getjson_common(_next_page_url);
+
+
               
 
                         

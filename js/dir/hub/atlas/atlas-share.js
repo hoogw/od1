@@ -299,9 +299,12 @@ var this_element
           // skip tile.arcgis.com
           if (_url_candidate 
             && _url_candidate.includes("/rest/services") 
+          ){
+    /*
             && !(_url_candidate.includes("tiles.arcgis.com"))  // do not handle tiles, so exclude them
             && !(_url_candidate.includes("utility.arcgis.com"))  // these kind have 32 char serial number, always not working, so exclude them
           ){
+    */
             
             
             

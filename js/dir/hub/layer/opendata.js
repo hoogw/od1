@@ -104,7 +104,10 @@ async function start_streaming(){
 
                                         // only for show user downloading progress, with latest result on top,
                                         input_current = __this_page_array.concat(input_current);
-                                        display_count_info('', input_current.length, __total_item_count, 'counter_label')
+                                        // for count of item
+              display_count_info('', input_current.length, __total_item_count, 'counter_label')
+              // for count of loop
+              display_count_info('', i, loop, 'counter_label2')
                                         rendering_json_to_html(__this_page_array)
 
                                           _next_page_url = _this_page_raw_return.meta.next;

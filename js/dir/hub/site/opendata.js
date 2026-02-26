@@ -210,7 +210,10 @@ if (urlExistsOrNot){
                                                   
                                                   input_current = __this_page_array.concat(input_current);
 
-                                                   display_count_info('', input_current.length, __total_item_count, 'counter_label')
+                                                   // for count of item
+              display_count_info('', input_current.length, __total_item_count, 'counter_label')
+              // for count of loop
+              display_count_info('', i, loop, 'counter_label2')
                                                    rendering_json_to_html(__this_page_array)
                                                   
                                                   

@@ -66,8 +66,10 @@ async function start_streaming(){
         
         __total_item_count = _this_page_raw_return.meta.stats.totalCount;
         console.log("total loop needed is : ", __total_item_count / 20)
-          
-        for (i = 0; i < (Math.floor(__total_item_count / 20 ));  i++){ 
+        
+        var loop = Math.floor(__total_item_count / 20 )
+
+        for (i = 0; i < (loop);  i++){ 
 
             // this is previous loop data
             // only for opendat v3 api,  .data
@@ -79,18 +81,33 @@ async function start_streaming(){
 
               // only for show user downloading progress, with latest result on top,
               input_current = __this_page_array.concat(input_current);
+             
+              // for count of item
               display_count_info('', input_current.length, __total_item_count, 'counter_label')
+              // for count of loop
+              display_count_info('', i, loop, 'counter_label2')
 
-            }// if
+            } else {
+
+                console.log(" last loop is bad, nothing get back, just skip it, go next one")
+
+              }// if
             
             // only run if  user clicked the stop button, killed streaming 
             if (stop_search_status){
               break; // break for loop
             }
               
-              
-              _next_page_url = _this_page_raw_return.meta.next;
+
+            // sometimes, this page is bad, nothing get, next page isn't available,
+            // keep trying this page, until get nextPage url
+            if (_this_page_raw_return){
+                  _next_page_url = _this_page_raw_return.meta.next;
+                  _this_page_raw_return = await ajax_getjson_common(_next_page_url);
+            } else {
+              i = i - 1
               _this_page_raw_return = await ajax_getjson_common(_next_page_url);
+            }
                        
         } // for pages
                           
@@ -181,6 +198,16 @@ var this_element
           _orgName_candidate = raw_json_array[i].attributes.orgName;
 
           _source_candidate = raw_json_array[i].attributes.source; 
+
+           // some source have /, " , invalid char cause crash
+           try {
+                JSON.parse(_source_candidate)
+           } catch {
+               // invalid source found, 
+               _source_candidate = ""
+           }
+
+
           
           _owner_candidate = raw_json_array[i].attributes.owner; // owner means a real person, who upload this feature server or layer
           
@@ -192,9 +219,12 @@ var this_element
           // skip tile.arcgis.com
           if (_url_candidate 
             && _url_candidate.includes("/rest/services") 
+          ){
+    /*
             && !(_url_candidate.includes("tiles.arcgis.com"))  // do not handle tiles, so exclude them
             && !(_url_candidate.includes("utility.arcgis.com"))  // these kind have 32 char serial number, always not working, so exclude them
           ){
+    */
             
             
             

@@ -2719,6 +2719,15 @@ async function get_mapserver_info_html(mapserver_url){
 
 
 
+
+
+
+
+            
+
+
+
+
             
 
                                             // when user click a folder, find all sub-item which use this _folder_item_id as their parent id, show sub-item (children item) at service panel (center)

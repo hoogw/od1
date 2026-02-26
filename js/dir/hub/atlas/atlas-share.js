@@ -12,41 +12,6 @@
 
 
 
-//  [ { org(organization name): xxx,  root-url: xxxxx}  ]
-var unique_org_root_url_array = []
-
-
-
-// not unique, include every record in search result
-// [ { org(organization name): xxx,  root-url: xxxxx,  layer-name: xx, layer-id: xx, layer-url: xxx}  ]
-var layer_url_array = []
-// feature server only, without layer id
-//  [ { org(organization name): xxx,  root-url: xxxxx,  server-name: xx, server-url: xxx}  ]
-var server_url_array = []
-
-
-
-
-
-
-
- // in use,  dataset only, feature layer, feature table, geojson, shapefile, csv only, NOT include web map, scene, etc..... search 'london' have 1.2k 
-var ___url_search_data ="https://opendata.arcgis.com/api/v3/search?&filter[openData]=true&agg[fields]=collection" 
-
- // NO lunr, no suggest, just simple for loop 
-
- //  hub search original page:    https://hub.arcgis.com/search?collection=Dataset&q=london%20water
- var original_search_portal_base_url = "https://hub.arcgis.com/search?q=";
-    
-// currently use :   opendata.arcgis.com/api/v3/search
- 
-// hoogw fork version:     https://gist.github.com/hoogw/902e75e569d851cc6a37fe3eff3b1cac
-//  original         :   https://gist.github.com/jgravois/1b7ec5080e992a59f65cf7a2190e4365
-//  hub v3 api follow this specification  --> json:api                https://jsonapi.org/
- 
- 
-// for loop for search, no lunr, with mark.js
-// no web worker, no stream
 
 
  // "input" was used in arcgis_common, do not use it here
@@ -62,12 +27,6 @@ var ___url_search_data ="https://opendata.arcgis.com/api/v3/search?&filter[openD
   
  // when stop search button clicked, this will become true.
  var stop_search_status = false;
-
-
-
-
-
-
 
 
 
@@ -212,20 +171,12 @@ var _search_content_split
                     /**/
                         $("#download_csv_button").on("click", function() {
 
-                          if (unique_org_root_url_array){
-                            var final_csv_string = parse_json_to_csv_string(unique_org_root_url_array)
-                            saveStringAsFile('root.csv', final_csv_string)
+                          if (input_current){
+                            var final_csv_string = parse_json_to_csv_string(input_current)
+                            saveStringAsFile('atlas.csv', final_csv_string)
                           }
 
-                          if (layer_url_array){
-                            var final_csv_string2 = parse_json_to_csv_string(layer_url_array)
-                            saveStringAsFile('layer.csv', final_csv_string2)
-                          }
-
-                          if (server_url_array){
-                            var final_csv_string3 = parse_json_to_csv_string(server_url_array)
-                            saveStringAsFile('server.csv', final_csv_string3)
-                          }
+                         
                         });
                     /**/
                     //  - - -  end  - - -   download csv    - - - 
@@ -297,7 +248,7 @@ var this_element
 
 
       // only for streaming, atlas, this is different from static
-    function convert_rawJson_to_jsonArray(raw_json_array){
+   async function convert_rawJson_to_jsonArray(raw_json_array){
 
         var _this_pageStandardArray = []
 
@@ -348,14 +299,7 @@ var this_element
           if (!(_orgId_candidate)){
             _orgId_candidate = "orgId"
           } else {
-            /*
-            var org_name_response = await ajax_getjson_common("https://www.arcgis.com/sharing/rest/portals/" + _orgId_candidate + "?f=json");
-            if (org_name_response.name){
-                  _orgName_candidate = org_name_response.name
-            } else {
-                  _orgName_candidate = "orgName"
-            }
-            */
+             _orgId_candidate = "orgId-" +  _orgId_candidate
           }
           
           //_name_candidate =_orgName_candidate  + " - " +  _orgId_candidate + " - " +  _owner_candidate  //+ " - " +  _title_candidate
@@ -448,8 +392,28 @@ var this_element
               
 
 
-            
-              // check if this new url already exist or not
+            // convert orgId to org-name 
+            if (name.includes("orgId-")){
+                var org_name_response = await ajax_getjson_common("https://www.arcgis.com/sharing/rest/portals/" + _orgId_candidate.replace("orgId-","") + "?f=json");
+                
+                if (org_name_response.name){
+                  name = org_name_response.name
+                }
+                if (org_name_response.orgUrl){
+                  name += " - " + org_name_response.orgUrl
+                }
+                /*
+                if (org_name_response.orgPhone){
+                  name += " - " + org_name_response.orgPhone
+                }
+                */
+                if (org_name_response.orgEmail){
+                  name += " - " + org_name_response.orgEmail
+                }
+                
+            }//if 
+          
+              
 
               this_element = {
                       "name":name,
@@ -565,8 +529,6 @@ var this_element
                 
 
                function init_streaming_event_handler() {
-
-                              $("#original_search_portal").attr("href", original_search_portal_base_url)
 
 
                               // when user click 'x'  or  when user click 'enter' to 'search' , both will trigger 'on search' event. you can't tell which is which, both will fire this event.  https://stackoverflow.com/questions/2977023/how-do-you-detect-the-clearing-of-a-search-html5-input

@@ -114,7 +114,7 @@ async function start_streaming(){
               // this is previous loop data
               if ((_this_page_raw_return) && (_this_page_raw_return.results)){
                 
-                __this_page_array = convert_rawJson_to_jsonArray(_this_page_raw_return.results);
+                __this_page_array = await convert_rawJson_to_jsonArray(_this_page_raw_return.results);
                 rendering_json_to_html(__this_page_array)
 
                 // only for show user downloading progress, with latest result on top,
@@ -136,20 +136,20 @@ async function start_streaming(){
               _this_page_raw_return = await ajax_getjson_common(_next_page_url);
               
 
-                                        
-                                        
-
-                                         
-                        
                         
         } // for pages
+
+
+
+
+        // convert orgId to org-name 
+
+
                           
         // in case of user clicked pause, when streaming ended, update the final result , show partial result for what we already have 
         show_current(input_current)
         console.log(' stream ended, final showing ----###--- ',  input_current)
-
-        console.log("stream ended, unique_org_root_url_array", unique_org_root_url_array)
-        
+ 
         // url  ...&sfilter_by=xxx,  always, all time show filtered results
         filter_result_by_filter_by()
     

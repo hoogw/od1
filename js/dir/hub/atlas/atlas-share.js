@@ -603,7 +603,7 @@ var this_element
                // but here only need to get "linktopath" etc.....
                init_global_var()
 
-               //init_naming_panel()
+               
                
                init_search_button_event_handler();
 

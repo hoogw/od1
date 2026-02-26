@@ -70,9 +70,11 @@ async function start_streaming(){
         for (i = 0; i < (Math.floor(__total_item_count / 20 ));  i++){ 
 
             // this is previous loop data
-            if ((_this_page_raw_return) && (_this_page_raw_return.results)){
+            // only for opendat v3 api,  .data
+            if ((_this_page_raw_return) && (_this_page_raw_return.data)){ // only for opendat v3 api,  .data
+              // only for opendat v3 api,  .data
               
-              __this_page_array = await convert_rawJson_to_jsonArray(_this_page_raw_return.results);
+              __this_page_array = await convert_rawJson_to_jsonArray(_this_page_raw_return.data);
               rendering_json_to_html(__this_page_array)
 
               // only for show user downloading progress, with latest result on top,
@@ -131,7 +133,9 @@ var urlExistsOrNot_serialNo
 var this_element
 
 
-      // only for streaming, atlas, this is different from static
+  // only for streaming, 
+  // only for opendat v3 api,
+  // this is different from static
    async function convert_rawJson_to_jsonArray(raw_json_array){
 
         var _this_pageStandardArray = []

@@ -329,7 +329,7 @@ async function nested_to_flat(_url){
     
     */
     
-    var _warning_message = 'Empty or Bad Request or Content Blocked by Admin';
+    var _warning_message = '404 Not Found (Blocked by GIS Admin)';
 
     // add relative path reference
     root.relative_path = '';

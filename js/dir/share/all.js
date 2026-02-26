@@ -2569,7 +2569,7 @@ async function get_mapserver_info_html(mapserver_url){
                                     switch(_which_panel) {
 
                                         case 'folder':
-                                            $('#message_root_folder').text(' ('+ _signal + ')' + _info); 
+                                            $('#message_root_folder').html('<a target="_blank" href="' + ___url_string + '">('+ _signal + ')' + _info + '</a>');  
                                           break;
 
                                         case 'layer':

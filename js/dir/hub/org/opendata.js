@@ -20,15 +20,15 @@
 
           var start_date_string = $('#start_date').val().trim();   // .trim()  Removes only leading & trailing whitespaces;
           var end_date_string = $('#end_date').val().trim();
-          var collection_data_string = $('#collection_data').val().trim();
+          var type_of_service_string = $('#type_of_service').val().trim();
           var open_data_string = $('#open_data').val().trim();
 
           
               
-    //___url_getJson ="https://opendata.arcgis.com/api/v3/search?filter[openData]=true&filter[collection]=any(Dataset)&filter[created]=between(2025/11/01,2026/02/16)"
+    //___url_getJson ="https://opendata.arcgis.com/api/v3/search?filter[openData]=true&filter[type]=Feature Service&filter[created]=between(2026/01/01,2026/02/01)"
 
     ___url_getJson ="https://opendata.arcgis.com/api/v3/search?"
-    ___url_getJson += "filter[openData]=" + open_data_string + "&filter[type]=" + collection_data_string
+    ___url_getJson += "filter[openData]=" + open_data_string + "&filter[type]=" + type_of_service_string
     ___url_getJson += "&filter[created]=between(" + start_date_string + "," + end_date_string + ")"
 
     if (_search_data_content){
@@ -139,74 +139,16 @@ function rendering_json_to_html(_results) {
         for (var i = 0; i < _results.length; ++i){
 
         
-
-            // ********************  only    calculate for hub.arcgis.com , opendata.arcgis.com    only   ****************************
-            /**/
             // ...... attributes ......
-                var ___url_with_mapserver_id= _results[i].attributes.url;     //"https://exploreajax.ajax.ca/mapajax/rest/services/Open_Data/Ajax_Open_Data/MapServer/5"
+                var ___service_url= _results[i].attributes.url;     //"https://exploreajax.ajax.ca/mapajax/rest/services/Open_Data/Ajax_Open_Data/MapServer/5"
                 var _name = _results[i].attributes.name;     //name: "Ajax POI"
                 var _orgId = _results[i].attributes.orgId;    
                 var _orgName = _results[i].attributes.orgName;    
                 var _organization = _results[i].attributes.organization; 
-                  
-                var _hasApi = _results[i].attributes.hasApi;    
-                var _hubType = _results[i].attributes.hubType;     //hubType: "Feature Layer" or "Table"
-                var _type = _results[i].attributes.type;
-
-                 
-                      
-              if ( _orgName == undefined) { _orgName = '' }
-              if ( _organization == undefined) { _organization = '' }
-              //console.log(' hasApi  organization  ___url  -> ', i, _organization ,  _hasApi,___url )
-              //console.log(' hubType  ',   _hubType, i)
-          // ...... end ..........  attributes ......
-          /**/
-
-            // ....... links .........
-                  var _esriRest_links = _results[i].links.esriRest
-                  var _itemPage_links = _results[i].links.itemPage
-                  var _rawEs_links = _results[i].links.rawEs
-                  var _self_links = _results[i].links.self
-            // ...... end ..........  links .........
-              /**/
-            // ******************** end *************** only      calculate for hub.arcgis.com , opendata.arcgis.com    only   ****************************
-            /**/
-                                                    
+            // ...... end ..........  attributes ......
+                                                 
                                                       
-          // ....... strip HTML from a string  .....
-            
-          
-                // https://ourcodeworld.com/articles/read/376/how-to-strip-html-from-a-string-extract-only-text-content-in-javascript
-          
-                // ==== first step: remove html tag
-              
-                var _name_stripedHtml = $("<div>").html(_name).text();
-                
-                // regular express remove <xxx> tag 
-                // str = str.replace(/[^a-z0-9-]/g, '');
-                /*
-                    Everything between the indicates what your are looking for
-
-                    / is here to delimit your pattern so you have one to start and one to end
-                    [] indicates the pattern your are looking for on one specific character
-                    ^ indicates that you want every character NOT corresponding to what follows
-                    a-z matches any character between 'a' and 'z' included
-                    0-9 matches any digit between '0' and '9' included (meaning any digit)
-                    - the '-' character
-                    g at the end is a special parameter saying that you do not want you regex to stop on the first character matching your pattern but to continue on the whole string
-                  */
-                //_description_stripedHtml = _description_stripedHtml.replace(/<[^>]+>/g, '');
-                //_name_stripedHtml = _name_stripedHtml.replace(/<[^>]+>/g, '');
-
-
-
-                // ==== second step: encode >, <, 
-                
-                
-                _name_stripedHtml = _name_stripedHtml.replace(/</g, '&lt;');
-                _name_stripedHtml = _name_stripedHtml.replace(/>/g, '&gt;');
-                
-          // ....... end ......  strip HTML from a string  .....
+         
 
 
     /**/ 
@@ -220,27 +162,27 @@ function rendering_json_to_html(_results) {
                   var ___layer_id_string = ''
                   var ___url = ''
                   
-                  if(typeof ___url_with_mapserver_id !== "undefined"){
+                  if(typeof ___service_url !== "undefined"){
 
-                                                  ___url_split_array = ___url_with_mapserver_id.split("/")
+                                                  ___url_split_array = ___service_url.split("/")
 
                                                   console.log(' layer id is number ? ',  ___url_split_array[___url_split_array.length-1])
                                                     
                                                   if (isNaN(___url_split_array[___url_split_array.length-1])){
                                                       ___layer_id = -99999
-                                                      ___url = ___url_with_mapserver_id
+                                                      ___url = ___service_url
                                                       console.log(' this is feature server or map server, without layer id',  ___layer_id)
                                                     } else {
                                                       ___layer_id = ___url_split_array[___url_split_array.length-1]
                                                       ___layer_id_string = '/'+ ___layer_id.toString()
-                                                      ___url = ___url_with_mapserver_id.replace(___layer_id_string, "");
+                                                      ___url = ___service_url.replace(___layer_id_string, "");
                                                   }
                   
                   
 
                                   // ---- fix bug, _results[i].rest_url = http://xxx, window.location.protocol must use http, can not use https(original), mix content error.
                                                         var _link_protocal = window.location.protocol;
-                                                        var _link_url_parameter = ___url_with_mapserver_id;
+                                                        var _link_url_parameter = ___service_url;
                                                         if (_link_url_parameter.indexOf('http://') > -1)
                                                     {
 

@@ -23,7 +23,7 @@
     // must convert YYYY-MM-DD to unix time (millisec) 15 digital 
     var end_date_string = Date.parse($('#end_date').val().trim())
 
-    var collection_data_string = encodeURIComponent($('#collection_data').val().trim())
+    var type_of_service_string = encodeURIComponent($('#type_of_service').val().trim())
     var open_data_string = encodeURIComponent($('#open_data').val().trim())
 
           
@@ -36,7 +36,7 @@
           // sample:    AND ((modified BETWEEN 1769932800000 AND 1770191999999))
           ___url_getJson ="https://hub.arcgis.com/api/search/v1/collections/all/items?"
           // openData= must encoded as openData%3D
-          ___url_getJson += "filter=((type IN (" + collection_data_string + "))) AND ((openData%3D" + open_data_string + "))" 
+          ___url_getJson += "filter=((type IN (" + type_of_service_string + "))) AND ((openData%3D" + open_data_string + "))" 
           ___url_getJson += " AND ((modified BETWEEN " + start_date_string + " AND " + end_date_string + "))"
           
           if (_search_data_content){
@@ -160,7 +160,7 @@ function rendering_json_to_html(_results) {
             var _source = _results[i].properties.source;
             var _title = _results[i].properties.title;
 
-                var ___url_with_mapserver_id= _results[i].properties.url;     //"https://exploreajax.ajax.ca/mapajax/rest/services/Open_Data/Ajax_Open_Data/MapServer/5"
+                var ___service_url= _results[i].properties.url;     //"https://exploreajax.ajax.ca/mapajax/rest/services/Open_Data/Ajax_Open_Data/MapServer/5"
                 var _name = _results[i].properties.name;     //name: "Ajax POI"
                 var _orgId = _results[i].properties.orgId;   
                 
@@ -226,27 +226,27 @@ if (_hubType.toLowerCase().includes('feature')){
               var ___layer_id_string = ''
               var ___url = ''
               
-              if(typeof ___url_with_mapserver_id !== "undefined"){
+              if(typeof ___service_url !== "undefined"){
 
-                                              ___url_split_array = ___url_with_mapserver_id.split("/")
+                                              ___url_split_array = ___service_url.split("/")
 
                                               console.log(' layer id is number ? ',  ___url_split_array[___url_split_array.length-1])
                                                 
                                               if (isNaN(___url_split_array[___url_split_array.length-1])){
                                                   ___layer_id = -99999
-                                                  ___url = ___url_with_mapserver_id
+                                                  ___url = ___service_url
                                                   console.log(' this is feature server or map server, without layer id',  ___layer_id)
                                                 } else {
                                                   ___layer_id = ___url_split_array[___url_split_array.length-1]
                                                   ___layer_id_string = '/'+ ___layer_id.toString()
-                                                  ___url = ___url_with_mapserver_id.replace(___layer_id_string, "");
+                                                  ___url = ___service_url.replace(___layer_id_string, "");
                                               }
               
               
 
                               // ---- fix bug, _results[i].rest_url = http://xxx, window.location.protocol must use http, can not use https(original), mix content error.
                                                     var _link_protocal = window.location.protocol;
-                                                    var _link_url_parameter = ___url_with_mapserver_id;
+                                                    var _link_url_parameter = ___service_url;
                                                     if (_link_url_parameter.indexOf('http://') > -1)
                                                 {
 

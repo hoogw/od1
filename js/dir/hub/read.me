@@ -1,31 +1,83 @@
 
 
-v3 api on github 
-
-jgravois/hub_v3_search_api_ref.md
-https://gist.github.com/jgravois/1b7ec5080e992a59f65cf7a2190e4365
 
 
 
-hamhands/v3.md
-https://gist.github.com/hamhands/b6d1f0f514678b88cdc01070bf006263
+Official hub search api 
+https://hub.arcgis.com/api/search/definition/#/default/CollectionController_getSiteCollections
+
+          v3 api on github 
+
+          jgravois/hub_v3_search_api_ref.md
+          https://gist.github.com/jgravois/1b7ec5080e992a59f65cf7a2190e4365
+
+          hamhands/v3.md
+          https://gist.github.com/hamhands/b6d1f0f514678b88cdc01070bf006263
+
+          api: 
+          https://developers.google.com/custom-search/v1/introduction
 
 
 
 
 
-api: 
-https://developers.google.com/custom-search/v1/introduction
+
+
+select different type, you will get different type of URL
+https://hub.arcgis.com/search?type=Image%2520Service
+
+
+     To find out org name, use these field
+               source, 
+               orgId, 
+               owner, (accessInformation) 
+
+
+
+
+     Custom domain,
+     ((openData=true)) AND ((type IN ('Map Service')) OR (type IN ('Image Service')))
+
+     These Map Service, must be custom domain, user self hosting portal, not esri hosted domain.
+     Because esri do NOT host any MapServer, those with 16 dig serial number Never be MapServer. They can only be FeatureServer
+     
+
+
+    Most of are 16-dig serial number, maybe mix with some custom domain.
+    ((openData=true)) AND ((type IN ('Feature Service')))
+    https://hub.arcgis.com/api/search/v1/collections/all/items?filter=((openData%3Dtrue))%20AND%20((type%20IN%20(%27Feature%20Service%27)))&limit=12&startindex=13
+
+
+
+     For hub site
+     ((openData=true)) AND ((type IN ('Hub Site Application')))
+
+
+     For web map
+     ((openData=true)) AND ((type IN ('Web Map')))
+
+
+     For PDF only
+     ((openData=true)) AND ((type IN (PDF)))
+
+     ((openData=true)) AND ((type IN (Image)))
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------- no longer use ----------------------------------------------------
 
 How to update list, 
-
-
-
 1). go to hub.com, left bottom filter, date updated, select  2000.1.1 - 2021.1.1
 https://hub.arcgis.com/search?collection=site&modified=2021-01-02T08%3A00%3A00.000Z%7C2023-01-02T07%3A59%3A59.999Z&sort=Date%20Updated%7Cmodified%7Cdesc
 
@@ -138,9 +190,7 @@ test  only  arcgis opendata api v3 search test
           https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&q=created:between(2023-01-01T00:00:00Z,2024-01-01T00:00:00Z)
 
 
-https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&q=created:between(2018-01-01T00:00:00Z,2019-01-01T00:00:00Z)
-
-
+          https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&q=created:between(2018-01-01T00:00:00Z,2019-01-01T00:00:00Z)
 
 
 
@@ -201,7 +251,7 @@ https://doc.arcgis.com/en/arcgis-online/reference/advanced-search.htm#:~:text=Bo
           
          
 
-          fork gist:
+              fork gist:
               https://gist.github.com/hoogw/a60f3b491dfe73d03e7a12d2bc38f875
  
 

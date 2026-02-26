@@ -3,41 +3,14 @@
 
 
 
-//  [ { org(organization name): xxx,  root-url: xxxxx}  ]
-var unique_org_root_url_array = []
-
-
-
-// not unique, include every record in search result
-// [ { org(organization name): xxx,  root-url: xxxxx,  layer-name: xx, layer-id: xx, layer-url: xxx}  ]
-var layer_url_array = []
-// feature server only, without layer id
-//  [ { org(organization name): xxx,  root-url: xxxxx,  server-name: xx, server-url: xxx}  ]
-var server_url_array = []
-
-
-
-
-
-
-
- // in use,  dataset only, feature layer, feature table, geojson, shapefile, csv only, NOT include web map, scene, etc..... search 'london' have 1.2k 
-var ___url_search_data ="https://opendata.arcgis.com/api/v3/search?&filter[openData]=true&agg[fields]=collection" 
-
- // NO lunr, no suggest, just simple for loop 
-
- //  hub search original page:    https://hub.arcgis.com/search?collection=Dataset&q=london%20water
- var original_search_portal_base_url = "https://hub.arcgis.com/search?q=";
-    
-// currently use :   opendata.arcgis.com/api/v3/search
+      var standard_array = []
+      // only for self hosted domain ArcServer
+      var custom_domain_array = []
+      // only for arcgis.com domain with 16 serial number
+      var arcgis_domain_serialNo_array = []
  
-// hoogw fork version:     https://gist.github.com/hoogw/902e75e569d851cc6a37fe3eff3b1cac
-//  original         :   https://gist.github.com/jgravois/1b7ec5080e992a59f65cf7a2190e4365
-//  hub v3 api follow this specification  --> json:api                https://jsonapi.org/
- 
- 
-// for loop for search, no lunr, with mark.js
-// no web worker, no stream
+
+
 
 
  // "input" was used in arcgis_common, do not use it here
@@ -263,8 +236,7 @@ var _search_content_split
 
                function init_streaming_event_handler() {
 
-                              $("#original_search_portal").attr("href", original_search_portal_base_url)
-
+                             
 
                               // when user click 'x'  or  when user click 'enter' to 'search' , both will trigger 'on search' event. you can't tell which is which, both will fire this event.  https://stackoverflow.com/questions/2977023/how-do-you-detect-the-clearing-of-a-search-html5-input
                               $('#search_data').on('search',prepare_streaming_url);

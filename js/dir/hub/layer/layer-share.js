@@ -273,8 +273,7 @@ var _search_content_split
 
                function init_streaming_event_handler() {
 
-                              $("#original_search_portal").attr("href", original_search_portal_base_url)
-
+                             
 
                               // when user click 'x'  or  when user click 'enter' to 'search' , both will trigger 'on search' event. you can't tell which is which, both will fire this event.  https://stackoverflow.com/questions/2977023/how-do-you-detect-the-clearing-of-a-search-html5-input
                               $('#search_data').on('search',prepare_streaming_url);

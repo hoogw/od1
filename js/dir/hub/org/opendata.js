@@ -98,7 +98,7 @@ async function start_streaming(){
         show_current(input_current)
         console.log(' stream ended, final showing ----###--- ',  input_current)
 
-        console.log("stream ended, unique_org_root_url_array", unique_org_root_url_array)
+       
         
         // url  ...&sfilter_by=xxx,  always, all time show filtered results
         filter_result_by_filter_by()

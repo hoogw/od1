@@ -3022,10 +3022,16 @@ function open_popup_home(_name, _url ){
      var _newTab_link =  window.location.origin + "/open-data/dir/rest/root/home.html"
     
 
-     
+            
+
+
             _newTab_link += '?org=' + _name  
             _newTab_link += '&url=' + _url 
-           
+           _newTab_link += '&timeout=15000' // atlas home root take very long time to response, make it 15 sec
+
+
+
+
             _newTab_link += '&model=' + model // will pass model number to server.js
             console.log('_newTab_link', _newTab_link)
 

@@ -2206,7 +2206,7 @@ function init_global_var(){
                     _html_for_count +=   '<span><mark><big><b>' + ___showing_cnt + '</b></big></mark>' 
                     _html_for_count +=    '/' 
                     _html_for_count +=       '<small><sup>' + ___all_cnt +'</sup></small></span>' 
-                    _html_for_count +=    '&nbsp;&nbsp;'  
+                    //_html_for_count +=    '&nbsp;&nbsp;'  
                     _html_for_count +=    _percentage_html 
 
                 document.getElementById(_label_id).innerHTML =    _html_for_count 

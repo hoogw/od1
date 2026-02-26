@@ -24,7 +24,7 @@
     var end_date_string = Date.parse($('#end_date').val().trim())
 
     var collection_data_string = encodeURIComponent($('#collection_data').val().trim())
-    var open_date_string = encodeURIComponent($('#open_date').val().trim())
+    var open_data_string = encodeURIComponent($('#open_data').val().trim())
 
           
               
@@ -36,7 +36,7 @@
           // sample:    AND ((modified BETWEEN 1769932800000 AND 1770191999999))
           ___url_getJson ="https://hub.arcgis.com/api/search/v1/collections/all/items?"
           // openData= must encoded as openData%3D
-          ___url_getJson += "filter=((type IN (" + collection_data_string + "))) AND ((openData%3D" + open_date_string + "))" 
+          ___url_getJson += "filter=((type IN (" + collection_data_string + "))) AND ((openData%3D" + open_data_string + "))" 
           ___url_getJson += " AND ((modified BETWEEN " + start_date_string + " AND " + end_date_string + "))"
           
           if (_search_data_content){

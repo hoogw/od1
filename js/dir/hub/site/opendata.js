@@ -154,10 +154,10 @@ if (urlExistsOrNot){
           var start_date_string = $('#start_date').val().trim();   // .trim()  Removes only leading & trailing whitespaces;
           var end_date_string = $('#end_date').val().trim();
           var collection_data_string = $('#collection_data').val().trim();
-          var open_date_string = $('#open_date').val().trim();
+          var open_data_string = $('#open_data').val().trim();
             
           var ___url_getJson ="https://opendata.arcgis.com/api/v3/search?"
-          ___url_getJson += "filter[openData]=" + open_date_string + "&filter[collection]=" + collection_data_string
+          ___url_getJson += "filter[openData]=" + open_data_string + "&filter[collection]=" + collection_data_string
           ___url_getJson += "&filter[created]=between(" + start_date_string + "," + end_date_string + ")"
           
           

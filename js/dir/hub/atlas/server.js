@@ -72,7 +72,8 @@
     if (_search_data_content){
       ___url_getJson += "&q=(" + _search_data_content + ")" 
     } else {
-      ___url_getJson += "&q=" + encodeURIComponent('(type:"Map Service" OR type:"Feature Service")')
+      ___url_getJson += "&q=" + encodeURIComponent('(type:"Map Service" OR type:"Feature Service"  OR type:"Image Service")')
+      //___url_getJson += "&q=" + encodeURIComponent('(type:"Image Service")')
     }
 
         console.log('___url_getJson', ___url_getJson)

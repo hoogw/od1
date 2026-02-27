@@ -102,8 +102,15 @@ async function start_streaming(){
             // sometimes, this page is bad, nothing get, next page isn't available,
             // keep trying this page, until get nextPage url
             if (_this_page_raw_return){
+
+              // last page, does not have .next
+              if (_this_page_raw_return.meta.next){
                   _next_page_url = _this_page_raw_return.meta.next;
                   _this_page_raw_return = await ajax_getjson_common(_next_page_url);
+              } else {
+                  console.log('you reach last page, there is no NEXT Page.', _this_page_raw_return.meta)
+              }
+
             } else {
               i = i - 1
               _this_page_raw_return = await ajax_getjson_common(_next_page_url);
@@ -199,13 +206,7 @@ var this_element
 
           _source_candidate = raw_json_array[i].attributes.source; 
 
-           // some source have /, " , invalid char cause crash
-           try {
-                JSON.parse(_source_candidate)
-           } catch {
-               // invalid source found, 
-               _source_candidate = ""
-           }
+           
 
 
           

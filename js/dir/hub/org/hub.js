@@ -135,10 +135,12 @@ async function start_streaming(){
                     }//if
                   }//for
 
+                  if (_next_page_url){
+                    _this_page_raw_return = await ajax_getjson_common(_next_page_url);
+                  } else {
+                    console.log('you reach last page, there is no NEXT Page.', _this_page_raw_return.links)
+                  }
 
-                  _this_page_raw_return = await ajax_getjson_common(_next_page_url);
-              } else {
-                  console.log('you reach last page, there is no NEXT Page.', _this_page_raw_return.meta)
               }
 
             } else {

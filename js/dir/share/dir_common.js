@@ -173,7 +173,7 @@ var input = {};
         if need longer timeout, set in url:   ?..&timeout=5000
         lowest timeout is 300,  because 200 will cause bad request error.  300 is lowest, 500 is safe number.
     */
-    var _timeout = 2000;  // 9 sec
+    var _timeout = 9000;  // 9 sec
     var param_timeout; // get URL param value time out, feed to real _timeout
 // =========   end   =========    timeout ========= 
 

@@ -178,7 +178,7 @@ var _search_content_split
 
                           if (input_current){
                             var final_csv_string = parse_json_to_csv_string(input_current)
-                            saveStringAsFile('org-opendata.csv', final_csv_string)
+                            saveStringAsFile('org.csv', final_csv_string)
                           }
 
                           

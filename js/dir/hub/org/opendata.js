@@ -3,7 +3,7 @@
 
 
 
-  //  q=xxx                  
+  // only for opendata api v3 q=xxx                  
   function prepare_streaming_url(){ 
 
 
@@ -51,9 +51,15 @@ async function start_streaming(){
                        
         stop_search_status = false;
       
-        input_current = [];  // partially accumulate..
+
+        // each time user click search button, start new streaming, let total accumulate..
+        // by comment out this line
+        //input_current = [];  
 
        
+
+
+        // display do not show historical 
         empty_last_time_result()
         $('#counter_label').text('searching...');
         
@@ -67,7 +73,8 @@ async function start_streaming(){
         __total_item_count = _this_page_raw_return.meta.stats.totalCount;
         console.log("total loop needed is : ", __total_item_count / 20)
         
-        var loop = Math.floor(__total_item_count / 20 )
+        // must add 1, for example total is 12,  12/20 = 0.6, floor is 0, must add 1
+        var loop = Math.floor(__total_item_count / 20 ) + 1
 
         for (i = 0; i < (loop);  i++){ 
 
@@ -264,8 +271,8 @@ var this_element
                   name = name.replace("'","`");
               } else if (name.includes("\\")){
                   name = name.replace("\\", "");
-              } else if (name.includes("\/")){
-                  name = name.replace("\/","");
+             // } else if (name.includes("\/")){
+             //     name = name.replace("\/","");
               }
               
               

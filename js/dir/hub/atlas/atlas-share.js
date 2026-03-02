@@ -325,23 +325,23 @@ var this_element
 
 
 
-              // convert orgId to org-name 
-             if (_orgId_candidate){
+            // convert orgId to org-name 
+            if (_orgId_candidate){
                 var org_name_response = await ajax_getjson_common("https://www.arcgis.com/sharing/rest/portals/" + _orgId_candidate + "?f=json");
                 
                 if (org_name_response.name){
                   _orgName_candidate = org_name_response.name
                 }
                 if (org_name_response.orgUrl){
-                  _orgName_candidate += " - " + org_name_response.orgUrl
+                  _orgName_candidate += " {" + org_name_response.orgUrl + "}"
                 }
                 /*
                 if (org_name_response.orgPhone){
-                  name += " - " + org_name_response.orgPhone
+                  name += " {" + org_name_response.orgPhone + "}"
                 }
                 */
                 if (org_name_response.orgEmail){
-                  _orgName_candidate += " - " + org_name_response.orgEmail
+                  _orgName_candidate += " {" + org_name_response.orgEmail + "}"
                 }
                 
             }//if 
@@ -368,8 +368,8 @@ var this_element
                   name = name.replace("'","`");
               } else if (name.includes("\\")){
                   name = name.replace("\\", "");
-              } else if (name.includes("\/")){
-                  name = name.replace("\/","");
+             // } else if (name.includes("\/")){
+             //     name = name.replace("\/","");
               }
               
               

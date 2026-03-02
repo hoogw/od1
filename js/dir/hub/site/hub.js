@@ -214,7 +214,7 @@ if (urlExistsOrNot){
           // sample:    AND ((modified BETWEEN 1769932800000 AND 1770191999999))
           var ___url_getJson ="https://hub.arcgis.com/api/search/v1/collections/site/items?"
           // openData= must encoded as openData%3D
-          ___url_getJson += "filter=((type IN (" + collection_data_string + "))) AND ((openData%3D" + open_data_string + "))" 
+          ___url_getJson += "filter=((type IN (" + collection_data_string + "))) AND ((openData=" + open_data_string + "))" 
           ___url_getJson += " AND ((modified BETWEEN " + start_date_string + " AND " + end_date_string + "))"
           
 

@@ -152,9 +152,6 @@ async function start_streaming(){
 
 
 
-        // convert orgId to org-name 
-
-
                           
         // in case of user clicked pause, when streaming ended, update the final result , show partial result for what we already have 
         show_current(input_current)

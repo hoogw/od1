@@ -760,9 +760,7 @@ function init_global_var(){
             console.log('(encoded)org=', _organization)
             //_organization = decodeURIComponent(_organization)  // do not use, will cause error 'URI malformed' if org string have percentage sign %, in fact it already been decoded automatically. 
             // set html page title, on browser tab title
-            if (_organization !== 'null') {
-              // because previously _organization has been decoded, null becomes string 'null'
-              console.log('html page title set same as url param (org=xxx)', _organization)
+            if (_organization) {
               // $("#title").text(_organization)
               // without jquery
               document.getElementById("title").innerHTML = _organization;

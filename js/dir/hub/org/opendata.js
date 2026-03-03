@@ -146,6 +146,7 @@ var name, org, url;
 var _url_candidate
 
 var _name_candidate
+var _org_candidate
 var _source_candidate
 var _owner_candidate
 var _orgId_candidate
@@ -182,6 +183,7 @@ var this_element
           url = ""
           _url_candidate = ""
           _name_candidate = ""
+        _org_candidate = ""
           _source_candidate = ""
           _owner_candidate = ""
           _orgId_candidate = ""

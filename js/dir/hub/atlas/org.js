@@ -177,16 +177,14 @@ function rendering_json_to_html(_results) {
     html += '<ol>';
     for (var i = 0; i < _results.length; ++i){
 
-       var _name = _results[i].name
-       var _org  = _results[i].org
-       var _url = _results[i].url
+      console.log("_results[i]",i,  _results[i])
+      if (_results[i]){
 
-       
-
-      
+          var _name = _results[i].name
+          var _org  = _results[i].org
+          var _url = _results[i].url
 
           html += '<li>' 
-
 
           // check url have 16 serial number or not
           if (get_serial_no_from_url(_url)){
@@ -234,14 +232,10 @@ function rendering_json_to_html(_results) {
 
 
             }//if
-
-
-
-
+ 
+          html += '</li>';  
             
-            html += '</li>';  
-            
-            
+       }//if  
        
     }// for
     html += '</ol>';

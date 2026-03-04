@@ -131,13 +131,14 @@ async function start_streaming(){
                        
   } // for pages
     
-  
+
+  console.log("stream ended, site_array", site_array)
   console.log(' stream ended, final showing ----###--- ',  input_current)
   // when streaming ended, update the final result , show partial result for what we already have 
   show_current(input_current)
   
 
-  console.log("stream ended, site_array", site_array)
+  
   
   // url  ...&sfilter_by=xxx,  always, all time show filtered results
   filter_result_by_filter_by()
@@ -348,6 +349,9 @@ var this_element
 
 // only for site
 function rendering_json_to_html(_results) {
+
+
+  console.log("rendering json to html", _results)
       
   var html = '';
   html += '<div>';
@@ -355,13 +359,12 @@ function rendering_json_to_html(_results) {
     html += '<ol>';
     for (var i = 0; i < _results.length; ++i){
 
-       var _name = _results[i].name
-       var _org  = _results[i].org
-       var _url = _results[i].url
+      console.log("_results[i]",i,  _results[i])
+      if (_results[i]){
 
-       
-
-      
+          var _name = _results[i].name
+          var _org  = _results[i].org
+          var _url = _results[i].url
 
           html += '<li>' 
 
@@ -379,15 +382,10 @@ function rendering_json_to_html(_results) {
 
           html +=  '</span>'  
                   
-                  
+          html += '</li>';  
 
-
-
+      }//if
             
-            html += '</li>';  
-            
-            
-       
     }// for
     html += '</ol>';
   } 

@@ -208,7 +208,9 @@ if (urlExistsOrNot){
                                                   // input_current = input_current.unshift(_this_page_raw_return.data);
                                                   
                                                   
-                                                  input_current = __this_page_array.concat(input_current);
+                                                  if (__this_page_array){
+        input_current = __this_page_array.concat(input_current);
+      }
 
                                                    // for count of item
               display_count_info('', input_current.length, __total_item_count, 'counter_label')

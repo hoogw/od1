@@ -119,6 +119,7 @@ async function start_streaming(){
             _this_page_raw_return = await ajax_getjson_common(_next_page_url);
           } else {
             console.log('you reach last page, there is no NEXT Page.', _this_page_raw_return.links)
+            break; // for loop
           }
 
       }
@@ -244,9 +245,9 @@ var this_element
           ){
    
             url = _url_candidate
-            urlExistsOrNot = hub_site_array.some(item => item["url"] == url); 
+            urlExistsOrNot = site_array.some(item => item["url"] == url); 
           
-            if ((urlExistsOrNot_customDomain) || (urlExistsOrNot_serialNo)){
+            if (urlExistsOrNot){
               // exist, skip, nothing to do
             } else {
               // not exist, add new
@@ -281,8 +282,8 @@ var this_element
                 _name_candidate = _source_candidate
               } else if (_owner_candidate){
                 _name_candidate = _owner_candidate
-              } else if (_orgId_candidate){
-                _name_candidate =_orgId_candidate
+              } else if (_title_candidate){
+                _name_candidate = _title_candidate
               } else {
                 _name_candidate = "org-name"
               }
@@ -301,41 +302,14 @@ var this_element
              //     name = name.replace("\/","");
               }
               
-              
-              
 
-              
-              // get arcgis rest serverice instance name, 
-              _serial_number = get_serial_no_from_url(_url_candidate)
-              // if there is serical number, then do not need instance name
-              if (_serial_number){
-                        // 1st priority serial number
-                        org = _serial_number
-              } else {
-
-
-                        // 3rd priority, without special instance name, then use domain
-                        try {
-                          urlObject = new URL(_url_candidate);
-                          _domain_candidate = urlObject.hostname;
-                          org = _domain_candidate
-                        } catch{
-
-                        }
-
-
-
-                        // 2st priority, without serial number, then use instance name
-                        _any_instance = get_instance_from_url(_url_candidate)
-                        if (_any_instance){
-                                org = _domain_candidate + " - " +_any_instance
-                        } else{
-                        }
+              // 3rd priority, without special instance name, then use domain
+              try {
+                urlObject = new URL(_url_candidate);
+                _domain_candidate = urlObject.hostname;
+                org = _domain_candidate.replace(".hub.arcgis.com", "")
+              } catch{
               }
-              
-
-
-          
               
 
               this_element = {
@@ -344,21 +318,8 @@ var this_element
                       "url":url
                     }
 
-
-
-              
-              if (_serial_number){
-                        // 32 serial number do not works, so ignore 32
-                        if (_serial_number.length < 17){
-                            arcgis_domain_serialNo_array.push(this_element) 
-                        }//if 32
-              } else {
-                        custom_domain_array.push(this_element)
-              }//if
-
-
-           
-
+              site_array.push(this_element)
+      
               _this_pageStandardArray.push(this_element)
               
             }
@@ -383,182 +344,57 @@ var this_element
 
   
 
+// only for site
 function rendering_json_to_html(_results) {
-
+      
   var html = '';
-  html += '<div>';              
+  html += '<div>';
   if (_results.length > 0) {
+    html += '<ol>';
+    for (var i = 0; i < _results.length; ++i){
 
-      html += '<ol>';
-      for (var i = 0; i < _results.length; ++i){
+       var _name = _results[i].name
+       var _org  = _results[i].org
+       var _url = _results[i].url
 
+       
 
+      
 
-// ********************  only    calculate for hub.arcgis.com , opendata.arcgis.com    only   ****************************
+          html += '<li>' 
 
-// sometime attributes.url is NOT null, but attributes.siteUrl is null.   if url is null, siteUrl always is null
-var ___siteUrl = _results[i].properties.url;   // true site url 
+          html += '<span onclick="open_popup_online(\''                    
+          html +=  _name + '\', \'' +  _url 
+          html += '\')">' 
 
-// - - hub only - -
-var _source = _results[i].properties.source;
-var _title = _results[i].properties.title;
+          if (_name){
+            html += '<span class="context" style="cursor: pointer;font-size:small;">' +  _name  +  '</span>' 
+          }
 
-var hub_name = _results[i].properties.name;
-var hub_orgId = _results[i].properties.orgId;    
-    
-var hub_created  = convertTimestampToHumanTime(Number(_results[i].properties.created));
-var hub_modified = convertTimestampToHumanTime(Number(_results[i].properties.modified));
+          if (_org){
+            html +=  '<sup><span class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</span></sup>' 
+          }
 
-var hub_owner = _results[i].properties.owner;
-
-// - - hub only - -
-var hub_numViews = _results[i].properties.numViews; 
-
-var hub_id = _results[i].properties.id;
-
-var hub_description = _results[i].properties.description;
-
-var hub_created_timestamp  = _results[i].properties.created;
-var hub_created  = convertTimestampToHumanTime(hub_created_timestamp);
-var hub_modified_timestamp = _results[i].properties.modified;
-var hub_modified = convertTimestampToHumanTime(hub_modified_timestamp);
+          html +=  '</span>'  
+                  
+                  
 
 
 
-//- - only opendata v3 - - removed on hub v1  - - 
-
-//var hub_orgName = _results[i].properties.orgName;    
-//var hub_organization = _results[i].properties.organization; 
-//var hub_orgContactEmail = _results[i].properties.orgContactEmail; 
-
-//var hub_region = _results[i].properties.region;
-//var hub_searchDescription = _results[i].properties.searchDescription;
-//var hub_server = _results[i].properties.server;
-//var hub_siteUrl = _results[i].properties.siteUrl;
-//var hub_slug = _results[i].properties.slug;
-//var hub_sourceProvenance = _results[i].properties.sourceProvenance;
-//var hub_hubType = _results[i].properties.hubType;
-
-//var links_self = _results[i].links.self;
-//var links_rawEs = _results[i].links.rawEs;
-//var links_itemPage = _results[i].links.itemPage;
-//var links_esriRest = _results[i].links.esriRest;
-
-
-//   - - end - - only opendata v3 - - removed on hub v1  - - 
-
-
-
-
-
-
-var hub_type = _results[i].properties.type;
-
-var hub_url = _results[i].properties.url;
-var hub_snippet = _results[i].properties.snippet;
-var hub_culture = _results[i].properties.culture;
-
-// - - hub only - -
-var links_href = _results[i].links.href;
-
-
-
-var org_short_name = ''
-org_short_name = getStringBetweenChars(___siteUrl, '-', '.hub.arcgis.com')
-if (!(org_short_name)){org_short_name = getStringBetweenChars(___siteUrl, '-', '.opendata.arcgis.com')}
-
-var hubsite_short_name = ''
-hubsite_short_name =  getStringBetweenChars(___siteUrl, '/', '.hub.arcgis.com')
-if (!(hubsite_short_name)){hubsite_short_name =  getStringBetweenChars(___siteUrl, '/', '.opendata.arcgis.com')}
-
-
-
-var portal_json_url = ''
-if (hub_orgId){ portal_json_url = 'https://www.arcgis.com/sharing/rest/portals/' +  hub_orgId + '?f=pjson'}
-
-var org_home_page_url = ''
-var org_home_gallery_url = ''
-if (org_short_name){ 
-org_home_page_url = 'https://' +  org_short_name + '.maps.arcgis.com'
-org_home_gallery_url = org_home_page_url + portal_gallery_html
-}
-
-var esri_hosted_arcgis_server_url = ''
-if (hub_orgId){ esri_hosted_arcgis_server_url = 'https://services.arcgis.com/'  + hub_orgId + '/arcgis/rest/services'}
-
-
-
-
-// ******************** end *************** only      calculate for hub.arcgis.com , opendata.arcgis.com    only   ****************************
-
-              html += '<li style="font-size:xx-small;">' 
-              
-
-
-              //    ++++++++++++++++    open popup when click  name     ++++++++++++++++ 
-                    // text  -   context class for mark.js highlight , no tool-tip , no link
-                    html += '<span class="context" onclick="open_popup_online(\''                    
-                    html +=  _source + '\', \''  +  ___siteUrl
-                    html += '\')">' 
-                    
-
-                    if (_source){
-                    html +=  '<span class="context" style="cursor: pointer;font-size:small;">' + _source  +  '</span>' 
-                    }
-                    
-                    if (_title){
-                      html += '<sup><span class="context" style="cursor: pointer; font-size:xx-small;">'  + _title + '</span></sup>'
-                    }
-                    
-                    html +=  '</span>'  
-
-                    
-                       
-                    
-                 //    ++++++++++++++++   end  +++++++++++   open popup when click  name     ++++++++++++++++ 
-   
-              html += '</li>';
-
-
-
-// check if already exist, will skip exist, only need unique             
-var urlExistsOrNot = site_array.some(item => item["site-url"] == ___siteUrl); 
-if (urlExistsOrNot){
-  console.log("exist, skip, nothing to do", ___siteUrl)
-} else {
-  // not exist, add new
-                  site_array.push({
-                     "site-name": _title,
-                     "site-source": _source,
-
-                     "site-url": ___siteUrl,
-                     "org-id": hub_orgId,
-                     "org-short-name": org_short_name,
-                     "org-name": "",
-                     "org-email": "",
-                     "owner": "",
-                     "region": "",
-                     "view-count": hub_numViews,
-                     "created-timestamp": "",
-                     "created ": hub_created,
-                     "modified-timestamp": "",
-                     "modified ": hub_modified,
-                  })
-
-}//if 
-
-
-      }// for
-
-      html += '</ol>';
+            
+            html += '</li>';  
+            
+            
+       
+    }// for
+    html += '</ol>';
   } 
-
   html +='</div>'
-  $('#json-renderer').html(html);
+   $('#json-renderer').html(html);
+            
+}  
+   
 
-}  // function
-
-     
 
   
 

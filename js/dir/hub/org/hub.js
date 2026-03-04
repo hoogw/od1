@@ -139,6 +139,7 @@ async function start_streaming(){
                     _this_page_raw_return = await ajax_getjson_common(_next_page_url);
                   } else {
                     console.log('you reach last page, there is no NEXT Page.', _this_page_raw_return.links)
+                    break; // for loop
                   }
 
               }

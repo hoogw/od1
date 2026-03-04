@@ -116,6 +116,7 @@ async function start_streaming(){
                   _this_page_raw_return = await ajax_getjson_common(_next_page_url);
               } else {
                   console.log('you reach last page, there is no NEXT Page.', _this_page_raw_return.meta)
+                  break; // for loop
               }
 
             } else {
@@ -216,7 +217,7 @@ var this_element
           _orgName_candidate = raw_json_array[i].attributes.orgName;
 
           _title_candidate = raw_json_array[i].properties.title;
-          
+
           _source_candidate = raw_json_array[i].attributes.source; 
 
            

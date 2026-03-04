@@ -176,6 +176,7 @@ var _source_candidate
 var _owner_candidate
 var _orgId_candidate
 var _orgName_candidate
+var _title_candidate
 
 var _serial_number
 var _any_instance
@@ -213,6 +214,7 @@ var this_element
           _owner_candidate = ""
           _orgId_candidate = ""
           _orgName_candidate = ""
+          _title_candidate = ""
 
           _serial_number = ""
           _any_instance = ""
@@ -237,6 +239,8 @@ var this_element
           // use this URL to look up org name by orgId https://www.arcgis.com/sharing/rest/portals/<orgId>?f=json
           
           _orgName_candidate = '' // raw_json_array[i].properties.name; This is layer name, 
+
+          _title_candidate = raw_json_array[i].properties.title;
 
           _source_candidate = raw_json_array[i].properties.source; 
 

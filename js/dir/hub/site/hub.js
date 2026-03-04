@@ -151,12 +151,15 @@ async function start_streaming(){
 var name, org, url;
 var _url_candidate
 
+
+
 var _name_candidate
 var _org_candidate
 var _source_candidate
 var _owner_candidate
 var _orgId_candidate
 var _orgName_candidate
+var _title_candidate
 
 var _serial_number
 var _any_instance
@@ -166,8 +169,8 @@ var urlObject
 
 
 var start_position
-var urlExistsOrNot_customDomain
-var urlExistsOrNot_serialNo
+var urlExistsOrNot
+
 var this_element
 
 
@@ -189,11 +192,12 @@ var this_element
           url = ""
           _url_candidate = ""
           _name_candidate = ""
-        _org_candidate = ""
+          _org_candidate = ""
           _source_candidate = ""
           _owner_candidate = ""
           _orgId_candidate = ""
           _orgName_candidate = ""
+          _title_candidate = ""
 
           _serial_number = ""
           _any_instance = ""
@@ -219,6 +223,8 @@ var this_element
           
           _orgName_candidate = '' // raw_json_array[i].properties.name; This is layer name, 
 
+          _title_candidate = raw_json_array[i].properties.title;
+
           _source_candidate = raw_json_array[i].properties.source; 
 
            
@@ -234,20 +240,12 @@ var this_element
 
           // skip tile.arcgis.com
           if (_url_candidate 
-            && _url_candidate.includes("/rest/services") 
+            && _url_candidate.includes(".hub.arcgis.com") 
           ){
-    /*
-            && !(_url_candidate.includes("tiles.arcgis.com"))  // do not handle tiles, so exclude them
-            && !(_url_candidate.includes("utility.arcgis.com"))  // these kind have 32 char serial number, always not working, so exclude them
-          ){
-    */
-            
-            
-            
-            start_position = _url_candidate.indexOf("/rest/services")
-            url = _url_candidate.substring(0,start_position) + "/rest/services"
-            urlExistsOrNot_customDomain = custom_domain_array.some(item => item["url"] == url); 
-            urlExistsOrNot_serialNo = arcgis_domain_serialNo_array.some(item => item["url"] == url); 
+   
+            url = _url_candidate
+            urlExistsOrNot = hub_site_array.some(item => item["url"] == url); 
+          
             if ((urlExistsOrNot_customDomain) || (urlExistsOrNot_serialNo)){
               // exist, skip, nothing to do
             } else {

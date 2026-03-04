@@ -32,7 +32,7 @@
  // when stop search button clicked, this will become true.
  var stop_search_status = false;
 
-
+var __this_page_array
 
 var ___url_getJson     
 var _search_data_content

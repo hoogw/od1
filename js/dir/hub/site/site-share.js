@@ -23,7 +23,7 @@ var current_filter_result_count;
 var stop_search_status = false;
 
 
-
+var __this_page_array
 
 var ___url_getJson    
 
@@ -204,6 +204,12 @@ var ___url_getJson
         
         
         
+                   
+                  function empty_last_time_result(){
+                     rendering_json_to_html({});
+                  }   
+                   
+                  
         
         
         function stop_streaming(){

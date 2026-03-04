@@ -608,8 +608,8 @@ var this_element
   (async function($){
   
                
-               // not get url parameters, because arcgisServerList do not need any url parameters.
-               // but here only need to get "linktopath" etc.....
+               
+               
                init_global_var()
 
                

@@ -25,6 +25,7 @@ var stop_search_status = false;
 
 
 
+var ___url_getJson    
 
   
   
@@ -193,7 +194,7 @@ var stop_search_status = false;
       function init_streaming_event_handler() {
 
                 
-                $('#start_streaming_button').on('click',start_streaming);
+                $('#start_streaming_button').on('click',prepare_streaming_url);
                 
                 $('#stop_streaming_button').on('click',stop_streaming);
               
@@ -247,24 +248,15 @@ var stop_search_status = false;
   
    
                
-               // not get url parameters, because arcgisServerList do not need any url parameters.
-               // but here only need to get "linktopath" etc.....
+               
+               
                init_global_var()
                
                init_search_button_event_handler();
 
-               
-
                init_streaming_event_handler();
 
-               // only when user click start button to start, uncomment here to auto start
-               //start_streaming()
-               
-               
- 
-                // can't be here, must await until streaming completed
-                // filter_result_by_filter_by()
-
+             
   
   
 })(jQuery);

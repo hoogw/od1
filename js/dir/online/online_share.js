@@ -82,6 +82,8 @@ var input_current
     async function scan_root_folder(){ // for hub arcgis online download json only 
     // for hub arcgis online download json only  
 
+    var _top_msg = '<a target="_blank" href="' + ___url_string + "/search"+ '">Home</a>'
+    $("#top-message").html(_top_msg)
     
         //sample:    hub-domain + /data.json    http://opendata.ajax.ca/data.json 
         ___url_getJson = ___url_string + '/data.json';

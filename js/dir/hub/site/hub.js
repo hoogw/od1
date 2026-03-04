@@ -2,6 +2,157 @@
 
 
 
+      
+
+ function prepare_streaming_url(){ 
+
+
+          
+  // must convert YYYY-MM-DD to unix time (millisec) 15 digital 
+  var start_date_string = Date.parse($('#start_date').val().trim())
+  // must convert YYYY-MM-DD to unix time (millisec) 15 digital 
+  var end_date_string = Date.parse($('#end_date').val().trim())
+
+  var collection_data_string = encodeURIComponent($('#collection_data').val().trim())
+  var open_data_string = encodeURIComponent($('#open_data').val().trim())
+    
+
+  // sample: https://hub.arcgis.com/api/search/v1/collections/all/items?filter=((type IN ('Hub Site Application', 'Site Application'))) AND ((openData=true)) AND ((modified BETWEEN 1769932800000 AND 1770191999999))&limit=12&startindex=13
+  // sample: &filter=((type IN ('Hub Site Application', 'Site Application'))) AND ((openData=true))
+  // sample:    AND ((modified BETWEEN 1769932800000 AND 1770191999999))
+  ___url_getJson ="https://hub.arcgis.com/api/search/v1/collections/site/items?"
+  // openData= must encoded as openData%3D
+  ___url_getJson += "filter=((type IN (" + collection_data_string + "))) AND ((openData=" + open_data_string + "))" 
+  //___url_getJson += " AND ((modified BETWEEN " + start_date_string + " AND " + end_date_string + "))"
+  ___url_getJson += " AND ((created BETWEEN " + start_date_string + " AND " + end_date_string + "))"
+
+console.log('___url_getJson', ___url_getJson)
+
+        start_streaming()
+
+
+ }
+
+                           
+
+
+
+
+// this function only run 1 time
+async function start_streaming(){
+    
+    
+  stop_search_status = false;
+
+  // each time user click search button, start new streaming, let total accumulate..
+  // by comment out this line
+  //input_current = [];  
+
+                    
+  var _this_page_raw_return = {}
+  var _next_page_url = ___url_getJson;
+
+    
+
+  // first time ajax only need total site number, not using the data
+  _this_page_raw_return = await ajax_getjson_common(_next_page_url);
+  
+  
+  
+                              
+                                          
+/**/
+//  --- for hub.com v1   --- 
+/**/
+
+
+                              // only for opendata v3 url https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&filter[openData]=true&sort=create
+                                // __total_item_count = _this_page_raw_return.meta.stats.totalCount;
+
+                                // for hub.com v1 url https://hub.arcgis.com/api/search/v1/collections/site
+                                __total_item_count = _this_page_raw_return.numberMatched
+                              
+                                  // each ajax get 1 page 20 item
+
+                                    var loop = __total_item_count / 10 
+
+                                  for (i = 0; i < (loop); i++) { 
+                                  
+                                  
+                                        // only run if  user clicked the stop button, killed streaming 
+                                        if (stop_search_status){
+                                            break; // break for loop
+                                        }
+                                  
+                                  
+                                  
+                                  
+                                  
+                                        console.log(' for loop - next page url - ',  i,  _next_page_url)
+                                  
+                                  
+                                            _this_page_raw_return = {}
+
+                                            _this_page_raw_return = await ajax_getjson_common(_next_page_url);
+                                                                                            
+                                            if ((_this_page_raw_return) && (_this_page_raw_return.features)){
+                                                
+                                                          var __this_page_array = _this_page_raw_return.features
+                                            
+                                            
+                                                          // we want to add new array from the beginning of old array, to show changing to the user. 
+                                                          //https://stackoverflow.com/questions/8073673/how-can-i-add-new-array-elements-at-the-beginning-of-an-array-in-javascript
+                                                            // input_current = input_current.concat(_this_page_raw_return.features);
+                                                            
+                                                            //hub.data.search.js:668 Uncaught (in promise) TypeError: input_current.unshift is not a function
+                                                            //unshift only works for 1 element, not work for another array.
+                                                            // input_current = input_current.unshift(_this_page_raw_return.features);
+                                                            
+                                                            
+                                                            input_current = __this_page_array.concat(input_current);
+                                                            
+                                                            // for count of item
+      display_count_info('', input_current.length, __total_item_count, 'counter_label')
+      // for count of loop
+      display_count_info('', i, loop, 'counter_label2')
+                                                            rendering_json_to_html(__this_page_array)
+                                                            
+                                                            
+                                                            _next_page_url = ''
+                                                            for (let i = 0; i < _this_page_raw_return.links.length; i++) {
+                                                              if (_this_page_raw_return.links[i].rel == 'next'){
+                                                                _next_page_url = _this_page_raw_return.links[i].href
+                                                              }
+                                                            }
+
+                                  
+                                            }// if
+                                            
+                                  } // for
+                                  
+                          
+/**/
+//  --- end  ---  for hub.com v1    --- 
+/**/
+
+                                  
+                                  
+                                  
+                                // in case of user clicked pause, when streaming ended, update the final result , show partial result for what we already have 
+                                show_current(input_current)
+                                console.log(' stream ended, final showing ----###--- ',  input_current)
+
+                                console.log("stream ended, site_array", site_array)
+                                
+                                // url  ...&sfilter_by=xxx,  always, all time show filtered results
+                                filter_result_by_filter_by()
+                
+}
+                  
+                  
+                          
+                        
+  
 
 function rendering_json_to_html(_results) {
 
@@ -182,146 +333,6 @@ if (urlExistsOrNot){
 
   
 
-      
-
-
-
-                           
-
-
-
-        
-        // this function only run 1 time
-        async function start_streaming(){
-            
-            
-          stop_search_status = false;
-        
-          input_current = []; 
-
-                                    
-          // must convert YYYY-MM-DD to unix time (millisec) 15 digital 
-          var start_date_string = Date.parse($('#start_date').val().trim())
-          // must convert YYYY-MM-DD to unix time (millisec) 15 digital 
-          var end_date_string = Date.parse($('#end_date').val().trim())
-
-          var collection_data_string = encodeURIComponent($('#collection_data').val().trim())
-          var open_data_string = encodeURIComponent($('#open_data').val().trim())
-            
-
-          // sample: https://hub.arcgis.com/api/search/v1/collections/all/items?filter=((type IN ('Hub Site Application', 'Site Application'))) AND ((openData=true)) AND ((modified BETWEEN 1769932800000 AND 1770191999999))&limit=12&startindex=13
-          // sample: &filter=((type IN ('Hub Site Application', 'Site Application'))) AND ((openData=true))
-          // sample:    AND ((modified BETWEEN 1769932800000 AND 1770191999999))
-          var ___url_getJson ="https://hub.arcgis.com/api/search/v1/collections/site/items?"
-          // openData= must encoded as openData%3D
-          ___url_getJson += "filter=((type IN (" + collection_data_string + "))) AND ((openData=" + open_data_string + "))" 
-          ___url_getJson += " AND ((modified BETWEEN " + start_date_string + " AND " + end_date_string + "))"
-          
-
-          var _this_page_raw_return = {}
-          var _next_page_url = ___url_getJson;
-
-            
-
-          // first time ajax only need total site number, not using the data
-          _this_page_raw_return = await ajax_getjson_common(_next_page_url);
-          
-          
-          
-                                      
-                                                  
-/**/
-//  --- for hub.com v1   --- 
-/**/
-
-  
-                                      // only for opendata v3 url https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&filter[openData]=true&sort=create
-                                       // __total_item_count = _this_page_raw_return.meta.stats.totalCount;
-
-                                       // for hub.com v1 url https://hub.arcgis.com/api/search/v1/collections/site
-                                       __total_item_count = _this_page_raw_return.numberMatched
-                                      
-                                          // each ajax get 1 page 20 item
-
-                                           var loop = __total_item_count / 10 
-
-                                         for (i = 0; i < (loop); i++) { 
-                                          
-                                          
-                                                // only run if  user clicked the stop button, killed streaming 
-                                                if (stop_search_status){
-                                                    break; // break for loop
-                                                }
-                                          
-                                          
-                                          
-                                          
-                                          
-                                                console.log(' for loop - next page url - ',  i,  _next_page_url)
-                                          
-                                          
-                                                    _this_page_raw_return = {}
-
-                                                    _this_page_raw_return = await ajax_getjson_common(_next_page_url);
-                                                                                                    
-                                                    if ((_this_page_raw_return) && (_this_page_raw_return.features)){
-                                                        
-                                                                  var __this_page_array = _this_page_raw_return.features
-                                                    
-                                                    
-                                                                  // we want to add new array from the beginning of old array, to show changing to the user. 
-                                                                  //https://stackoverflow.com/questions/8073673/how-can-i-add-new-array-elements-at-the-beginning-of-an-array-in-javascript
-                                                                    // input_current = input_current.concat(_this_page_raw_return.features);
-                                                                    
-                                                                    //hub.data.search.js:668 Uncaught (in promise) TypeError: input_current.unshift is not a function
-                                                                    //unshift only works for 1 element, not work for another array.
-                                                                    // input_current = input_current.unshift(_this_page_raw_return.features);
-                                                                    
-                                                                    
-                                                                    input_current = __this_page_array.concat(input_current);
-                                                                   
-                                                                    // for count of item
-              display_count_info('', input_current.length, __total_item_count, 'counter_label')
-              // for count of loop
-              display_count_info('', i, loop, 'counter_label2')
-                                                                    rendering_json_to_html(__this_page_array)
-                                                                    
-                                                                    
-                                                                    _next_page_url = ''
-                                                                    for (let i = 0; i < _this_page_raw_return.links.length; i++) {
-                                                                      if (_this_page_raw_return.links[i].rel == 'next'){
-                                                                        _next_page_url = _this_page_raw_return.links[i].href
-                                                                      }
-                                                                    }
-   
-                                          
-                                                    }// if
-                                                   
-                                          } // for
-                                          
-                                  
-/**/
-//  --- end  ---  for hub.com v1    --- 
-/**/
-
-                                         
-                                          
-                                          
-                                        // in case of user clicked pause, when streaming ended, update the final result , show partial result for what we already have 
-                                        show_current(input_current)
-                                        console.log(' stream ended, final showing ----###--- ',  input_current)
-
-                                        console.log("stream ended, site_array", site_array)
-                                        
-                                        // url  ...&sfilter_by=xxx,  always, all time show filtered results
-                                        filter_result_by_filter_by()
-                        
-                          }
-                          
-                          
-                          
-                        
-  
   
   
   

@@ -126,9 +126,9 @@ async function start_streaming(){
                        
         } // for pages
                           
-        // in case of user clicked pause, when streaming ended, update the final result , show partial result for what we already have 
-        show_current(input_current)
         console.log(' stream ended, final showing ----###--- ',  input_current)
+        // when streaming ended, update the final result , show partial result for what we already have 
+        show_current(input_current)
 
        
         

@@ -41,7 +41,6 @@ console.log('___url_getJson', ___url_getJson)
 // this function only run 1 time
 async function start_streaming(){
     
-    
   stop_search_status = false;
 
   // each time user click search button, start new streaming, let total accumulate..
@@ -58,15 +57,15 @@ async function start_streaming(){
 
   // first time ajax only need total site number, not using the data
   _this_page_raw_return = await ajax_getjson_common(_next_page_url);
-   console.log('this page raw return', _this_page_raw_return)
+  console.log('this page raw return', _this_page_raw_return)
      
-// only for opendata v3 url https://opendata.arcgis.com/api/v3/search?filter[collection]=any(Site)&filter[openData]=true&sort=create
-  // __total_item_count = _this_page_raw_return.meta.stats.totalCount;
+
 
   // for hub.com v1 url https://hub.arcgis.com/api/search/v1/collections/site
   __total_item_count = _this_page_raw_return.numberMatched
    console.log("total loop needed is : ", __total_item_count / 10)
- // must add 1, for example total is 12,  12/20 = 0.6, floor is 0, must add 1
+ 
+  // must add 1, for example total is 12,  12/20 = 0.6, floor is 0, must add 1
   var loop = Math.floor(__total_item_count / 10 ) + 1
 
   for (i = 0; i < (loop); i++) { 

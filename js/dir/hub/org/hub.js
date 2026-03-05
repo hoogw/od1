@@ -326,8 +326,12 @@ var this_element
                   name = name.replace("'","`");
               } else if (name.includes("\\")){
                   name = name.replace("\\", "");
-             // } else if (name.includes("\/")){
-             //     name = name.replace("\/","");
+              } else if (name.includes("\/")){
+                  name = name.replace("\/","");
+              } else if (name.includes(",")){
+
+                // comma must be removed 
+                  name = name.replace(","," ");
               }
               
               

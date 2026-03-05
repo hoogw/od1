@@ -292,8 +292,11 @@ var  base_url = '';
                  
                  
                   
-                  var url_template_online
+                  var url_template_home
                   var url_template_server
+                  var url_template_layer
+                  var url_template_online
+                  
                   
                 
                   var url_template_base_esri2 
@@ -315,27 +318,17 @@ var  base_url = '';
 
 
 
-           // get full list
-          
-           var csv_realtimelive = "https://mappingsupport.com/p/arcgis_list/list-federal-state-county-city-GIS-servers.csv"
-           var mappingsupport_csv_url = "https://transparentgov.net/data/live_data/list-federal-state-county-city-GIS-servers-2026-2-11-(8473).csv"
-           
-         
-
-         // no parameter, all use global var
+         // for open-data only
           function build_url_base_template(){
 
 
+           
+          url_template_home = window.location.origin + "/open-data/dir/rest/root/home.html"
+          url_template_server = window.location.origin + "/open-data/dir/rest/svr/server.html"
+          url_template_layer = window.location.origin + "/open-data/dir/rest/lyr/layer.html"
+          url_template_online = window.location.origin + "/open-data/dir/online/layers.html"
 
         
-
-
-          url_template_online = window.location.protocol +  '//' + window.location.host + "/json2tree/esri/online/layers.html"
-
-          
-
-
-            url_template_server = window.location.protocol +  '//' + window.location.host + "/json2tree/esri/server/server.html"
 
           
           

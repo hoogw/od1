@@ -2940,39 +2940,29 @@ function open_popup(_id, _name, _type, _url ){
 // only for MapServer, or FeatureServer
 function open_popup_server(_name, _url ){
 
-   
-    console.log(" you click 1 layer, open pop up window _name", _name)
-    
-    console.log(" you click 1 layer, open pop up window _url", _url)
-
-    // template is fixed, will not use  
-    //_newTab_link =  url_template_server
-
-    // use relative path is best way 
-    
-     var _newTab_link
-     if (window.location.pathname.includes('root/servers2.html')){
-        // parent is rest
-        _newTab_link =  window.location.origin + window.location.pathname.replace('root/servers2.html', 'svr/server.html')
-     } else if (window.location.pathname.includes('hub/layer/hub.html')){
-        // parent is hub
-        _newTab_link =  window.location.origin + window.location.pathname.replace('hub/layer/hub.html', 'rest/svr/server.html')
-     } else if (window.location.pathname.includes('hub/atlas/server.html')){
-        _newTab_link =  window.location.origin + window.location.pathname.replace('hub/atlas/server.html', 'rest/svr/server.html') 
-    }
-
-
-     
-            _newTab_link += '?org=' + _name  
-            _newTab_link += '&url=' + _url 
-            
-            _newTab_link += '&model=' + model // will pass model number to server.js
-            console.log('_newTab_link', _newTab_link)
-
-            //window.open(_newTab_link, "mozillaWindow", "popup");
-            window.open(_newTab_link, "_blank", "popup");
+    var _newTab_link = url_template_server
+    _newTab_link += '?org=' + _name  
+    _newTab_link += '&url=' + _url 
+    _newTab_link += '&model=' + model // will pass model number to server.js
+    console.log('_newTab_link', _newTab_link)
+    //window.open(_newTab_link, "mozillaWindow", "popup");
+    window.open(_newTab_link, "_blank", "popup");
 }
 
+
+
+
+
+function open_popup_home(_name, _url ){
+
+    var _newTab_link = url_template_home 
+    _newTab_link += '?org=' + _name  
+    _newTab_link += '&url=' + _url 
+    _newTab_link += '&model=' + model // will pass model number to server.js
+    console.log('_newTab_link', _newTab_link)
+    //window.open(_newTab_link, "mozillaWindow", "popup");
+    window.open(_newTab_link, "_blank", "popup");
+}
 
 
 
@@ -2981,69 +2971,13 @@ function open_popup_server(_name, _url ){
 function open_popup_online(_site_name, _site_url){
 
 
-    // template is fixed, will not use  
-   // var _newTab_link = url_template_online
-
-
-   console.log(" window.location.origin + window.location.pathname",  window.location.origin + window.location.pathname)
-   console.log("window.location.pathname.replace('hub/site/opendata.html', 'online/layers.html'", window.location.pathname.replace('hub/site/opendata.html', 'online/layers.html'))
-   console.log(" new tab link", window.location.origin + window.location.pathname.replace('hub/site/opendata.html', 'online/layers.html'))
-    
-   // use relative path is best way 
-    // parent is hub/site
-    var _newTab_link
-    if (window.location.pathname.includes('hub/site/opendata.html')){
-      _newTab_link =  window.location.origin + window.location.pathname.replace('hub/site/opendata.html', 'online/layers.html')
-    } else if (window.location.pathname.includes('hub/site/hub.html')){
-       _newTab_link =  window.location.origin + window.location.pathname.replace('hub/site/hub.html', 'online/layers.html')
-    }
-      
-
-
-
+    // template is fixed, 
+   var _newTab_link = url_template_online
     _newTab_link += "?model=6122"
     _newTab_link += '&url=' + _site_url
     _newTab_link += '&org=' + _site_name
-
     console.log('_newTab_link', _newTab_link)
     //window.open(_newTab_link, "mozillaWindow", "popup");
     window.open(_newTab_link, "_blank", "popup");
 
-}
-
-
-
-
-
-
-function open_popup_home(_name, _url ){
-
-   
-    console.log(" you click 1 root, open pop up window _name", _name)
-
-    console.log(" you click 1 root, open pop up window _url", _url)
-
-    // template is fixed, will not use  
-    //_newTab_link =  url_template_server
-
-    // use relative path is best way 
-    
-     var _newTab_link =  window.location.origin + "/open-data/dir/rest/root/home.html"
-    
-
-            
-
-
-            _newTab_link += '?org=' + _name  
-            _newTab_link += '&url=' + _url 
-           _newTab_link += '&timeout=15000' // atlas home root take very long time to response, make it 15 sec
-
-
-
-
-            _newTab_link += '&model=' + model // will pass model number to server.js
-            console.log('_newTab_link', _newTab_link)
-
-            //window.open(_newTab_link, "mozillaWindow", "popup");
-            window.open(_newTab_link, "_blank", "popup");
 }

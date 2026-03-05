@@ -7,11 +7,6 @@ var input_current
 
 
 
-                         
-
-
-
-
 
 
 

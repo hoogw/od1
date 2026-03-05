@@ -1824,22 +1824,22 @@ function init_global_var(){
 
 
        
-      // 3 level try, jsonp > json(cors) > proxy 
+      // jsonp > json(cors)
         async function ajax_jsonp_json_proxy(___url_getJson, _custom_timeout){
             
 
-            // 3 level try, jsonp > json(cors) > proxy ,   good for arcgis server rest api
+            // jsonp > json(cors)  ,   good for arcgis server rest api
 
            // first try jsonp 
            //  if jsonp failed, catch and try  datatype:json
-           // if json failed, catch and try proxy
+         
 
           
 
            // always with time out option 
 
 
-          console.log('ajax cross is default, 3 try, jsonp,cors,proxy (timeout)', _custom_timeout ,___url_getJson)   
+          console.log('ajax cross is default, 3 try, jsonp,cors (timeout)', _custom_timeout ,___url_getJson)   
           var input;
 
 
@@ -1913,64 +1913,7 @@ function init_global_var(){
                               
                               console.log('catch( json_error_2 )', json_error_2)
                               
-                              // not return error yet, because we will try proxy 
-
                              
-
-
-
-                            try {
-                          
-                           
-                                 var _proxified_url = proxify_url(___url_getJson)
-
-
-                                 console.log('try ajax proxy =======> ',  _proxified_url)  
-                              
-                              input = await $.ajax({
-                                                            timeout: _custom_timeout,
-                                                            url:_proxified_url,
-
-                                                            dataType: 'json',
-
-
-                                                            success: function (data) {
-                                                              
-                                                            }, // success
-                                                            
-                                                            error: function (proxy_error_3) {
-                                                              
-                                                              console.log('throw error event (ajax proxy failed proxy_error_1)', proxy_error_3)                                        
-                                                            }
-                                                            
-                                                        });
-                          
-                          
-                          
-                          
-
-
-                        
-                                        } catch(proxy_error_3){
-
-
-
-                                                        // can't return whole error object, if return whole error object, must use catch to handle it later down stream. 
-                                                        var error_status = {
-                                                          errorFrom: 'ajax_jsonp_json_proxy_proxy3',
-                                                          readyState:proxy_error_3.readyState,
-                                                          responseJSON:proxy_error_3.responseJSON,
-                                                          status:proxy_error_3.status,
-                                                          statusText: proxy_error_3.statusText
-                                                        
-                                                        }
-
-                                                        return error_status
-
-                                          } // try proxy 3
-
-
-
 
                               
                           } // try datatype:json   2
@@ -1997,18 +1940,18 @@ function init_global_var(){
       async function ajax_json_proxy(___url_getJson, _custom_timeout){
             
 
-          // 2 level try, json > proxy,  good for hub  /data.json
+          //  try, json ,  good for hub  /data.json
 
 
         // first try json 
-        //  if json failed, catch and try  proxy
+    
 
        
 
         // always with time out option 
 
 
-       console.log('ajax json --> proxy ',___url_getJson)   
+       console.log('ajax json  ',___url_getJson)   
        var input;
 
 
@@ -2037,71 +1980,7 @@ function init_global_var(){
 
                        console.log('catch ( ajax jsonp failed jsonp_error_1 ) ', json_error_1)  
                        
-                       // not return error yet, because we will try proxy
-
-                       var _proxified_url = proxify_url(___url_getJson)
-
-
-                       console.log('try ajax proxy =======> ',  _proxified_url)  
-                       
-                       
-                       try {
-                       
-                               // add timeout, because if one ajax pending for ever, it could skip it move to next ajax, instead of stuck for ever.
-                               
-                               input = await $.ajax({
-                                                             timeout: _custom_timeout,
-                                                             url:_proxified_url,
-
-                                                             dataType: 'json',
-
-
-                                                             success: function (data) {
-                                                               
-                                                             }, // success
-                                                             
-                                                             error: function (proxy_error_2) {
-                                                               
-                                                               console.log('throw error event (ajax proxy failed proxy_error_2)', proxy_error_2)                                        
-                                                             }
-                                                             
-                                                         });
-                           
-                           
-                           
-                           
-
-
-                         
-                       } catch(proxy_error_2){
-                           
-                           
-                           // http://localhost:10/json2tree/searchlayer.html?url=https://maps.lacity.org/arcgis/rest/services
-                           // internal folder will failed both ajax call, jsonp and non-jsonp. must catch error.
-                           //The error is No 'Access-Control-Allow-Origin' header is present, but the problem is not that, 
-                           // the problem is internal folder is forbidden.
-
-                           
-                           console.log('catch( proxy_error_2 )', proxy_error_2)
-                           
                           
-                           var error_status = {
-                                                    errorFrom: 'ajax_json_proxy',
-                                                    readyState:proxy_error_2.readyState,
-                                                    responseJSON:proxy_error_2.responseJSON,
-                                                    status:proxy_error_2.status,
-                                                    statusText: proxy_error_2.statusText
-                                                  
-                                                  }
-                    
-                            return error_status
-
-                           
-                       }     
-                   
-                   
-                   
-
      }// try - catch
 
 

@@ -2184,7 +2184,7 @@ async function get_mapserver_info_html(mapserver_url){
 
 
       
- /**/
+                 /**/
                   //  --- papaparse   --- 
                   /**/
                   
@@ -2324,10 +2324,10 @@ async function get_mapserver_info_html(mapserver_url){
                     }
           
           
-          /**/
-          //  --- end  ---  papaparse    --- 
-          /**/
-             
+                    /**/
+                    //  --- end  ---  papaparse    --- 
+                    /**/
+                        
 
 
 
@@ -2338,10 +2338,6 @@ async function get_mapserver_info_html(mapserver_url){
     /**/
     // ------- let's go to your REST api  -------
     /**/
-
-
-    
-
 
 
                 function letsgo_handler(){
@@ -2537,60 +2533,60 @@ async function get_mapserver_info_html(mapserver_url){
 
 
 
- // +++++++++++ helper ++++++++++++++
+    // +++++++++++ helper ++++++++++++++
 
-                                function render_message_service_panel(_msg_){
+            function render_message_service_panel(_msg_){
 
-                                    var list_array = ["<div class='list-group'>"];
-                                   
-                                    list_array.push("<label>" + _msg_ + "</label>")
-                                    list_array.push("</div>")
-                                    $("#inside_folder_item_list").html(list_array.join(""));
-                                }
+                var list_array = ["<div class='list-group'>"];
+                
+                list_array.push("<label>" + _msg_ + "</label>")
+                list_array.push("</div>")
+                $("#inside_folder_item_list").html(list_array.join(""));
+            }
 
-                                function render_message_icon_panel(_msg_){
+            function render_message_icon_panel(_msg_){
 
-                                    var list_array = ["<div class='list-group'>"];
-                                   
-                                    list_array.push("<label>" + _msg_ + "</label>")
-                                    list_array.push("</div>")
-                                    $("#icon_list").html(list_array.join(""));
+                var list_array = ["<div class='list-group'>"];
+                
+                list_array.push("<label>" + _msg_ + "</label>")
+                list_array.push("</div>")
+                $("#icon_list").html(list_array.join(""));
 
-                                }
-
-                   
+            }
 
 
-                                function progressing_info(_which_panel, _signal, _info){
 
 
-                                    console.log(_which_panel, ' ( '+ _signal + ' ) ' + _info)
-                                                    
-                                    switch(_which_panel) {
-
-                                        case 'folder':
-                                            $('#message_root_folder').html('<a target="_blank" href="' + ___url_string + '">('+ _signal + ')' + _info + '</a>');  
-                                          break;
-
-                                        case 'layer':
-                                            $('#message_mapserver').text(' ('+ _signal + ')' + _info); 
-                                          break;
-
-                                        case 'icon':
-                                            $('#message_icon').text(' ('+ _signal + ')' + _info); 
-                                            break;
+            function progressing_info(_which_panel, _signal, _info){
 
 
-                                        default:
-                                          // code block
-                                      }
-                                                        
-                                                    
+                console.log(_which_panel, ' ( '+ _signal + ' ) ' + _info)
+                                
+                switch(_which_panel) {
+
+                    case 'folder':
+                        $('#message_root_folder').html('<a target="_blank" href="' + ___url_string + '">('+ _signal + ')' + _info + '</a>');  
+                        break;
+
+                    case 'layer':
+                        $('#message_mapserver').text(' ('+ _signal + ')' + _info); 
+                        break;
+
+                    case 'icon':
+                        $('#message_icon').text(' ('+ _signal + ')' + _info); 
+                        break;
+
+
+                    default:
+                        // code block
+                    }
                                     
+                                
+                
 
-                                }
+            }
 
-                     // +++++++++++ end ++++++++++  helper ++++++++++++++
+    // +++++++++++ end ++++++++++  helper ++++++++++++++
 
 
 
@@ -2718,132 +2714,236 @@ async function get_mapserver_info_html(mapserver_url){
 
 
 
+            // when user click a folder, find all sub-item which use this _folder_item_id as their parent id, show sub-item (children item) at service panel (center)
+            // will not use jstree, only display list collection
+            function render_folder(_parent_id){
 
 
+                console.log('render  folder  id is ', _parent_id )
 
-
-
+                
             
+                var list_array = ["<div class='list-group'>"];
 
 
+                for (f = 0; f < folder_structure_flatjson.length; f++) {
+                
+                    // if (folder_structure_flatjson[f].parent == _parent_id.toString()) {
+                    if (folder_structure_flatjson[f].parent == _parent_id) {
 
 
-            
-
-                                            // when user click a folder, find all sub-item which use this _folder_item_id as their parent id, show sub-item (children item) at service panel (center)
-                                            // will not use jstree, only display list collection
-                                            function render_folder(_parent_id){
-
-
-                                                console.log('render  folder  id is ', _parent_id )
-
-                                               
-                                            
-                                                var list_array = ["<div class='list-group'>"];
-
-
-                                                for (f = 0; f < folder_structure_flatjson.length; f++) {
                                                 
-                                                    // if (folder_structure_flatjson[f].parent == _parent_id.toString()) {
-                                                    if (folder_structure_flatjson[f].parent == _parent_id) {
+
+                                    // no need based on type, always use  onclick='selectFolderLevelItem(id)'
+                                    // when user click list-collection any type item(group layer, feature layer, or table), always trigger select correspondent node on jstree, so no mather what type is.
+                                    // just like (equal to) user manually click any jstree node, then follow downstream processing. 
+
+                        
+
+                                    if (folder_structure_flatjson[f].type == 'folder') {
 
 
-                                                                                
-
-                                                                    // no need based on type, always use  onclick='selectFolderLevelItem(id)'
-                                                                    // when user click list-collection any type item(group layer, feature layer, or table), always trigger select correspondent node on jstree, so no mather what type is.
-                                                                    // just like (equal to) user manually click any jstree node, then follow downstream processing. 
-
+                                            // folder 
+                                                            
                                                         
+                                                        // List group with transparent background  https://github.com/twbs/bootstrap/issues/29318
+                                                            var _html_tag   = "<a href='javascript:;' onclick='selectFolderLevelItem(" + folder_structure_flatjson[f].id + ");'>";
 
-                                                                    if (folder_structure_flatjson[f].type == 'folder') {
+                                                            _html_tag  +=       "<span class='" + folder_structure_flatjson[f].icon + "' aria-hidden='true'></span>"  
+                                                            _html_tag  +=       "  " +  folder_structure_flatjson[f].text
 
+                                                            _html_tag  +=    "</a>"
+                                                            _html_tag  +=    "</br>"
 
-                                                                            // folder 
-                                                                                            
-                                                                                        
-                                                                                     // List group with transparent background  https://github.com/twbs/bootstrap/issues/29318
-                                                                                            var _html_tag   = "<a href='javascript:;' onclick='selectFolderLevelItem(" + folder_structure_flatjson[f].id + ");'>";
-
-                                                                                            _html_tag  +=       "<span class='" + folder_structure_flatjson[f].icon + "' aria-hidden='true'></span>"  
-                                                                                            _html_tag  +=       "  " +  folder_structure_flatjson[f].text
-
-                                                                                            _html_tag  +=    "</a>"
-                                                                                            _html_tag  +=    "</br>"
-
-                                                                                            list_array.push(_html_tag);
-                                                                                    
+                                                            list_array.push(_html_tag);
+                                                    
 
 
-                                                                    } else {
-                                                                            // service , mapserver, etc....
-                                                                                            
+                                    } else {
+                                            // service , mapserver, etc....
+                                                            
 
 
-                                                                                                var _html_tag   = "<a href='javascript:;' onclick='selectFolderLevelItem(" + folder_structure_flatjson[f].id + ");'>";
+                                                                var _html_tag   = "<a href='javascript:;' onclick='selectFolderLevelItem(" + folder_structure_flatjson[f].id + ");'>";
 
-                                                                                                _html_tag  +=       "<span class='" + folder_structure_flatjson[f].icon + "' aria-hidden='true'></span>"  
-                                                                                                _html_tag  +=       "  " + folder_structure_flatjson[f].text 
+                                                                _html_tag  +=       "<span class='" + folder_structure_flatjson[f].icon + "' aria-hidden='true'></span>"  
+                                                                _html_tag  +=       "  " + folder_structure_flatjson[f].text 
 
-                                                                                                _html_tag  +=    "</a>"
-                                                                                                _html_tag  +=    "</br>"
+                                                                _html_tag  +=    "</a>"
+                                                                _html_tag  +=    "</br>"
 
-                                                                                                list_array.push(_html_tag);
-                                                                    }//if
+                                                                list_array.push(_html_tag);
+                                    }//if
 
-                                                    }//if
+                    }//if
 
 
 
 
-                                                }// for 
+                }// for 
 
 
-                                                list_array.push("</div>")
-                                                $("#inside_folder_item_list").html(list_array.join(""));
-                                                
-
-
-
-                                                if (list_array.length > 2) {
-                                                            // not empty, nothing to do
-                                                } else {
-                                                            // empty, insert empty message
-                                                            render_message_service_panel("Empty ( or maybe login to gis portal with password required)")
-                                                }
+                list_array.push("</div>")
+                $("#inside_folder_item_list").html(list_array.join(""));
+                
 
 
 
-
-                                                // at bottom of render folder function, because render folder do not use jstree. 
-                                                // other render xxx use jstree, will place message_xxxx into there jstree_xxxx function
-                                                // wrong
-                                                //var parent_folder_itself = folder_structure_flatjson[_parent_id]
-
-                                                // find the item, item.id = parent id
-                                                var parent_folder_itself = folder_structure_flatjson.find(element => element.id == _parent_id);
-
-                                                                                    
+                if (list_array.length > 2) {
+                            // not empty, nothing to do
+                } else {
+                            // empty, insert empty message
+                            render_message_service_panel("Empty ( or maybe login to gis portal with password required)")
+                }
 
 
-                                                var parent_folder_display_text = parent_folder_itself.relative_path
-                                                var parent_folder_full_url = parent_folder_itself.absolute_path
-                                                console.log("parent_folder_itself", parent_folder_itself)
 
-                                                // must attach '?f=html' at end of url, otherwise vectortile , scene url will use f=json by default 
-                                                var _html_for_message_mapserver = '<a target="_blank" id="_mapserver_link" href="' + parent_folder_full_url + '?f=html">' 
-                                                _html_for_message_mapserver    +=   parent_folder_display_text 
-                                                _html_for_message_mapserver    += '</a>'
-                                                _html_for_message_mapserver    += '<br>'
-                                                _html_for_message_mapserver    += '<a target="_blank" id="_mapserver_link2" href="' + parent_folder_full_url + '?f=html">' 
-                                                _html_for_message_mapserver    +=   parent_folder_full_url 
-                                                _html_for_message_mapserver    += '</a>'
-                                               
-                                                $('#message_mapserver').html( _html_for_message_mapserver);
 
-                                                
+                // at bottom of render folder function, because render folder do not use jstree. 
+                // other render xxx use jstree, will place message_xxxx into there jstree_xxxx function
+                // wrong
+                //var parent_folder_itself = folder_structure_flatjson[_parent_id]
 
-                                            }
+                // find the item, item.id = parent id
+                var parent_folder_itself = folder_structure_flatjson.find(element => element.id == _parent_id);
+
+                                                    
+
+
+                var parent_folder_display_text = parent_folder_itself.relative_path
+                var parent_folder_full_url = parent_folder_itself.absolute_path
+                console.log("parent_folder_itself", parent_folder_itself)
+
+                // must attach '?f=html' at end of url, otherwise vectortile , scene url will use f=json by default 
+                var _html_for_message_mapserver = '<a target="_blank" id="_mapserver_link" href="' + parent_folder_full_url + '?f=html">' 
+                _html_for_message_mapserver    +=   parent_folder_display_text 
+                _html_for_message_mapserver    += '</a>'
+                _html_for_message_mapserver    += '<br>'
+                _html_for_message_mapserver    += '<a target="_blank" id="_mapserver_link2" href="' + parent_folder_full_url + '?f=html">' 
+                _html_for_message_mapserver    +=   parent_folder_full_url 
+                _html_for_message_mapserver    += '</a>'
+                
+                $('#message_mapserver').html( _html_for_message_mapserver);
+
+                
+
+            }
+
+
+
+
+
+
+
+
+
+            
+
+function standard_json_to_html(_results) {
+      
+  var html = '';
+  html += '<div>';
+  if (_results.length > 0) {
+    html += '<ol>';
+    for (var i = 0; i < _results.length; ++i){
+
+      var _name = _results[i].name
+      var _org  = _results[i].org
+      var _url = _results[i].url
+
+      html += '<li>' 
+
+      // demo without url, full access have url
+      if (_url){
+     
+
+            if (_url.includes('.hub.arcgis.com')){
+
+                // .hub.arcgis.com means it is a site 
+                html += '<span style="font-style: italic;" onclick="open_popup_online(\''                    
+                html +=  _name + '\', \'' +  _url 
+                html += '\')">' 
+                if (_name){
+                  html += '<span class="context" style="cursor: pointer;font-size:medium;">' +  _name  +  '</span>' 
+                }
+                if (_org){
+                  html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
+                }
+                html +=  '</span>'
+
+            }
+
+
+
+            if (_url.includes('/rest/services')){
+
+
+              if (get_serial_no_from_url(_url)){
+
+                          // for arcgis.com domain, with 16 serial number, use span tag
+                          html += '<span onclick="open_popup_home(\''                    
+                          html +=  _name + '\', \'' +  _url 
+                          html += '\')">' 
+                          if (_name){
+                            html += '<span class="context" style="cursor: pointer;font-size:medium;">' +  _name  +  '</span>' 
+                          }
+                          if (_org){
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
+                          }
+                          html +=  '</span>'
+
+                } else {
+
+                          // for custom domain, without 16 serial number, use a tag
+                          html += '<a target="_blank" href="#" onclick="open_popup_home(\''                    
+                          html +=  _name + '\', \'' +  _url 
+                          html += '\')">' 
+                          if (_name){
+                            html += '<span class="context" style="cursor: pointer;font-size:medium;">' +  _name  +  '</span>' 
+                          }
+                          html +=  '</a>'
+                          if (_org){
+
+                            // make org clickable by use span on-click 
+                            html += '<span onclick="open_popup_home(\''                    
+                            html +=  _name + '\', \'' +  _url 
+                            html += '\')">'
+                              html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
+                            html +=  '</span>'    
+                          }
+
+                }//if
+
+
+            }//if
+
+
+      } else {
+
+            // demo version, without org, url, only have name
+            html += '<span>' 
+            if (_name){
+              html += '<span class="context" style="font-size:small;">' +  _name  +  '</span>' 
+            }
+            if (_org){
+              html +=  ' <sup class="context" style="font-size:xx-small;">' +   _org + '</sup>' 
+            }
+            html +=  '</span>'  
+
+
+      }//if
+
+            
+      html += '</li>';  
+        
+    }// for
+    html += '</ol>';
+  } 
+  html +='</div>'
+   $('#json-renderer').html(html);
+            
+}  
+     
 
 
 

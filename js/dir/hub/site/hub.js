@@ -77,7 +77,7 @@ async function start_streaming(){
       // only for hub api,  .features
                           
       __this_page_array = await convert_rawJson_to_jsonArray(_this_page_raw_return.features);
-      rendering_json_to_html(__this_page_array)
+      standard_json_to_html(__this_page_array)
 
       // only for show user downloading progress, with latest result on top,
       if (__this_page_array){
@@ -301,13 +301,13 @@ var this_element
               if (name.includes("'")){
                   name = name.replace("'","`");
               } else if (name.includes("\\")){
-                  name = name.replace("\\", "");
+                  // name = name.replace("\\", "");
               } else if (name.includes("\/")){
-                  name = name.replace("\/","");
+                  // name = name.replace("\/","");
               } else if (name.includes(",")){
 
                 // comma must be removed 
-                  name = name.replace(","," ");
+                  // name = name.replace(","," ");
               }
               
 
@@ -351,55 +351,6 @@ var this_element
 
 
   
-
-// only for site
-function rendering_json_to_html(_results) {
-
-
-  console.log("rendering json to html", _results)
-      
-  var html = '';
-  html += '<div>';
-  if (_results.length > 0) {
-    html += '<ol>';
-    for (var i = 0; i < _results.length; ++i){
-
-      console.log("_results[i]",i,  _results[i])
-      if (_results[i]){
-
-          var _name = _results[i].name
-          var _org  = _results[i].org
-          var _url = _results[i].url
-
-          html += '<li>' 
-
-          html += '<span onclick="open_popup_online(\''                    
-          html +=  _name + '\', \'' +  _url 
-          html += '\')">' 
-
-          if (_name){
-            html += '<span class="context" style="cursor: pointer;font-size:small;">' +  _name  +  '</span>' 
-          }
-
-          if (_org){
-            html +=  '<sup><span class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</span></sup>' 
-          }
-
-          html +=  '</span>'  
-                  
-          html += '</li>';  
-
-      }//if
-            
-    }// for
-    html += '</ol>';
-  } 
-  html +='</div>'
-   $('#json-renderer').html(html);
-            
-}  
-   
-
 
   
 

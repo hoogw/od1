@@ -371,13 +371,13 @@ var this_element
               if (name.includes("'")){
                   name = name.replace("'","`");
               } else if (name.includes("\\")){
-                  name = name.replace("\\", "");
+                  // name = name.replace("\\", "");
               } else if (name.includes("\/")){
-                  name = name.replace("\/","");
+                  // name = name.replace("\/","");
               } else if (name.includes(",")){
 
                 // comma must be removed 
-                  name = name.replace(","," ");
+                  // name = name.replace(","," ");
               }
               
               
@@ -514,7 +514,7 @@ var this_element
                    
                    
                   function empty_last_time_result(){
-                     rendering_json_to_html({});
+                     standard_json_to_html({});
                   }   
                    
                   
@@ -536,7 +536,7 @@ var this_element
                   
                    function show_current(_current_showing) {
                       display_count_info('', _current_showing.length, __total_item_count, 'counter_label')
-                      rendering_json_to_html(_current_showing)
+                      standard_json_to_html(_current_showing)
                       highlight_keywords()
                   }
 

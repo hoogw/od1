@@ -284,7 +284,7 @@ var _search_content_split
                    
                    
                   function empty_last_time_result(){
-                     rendering_json_to_html({});
+                     standard_json_to_html({});
                   }   
                    
                   
@@ -306,7 +306,7 @@ var _search_content_split
                   
                    function show_current(_current_showing) {
                       display_count_info('', _current_showing.length, __total_item_count, 'counter_label')
-                      rendering_json_to_html(_current_showing)
+                      standard_json_to_html(_current_showing)
                       highlight_keywords()
                   }
 

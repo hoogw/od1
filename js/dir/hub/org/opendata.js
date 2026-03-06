@@ -218,7 +218,7 @@ var this_element
           
           _orgName_candidate = raw_json_array[i].attributes.orgName;
 
-          _title_candidate = raw_json_array[i].properties.title;
+          _title_candidate = raw_json_array[i].attributes.title;
 
           _source_candidate = raw_json_array[i].attributes.source; 
 

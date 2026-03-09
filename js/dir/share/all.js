@@ -2837,7 +2837,7 @@ async function get_mapserver_info_html(mapserver_url){
 
 
 
-            
+      
 
 function standard_json_to_html(_results) {
       
@@ -2851,7 +2851,7 @@ function standard_json_to_html(_results) {
       var _org  = _results[i].org
       var _url = _results[i].url
 
-      html += '<li>' 
+      html += '<li class="space">' 
 
       // demo without url, full access have url
       if (_url){
@@ -2860,11 +2860,11 @@ function standard_json_to_html(_results) {
             if (_url.includes('.hub.arcgis.com')){
 
                 // .hub.arcgis.com means it is a site 
-                html += '<span style="font-style: italic;" onclick="open_popup_online(\''                    
+                html += '<span onclick="open_popup_online(\''                    
                 html +=  _name + '\', \'' +  _url 
                 html += '\')">' 
                 if (_name){
-                  html += '<span class="context" style="cursor: pointer;font-size:medium;">' +  _name  +  '</span>' 
+                  html += '<span class="context" style="cursor: pointer;  font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
                 }
                 if (_org){
                   html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
@@ -2885,7 +2885,7 @@ function standard_json_to_html(_results) {
                           html +=  _name + '\', \'' +  _url 
                           html += '\')">' 
                           if (_name){
-                            html += '<span class="context" style="cursor: pointer;font-size:medium;">' +  _name  +  '</span>' 
+                            html += '<span class="context" style="cursor: pointer;  font-weight:bolder; font-size:large;">' +  _name  +  '</span>' 
                           }
                           if (_org){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
@@ -2899,7 +2899,7 @@ function standard_json_to_html(_results) {
                           html +=  _name + '\', \'' +  _url 
                           html += '\')">' 
                           if (_name){
-                            html += '<span class="context" style="cursor: pointer;font-size:medium;">' +  _name  +  '</span>' 
+                            html += '<span class="context" style="cursor: pointer;font-size:large;">' +  _name  +  '</span>' 
                           }
                           html +=  '</a>'
                           if (_org){
@@ -2943,7 +2943,8 @@ function standard_json_to_html(_results) {
    $('#json-renderer').html(html);
             
 }  
-     
+        
+
 
 
 

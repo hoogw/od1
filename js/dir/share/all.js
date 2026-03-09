@@ -2837,7 +2837,7 @@ async function get_mapserver_info_html(mapserver_url){
 
 
 
-      
+
 
 function standard_json_to_html(_results) {
       
@@ -2923,7 +2923,7 @@ function standard_json_to_html(_results) {
             // demo version, without org, url, only have name
             html += '<span>' 
             if (_name){
-              html += '<span class="context" style="font-size:small;">' +  _name  +  '</span>' 
+              html += '<span class="context" style="font-weight: lighter;">' +  _name  +  '</span>' 
             }
             if (_org){
               html +=  ' <sup class="context" style="font-size:xx-small;">' +   _org + '</sup>' 
@@ -2944,6 +2944,8 @@ function standard_json_to_html(_results) {
             
 }  
         
+
+
 
 
 

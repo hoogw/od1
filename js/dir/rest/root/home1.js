@@ -326,720 +326,806 @@ folder_structure_flatjson = [
     var root = await arcgis_ajax_cross_origin(root_url, _cross);  // cross origin method 
                 
 
-    console.log( 'raw root response >>>>>  ', root)
-    currentVersion = root.currentVersion
-    /*
+   /**/
+        //  - - -  ---  try more times   ---  - - -
+        /**/
 
-        good root:
-        {
+          
+            /*
 
+                good:
+                {
+                    absolute_path: "https://services.arcgis.com/aA3snZwJfFkVyDuP/arcgis/rest/services",
+                    currentVersion: 10.81, 
+                    id: 0,
+                    relative_path: "/",
+                    folders: [{},{}....], 
+                    services: [{},{}....], 
+
+                    // special case, only for seattle, it is a mapserver node,not regular folder node
+                    layers: [{},{}....], 
+                }
+
+
+                hrsa, https://gisportal.hrsa.gov/server/rest/services/HealthCareFacilities?f=json
+                error:
+                {
+                        "error": {
+                            "code": -1,
+                            "message": "Unable to check permission on folder udsmapper.Failed to return all services configurations in the folder 'udsmapper'. Could not connect to the ArcGIS component at URL 'https://gisportalha-2.hrsa.gov:7443/arcgis/sharing/rest/search'. The ArcGIS component on that machine may not be running or the machine may not be reachable at this time.Error: Read timed out",
+                            "details": []
+                        }
+                }
+
+
+
+
+                bad request:
+                {
+                            absolute_path: "http://www.dot.state.ak.us/ArcGIS/rest/services"
+                            errorFrom: "ajax_jsonp_json_proxy_proxy3"
+                            id: 0
+                            readyState: 4
+                            relative_path: "/"
+                            responseJSON: undefined
+                            status: 502
+                            statusText: "Bad Gateway"
+                }
+            */
+
+        console.log("root url:",root_url)
+        console.log("root return:", root )
+        if (!(root) ||(root.error) || !(root.currentVersion)){
+
+
+            tryMoreTimesFor_root = 0
+
+            // something wrong
+            while (tryMoreTimesFor_root < MaxNumberOfTry){
+
+                
         
-            
-            absolute_path: "https://services.arcgis.com/aA3snZwJfFkVyDuP/arcgis/rest/services",
-            currentVersion: 10.81, 
-            id: 0,
-            relative_path: "/",
+                tryMoreTimesFor_root += 1
+                // hrsa take a very long time to get root-folder, and many of sub-folder is login required, take very long time
+                // this time out is only for root-folder who take very long
+                // for sub-folder must revert back to short 1 sec
+                _timeout = more_time
 
-            folders: [{},{}....], 
-            services: [{},{}....], 
-            
+                console.log("try - ROOT - again with more waiting time, No of try, wait time in sec", tryMoreTimesFor_root, _timeout )
+                console.log("try - ROOT - again with more waiting time,url", root_url)
+                //letsgo_handler()
+                root = await arcgis_ajax_cross_origin(root_url, _cross); 
 
-                // special case, only for seattle, it is a mapserver node,not regular folder node
-                layers: [{},{}....], 
-            }
+                if ((root) && (root.currentVersion)){
+                    break; // while loop
+                }
 
+            }// while
+        }
 
+        if ((root) && (root.currentVersion)){
 
 
-        bad root:
-                    {
-                    absolute_path: "http://www.dot.state.ak.us/ArcGIS/rest/services"
-                    errorFrom: "ajax_jsonp_json_proxy_proxy3"
-                    id: 0
-                    readyState: 4
-                    relative_path: "/"
-                    responseJSON: undefined
-                    status: 502
-                    statusText: "Bad Gateway"
-                    }
+                console.log( 'raw root response >>>>>  ', root)
+                currentVersion = root.currentVersion
 
 
-    */
 
+                // ********* add root item *********
 
 
-     var _warning_message = 'Nothing Found (Empty or Bad URL or Blocked by GIS Admin)';
+                flatJson_item =  { 
+                // "id" : id_counter.toString(), 
+                    "id" : id_counter, 
+                    "parent" : "#",   // root parent id is #
+                    "text" : "Root",
+                    "icon" : folder_icon,
+                    "state"       : {
+                                        "opened"    : true,  // is the node open
+                                        // disabled  : boolean  // is the node disabled
+                                    // "selected"  : true   // is the node selected
+                                    },
 
-
-            
-
-
-
-        // ********* add root item *********
-
-
-        flatJson_item =  { 
-        // "id" : id_counter.toString(), 
-            "id" : id_counter, 
-            "parent" : "#",   // root parent id is #
-            "text" : "Root",
-            "icon" : folder_icon,
-            "state"       : {
-                                "opened"    : true,  // is the node open
-                                // disabled  : boolean  // is the node disabled
-                            // "selected"  : true   // is the node selected
-                            },
-
-            "relative_path": "Root",              
-            "node_path" : "/", 
-            "absolute_path" : root_url, 
-            "type" : "folder"
-        };
-
-
-        // 1 time, first time run, add root item
-        folder_structure_flatjson.push(flatJson_item) 
-
-        root.id = flatJson_item.id
-        // *******  end  ********* add root item *********
-
-        // add relative path reference
-        root.relative_path = '/';
-        root.absolute_path = root_url;
-        // build stack
-
-        var stack = new Stack();
-        stack.push(root);
-
-        // console.log(stack.count);
-        while(stack.count > 0) {
-            // first pop up 'root', because root was first push into the stack(queue), first in stack, first pop up stack 
-            var current = stack.pop();
-            
-            // console.log('current-------',current);
-            // set current node id as sub-item's parent id
-            current_parent_id_counter = current.id;
-
-            // all folders ---> stack
-            if(current.hasOwnProperty('folders')&& (current.folders !== null ) && (current.folders !== '' )) {
-                if(current.folders.length >0) {
-
-
-
-
-
-                var current_folders = current.folders;
-                for (var j2 = 0; j2 < current_folders.length; j2++) {
-                    
-                    
-                    
-                    //---- fix bug: absolute service/folder name need to convert to relative service/folder name ----
-                    // https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Portland
-                    // service name (Portland/Aerial) is absolute, we only need the "Aerial", not need "Portland/Aerial"
-                    // Portland/Aerial (ImageServer)
-
-                    // node_path is 'Portland/Aerial'
-                    //
-                        var  node_path = current_folders[j2]                 
-                        var  node_path_array = node_path.split('/');
-                        var  _relative_name = node_path_array[node_path_array.length-1]; // if have /, only need last part after last /
-
-                    //---- end ---- fix bug: absolute service/folder name need to convert to relative service/folder name -----
-                
-
-
-
-
-                    
-                    // this absolute path is for children's absolute path, do not confuse with current(parent) absolute path
-                    var absolute_path = current.absolute_path + '/'+ _relative_name; 
-                    
-                    
-
-
-                    // ********* add folder item *********
-
-                                id_counter += 1;
-
-                                flatJson_item =  { 
-                                    //"id" : id_counter.toString(), 
-                                    "id" : id_counter, 
-                                    //"parent" : current_parent_id_counter.toString(),   // root parent id is #
-                                    "parent" : current_parent_id_counter,   // root parent id is #
-                                    "text" : _relative_name,
-                                    "icon" : folder_icon,
-                                    "state"       : {
-                                                        "opened"    : true,  // is the node open
-                                                        // disabled  : boolean  // is the node disabled
-                                                        // "selected"  : true   // is the node selected
-                                                    },
-
-                                    "relative_path":  _relative_name,    // only for server(service) name (without type)              
-                                    "node_path" : node_path, 
-                                    "absolute_path" : absolute_path, 
-                                    "type" : "folder"
-                                };
-                                        
-                                
-                                    // add folder item
-                                    folder_structure_flatjson.push(flatJson_item) 
-
-
-                    // ********* end ********** add folder item *********
-                    
-
-// always before await ajax, show ajax url , instead of show progressing bar 
-console.log('folder relative name (folder name)', id_counter, _relative_name); 
-console.log('folder (path)', id_counter, absolute_path);
-progressing_info('folder', id_counter, absolute_path);
-
-
-
-// this absolute path is for children's absolute path, do not confuse with current(parent) absolute path
-// var node =await ajax_getjson(absolute_path);
-var node =await arcgis_ajax_cross_origin(absolute_path, _cross);  // cross origin method 
-
-if (node !== null){
-node.absolute_path = absolute_path;
-node.relative_path = current.relative_path+ '/'+_relative_name;
-
-// must carry this id as sub-item's parent id
-node.id = flatJson_item.id;
-
-stack.push(node);
-}// if
-
-
-
-
-
-}// for
-                        
-
-
-
-
-                    }  // if folders.length >0    
-            }  // if folders    
-                
-            // all services ---> flat 
-            if ( current.hasOwnProperty('services')  && (current.services !== null ) && (current.services !== '' )){
-                if ( current.services.length > 0 ){
-
-
-                    var current_services = current.services;
-            
-                        console.log('current_services, folder-id ',current_parent_id_counter,  current_services)
-
-                    for (var i1 = 0; i1 < current_services.length; i1++) {
-                    
-                    
-                        //console.log('i1-', i1)
-            
-            
-            
-            
-                        //---- fix bug: absolute service/folder name need to convert to relative service/folder name ----
-                        // https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Portland
-                        // service name (Portland/Aerial) is absolute, we only need the "Aerial", not need "Portland/Aerial"
-                        // Portland/Aerial (ImageServer)
-                            
-                            var node_path = current_services[i1].name  //      'Utilities/GeocodingTools'
-                            var  node_path_array = node_path.split('/');
-                            var  _relative_name = node_path_array[node_path_array.length-1]; // if have /, only need last part after last /      we only need  'GeocodingTools'
-                            var _current_services_type = current_services[i1].type 
-                            console.log('_current_services_type', _current_services_type)                                                                              // 'GPServer'
-                        //---- end ---- fix bug: absolute service/folder name need to convert to relative service/folder name -----
-                        
-            
-            
-            
-            
-            
-            // For service:  _url_path/name/type  --->   https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer
-            
-            
-            // dynamic CMV
-
-//http://localhost:10/mapserver1/viewer/?config=viewer_simple1&url=https://maps2.dcgis.dc.gov/dcgis/rest/services/Zoning/MapServer&title=Washington_DC_Zoning&zoom=14&lat=38.917292&long=-77.036420
-
-//http://ms.transparentgov.net/?config=viewer_simple1&url=https://maps2.dcgis.dc.gov/dcgis/rest/services/Zoning/MapServer&title=Washington_DC_Zoning&zoom=14&lat=38.917292&long=-77.036420
-
-            
-
-                
-                var absolute_path_service_url = current.absolute_path + '/'+ _relative_name +  '/'+_current_services_type
-                
-                var _relative_path = current.relative_path + '/'+ _relative_name +  '/'+_current_services_type;
-                                                                                    
-
-                var _mapServer = {
-                    "name": current_services[i1].name,  
-                    "type": _current_services_type, 
-                    "absolute_url":absolute_path_service_url, 
-                    "relative_path":_relative_path, 
+                    "relative_path": "Root",              
+                    "node_path" : "/", 
+                    "absolute_path" : root_url, 
+                    "type" : "folder"
                 };
 
 
-                console.log('flat push a  _mapServer ', _mapServer)
-
-                _just_get = []
-                _just_get.push(_mapServer); 
-                _flat = _just_get.concat(_flat);
-
-
-
-
-                        // ********* add service item *********
-
-                                    id_counter += 1;
-
-                                    switch(_current_services_type) {
-
-                                        
-
-
-                                        case "MapServer":
-                                        case "FeatureServer":
-                                            custom_icon = mapservice_icon
-                                        break;
-
-
-                                        case "VectorTileServer":
-                                            custom_icon = VectorTileServer_icon
-                                        break;
-
-                                        case "ImageServer":
-                                            custom_icon = ImageServer_icon
-                                        break;
-
-                                        
-
-
-                                        case "SceneServer":
-                                            custom_icon = SceneServer_icon
-                                        break;
-
-
-                                        case "GeocodeServer":
-                                            custom_icon = GeocodeServer_icon
-                                        break;
-
-
-                                            case "NAServer":
-                                            custom_icon = NAServer_icon
-                                        break;
-
-                                        default:
-                                        custom_icon = GroupLayer_icon
-                                    }
-                                    
-                                    
-                                    service_name_and_type = _relative_name + ' ' + '<sup>' + _current_services_type + '</sup>';
-
-                                    flatJson_item =  { 
-                                    // "id" : id_counter.toString(), 
-                                        "id" : id_counter, 
-                                    // "parent" : current_parent_id_counter.toString(),   // root parent id is #
-                                        "parent" : current_parent_id_counter,   // root parent id is #
-                                        "text" :  service_name_and_type,
-                                        "icon" : custom_icon,
-                                            "state"       : {
-                                                            "opened"    : true,  // is the node open
-                                                            // disabled  : boolean  // is the node disabled
-                                                            // "selected"  : true   // is the node selected
-                                                        },
-
-                                        "relative_path": _relative_name,  // only for server(service) name (without type)              
-                                        "node_path" : node_path,
-                                        "absolute_path" : absolute_path_service_url, 
-                                        "type" : _current_services_type
-                                    };
-                                            
-                                    
-                                        // add folder item
-                                        folder_structure_flatjson.push(flatJson_item) 
-
-
-                        // ********* end ********** add service item *********
-        
-
-
-
-
-
-
-// * * * *** * * * for 2 panel only  * * * *** * * *
-
-            // always before await ajax, show ajax url , instead of show progressing bar
-            progressing_info('folder', id_counter, absolute_path_service_url);
-            console.log('service id before ajax', id_counter, absolute_path_service_url)
-
-
-            // this absolute path is for children's absolute path (absolute_path_service_url), do not confuse with current(parent) absolute path
-            // var node =await ajax_getjson(absolute_path_service_url);
-            var node =await arcgis_ajax_cross_origin(absolute_path_service_url, _cross);  // cross origin method 
-            console.log(' layer node raw raw ', id_counter, absolute_path_service_url, node)
-
-            if (node !== null){
-
-                node.absolute_path = absolute_path_service_url;
-                node.relative_path = _relative_path
-
-                // must carry this id as sub-item's parent id
-                //node.id = flatJson_item.id;
-                // both works same
-                node.id = id_counter
-
-
-                console.log(' layer node, id, path has been set, before push ', node.id, node)
-                stack.push(node);
-            }// if
-
-
-//  * * * *** * * *  end * * * *** * * * for 2 panel only  * * * *** * * *
-            
-
-
-                    }// for 
-
-
-                }  // if services.length > 0
-            }  // if services
-
-
-
-
-        // ----- warning: only for 2-panel, must deal with layers  -----
-        
-                
-                // if response have 'layers', means it is a xxx/MapServer,  not xxx/rest/service 
-                // this is for if the url is a  xxx/MapServer, not the home root xxx/rest/service,  there is special case seattle,   
-                if ( current.hasOwnProperty('layers')  && ( current.layers !== null ) && ( current.layers !== '' )) {
-
-                    if ( current.layers.length > 0 ) {
-
-
-                        console.log(' processing current.layers ', current.layers)
-
-                        
-                        var layer_flatjson_array = []
-
-                        var current_layers = []
-                        
-                        // by default, only process layers
-                        current_layers = current.layers
-
-                        // if response have 'tables', means it is a mapserver, with table, just regard table as other layer
-                        // test look for BaseMap/parcels_table  at https://gis.la-quinta.org/arcgis/rest/services
-                        if ( current.hasOwnProperty('tables')  && ( current.tables !== null ) && ( current.tables !== '' )) {
-                            if ( current.tables.length > 0 ) {
-                                console.log(' processing current.tables ', current.tables)
-                                current_layers = []
-                                current_layers = current.layers.concat(current.tables);
-                            } // if tables.length > 0
-                        } // if tables
-
-
-
-
-
-                        for (var j2 = 0; j2 < current_layers.length; j2++) {
-                            
-
-                            
-                            // subLayerIds 
-                            var subLayerIds_array = current_layers[j2].subLayerIds
-                            var parentLayerId_relative_to_sublayerid = current_layers[j2].parentLayerId
-                            // parentLayerId_relative_to_sublayerid = -1 means top layer or folder(group layer) relative to map server (service)
-                        
-                            var this_layer_parent_id 
-                            if ((parentLayerId_relative_to_sublayerid == -1) 
-                                || (parentLayerId_relative_to_sublayerid == undefined)
-                                    || (parentLayerId_relative_to_sublayerid == null)) {
-
-                                // by default, this layer parent id should be upper level map service id       
-                                this_layer_parent_id = current.id
-
-                            } else {
-
-                                // if parent layer id has specific number 0, 1, 2...., means this is group layer folder. parent id, should be unique treeid(id counter generated) translate from parentLayerId_relative_to_sublayerid
-                                //this_layer_parent_id =>>>>  translate (parentLayerId_relative_to_sublayerid)
-                                var found_parent_layer = layer_flatjson_array.find((element) => element.layer_id == parentLayerId_relative_to_sublayerid);
-
-                                if (found_parent_layer){
-                                    if (found_parent_layer.hasOwnProperty('id')){
-                                            this_layer_parent_id = found_parent_layer.id
-                                    } 
-                                    
-                                } else {
-                                    console.log(' warning,  found_parent_layer, not found !!!!!! this parent id not found ', parentLayerId_relative_to_sublayerid, layer_flatjson_array )
-                                    this_layer_parent_id = current.id
-                                }
-                                
-                            }
-
-                                                    // --------- avoid undefined,null value, validate -----------------
+                // 1 time, first time run, add root item
+                folder_structure_flatjson.push(flatJson_item) 
+
+                root.id = flatJson_item.id
+                // *******  end  ********* add root item *********
+
+                // add relative path reference
+                root.relative_path = '/';
+                root.absolute_path = root_url;
+                // build stack
+
+                var stack = new Stack();
+                stack.push(root);
+
+                // console.log(stack.count);
+                while(stack.count > 0) {
+                    // first pop up 'root', because root was first push into the stack(queue), first in stack, first pop up stack 
+                    var current = stack.pop();
                     
-                                                            var this_layer_id 
-                                                            if ((current_layers[j2].id !== undefined) && (current_layers[j2].id !== null) && (current_layers[j2].id !== "")) {
-                                                                this_layer_id = current_layers[j2].id
-                                                            } else {
-                                                                this_layer_id = j2 // default layer item id should be 0,1,2.... in order, (if no layer id provided) 
-                                                            }
+                    // console.log('current-------',current);
+                    // set current node id as sub-item's parent id
+                    current_parent_id_counter = current.id;
 
-                                    
-                                                            var _current_layer_type 
-                                                            if (current_layers[j2].type){
-                                                                _current_layer_type = current_layers[j2].type
-                                                            } else {
-                                                                _current_layer_type =  ''; // 'unknown layer type'
-                                                            }
-
-
-                                                            var _current_layer_geometryType 
-                                                            if (current_layers[j2].geometryType){
-                                                                _current_layer_geometryType = current_layers[j2].geometryType
-                                                            } else {
-                                                                _current_layer_geometryType = ''; // 'unknown geometry type'
-                                                            }
-
-
-                                                            var _current_layer_name
-                                                            if (current_layers[j2].name){
-                                                                _current_layer_name = current_layers[j2].name
-                                                            } else {
-                                                                _current_layer_name = ''; // 'unknown layer name'
-                                                            }
-
-                                                    
-                                                    var node_path = current_layers[j2]
-                                                    var absolute_path_service_url = current.absolute_path
-                                                    var _relative_path_service_url = current.relative_path 
-                                                    var absolute_path_layer_url = current.absolute_path + '/' + this_layer_id
-                                                    var _relative_path_layer_url = current.relative_path + '/' + this_layer_id
-                                                    
-                                                    
-                                    
-                                                    switch(_current_layer_type) {
-
-
-                                                        case "Group Layer":
-                                                            custom_icon = GroupLayer_icon
-                                                            _current_layer_geometryType = 'folder'
-                                                        break;
-
-                                                        case "Feature Layer":
-                                                        case "Annotation Layer":
-                                                            //_layer_or_folder_icon = layer_icon
-                                                            //custom_icon = AnnotationLayer_icon
-                                                            switch(_current_layer_geometryType) {
-                                                                case "esriGeometryPolygon":
-                                                                        custom_icon = polygon_icon
-                                                                        break;
-                                                                case "esriGeometryPolyline":
-                                                                        custom_icon = line_icon
-                                                                        break;
-
-                                                                case "esriGeometryMultipoint":        
-                                                                case "esriGeometryPoint":
-                                                                        custom_icon = point_icon
-                                                                        break;
-                                                                default:
-                                                                            custom_icon = layer_icon
-                                                            }//switch geometry type
-
-                                                        break;
-
-                                                    
-
-                                                        
-                                                            
-                                                        
-
-
-                                                        case "Raster Layer":
-                                                            custom_icon = RasterLayer_icon
-                                                        break;
-
-                                                        case "Raster Catalog Layer":
-                                                            custom_icon = RasterCatalogLayer_icon
-                                                        break;
-
-                                                        case "Mosaic Layer":
-                                                            custom_icon = MosaicLayer_icon
-                                                        break;
-
-
-                                                        case "Table":
-                                                            custom_icon = table_icon
-                                                        break;
+                    // all folders ---> stack
+                    if(current.hasOwnProperty('folders')&& (current.folders !== null ) && (current.folders !== '' )) {
+                        if(current.folders.length >0) {
 
 
 
-                                                        default:
-                                                        custom_icon = unknow_layer_icon
-                                                    }
-
-                                                    var _node_display_text = this_layer_id + layerID_NAME_separator + _current_layer_name + '<sup>' + _current_layer_type + '<sub>' + ' ' +  _current_layer_geometryType + '</sub></sup>';
-                                    
-
-                                                // ********* add layer item *********
-                                                
-                                                            id_counter += 1;
 
 
-                                                        
+                        var current_folders = current.folders;
+                        for (var j2 = 0; j2 < current_folders.length; j2++) {
+                            
+                            
+                            
+                            //---- fix bug: absolute service/folder name need to convert to relative service/folder name ----
+                            // https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Portland
+                            // service name (Portland/Aerial) is absolute, we only need the "Aerial", not need "Portland/Aerial"
+                            // Portland/Aerial (ImageServer)
 
-                                                            flatJson_item =  { 
-                                                        
-                                                                "id" :  id_counter, 
-                                                                
-                                                                "layer_id" : this_layer_id, 
-                                                                "layer_parent_id":this_layer_parent_id,
+                            // node_path is 'Portland/Aerial'
+                            //
+                                var  node_path = current_folders[j2]                 
+                                var  node_path_array = node_path.split('/');
+                                var  _relative_name = node_path_array[node_path_array.length-1]; // if have /, only need last part after last /
 
-                                                                "parent" : this_layer_parent_id,   
-                                                                "text" :  _node_display_text,
-                                                                "icon" : custom_icon,
-                                                                    "state"       : {
-                                                                                    "opened"    : true,  // is the node open
-                                                                                    // disabled  : boolean  // is the node disabled
-                                                                                    // "selected"  : true   // is the node selected
-                                                                                },
-
-                                                                "relative_path_parent_service": _relative_path_service_url,
-                                                                "relative_path": _relative_path_layer_url,                
-                                                                "node_path" : node_path, 
-                                                                "relative_name":_current_layer_name,
-                                                                "absolute_path_parent_service" : absolute_path_service_url,
-                                                                "absolute_path" : absolute_path_layer_url, 
-                                                                "type" : _current_layer_type
-                                                            };
-                                                                    
-
-                                                            console.log(' stack push layer item ', _node_display_text, flatJson_item)
-                                                            
-
-                                                                layer_flatjson_array.push(flatJson_item)
-
-                                                                // add layer item
-                                                                folder_structure_flatjson.push(flatJson_item) 
-
-
-                                                // ********* end ********** add layer item *********
-
-
-
+                            //---- end ---- fix bug: absolute service/folder name need to convert to relative service/folder name -----
                         
 
+
+
+
+                            
+                            // this absolute path is for children's absolute path, do not confuse with current(parent) absolute path
+                            var absolute_path = current.absolute_path + '/'+ _relative_name; 
+                            
+                            
+
+
+                            // ********* add folder item *********
+
+                                        id_counter += 1;
+
+                                        flatJson_item =  { 
+                                            //"id" : id_counter.toString(), 
+                                            "id" : id_counter, 
+                                            //"parent" : current_parent_id_counter.toString(),   // root parent id is #
+                                            "parent" : current_parent_id_counter,   // root parent id is #
+                                            "text" : _relative_name,
+                                            "icon" : folder_icon,
+                                            "state"       : {
+                                                                "opened"    : true,  // is the node open
+                                                                // disabled  : boolean  // is the node disabled
+                                                                // "selected"  : true   // is the node selected
+                                                            },
+
+                                            "relative_path":  _relative_name,    // only for server(service) name (without type)              
+                                            "node_path" : node_path, 
+                                            "absolute_path" : absolute_path, 
+                                            "type" : "folder"
+                                        };
+                                                
+                                        
+                                            // add folder item
+                                            folder_structure_flatjson.push(flatJson_item) 
+
+
+                            // ********* end ********** add folder item *********
+                            
+
+        // always before await ajax, show ajax url , instead of show progressing bar 
+        console.log('folder relative name (folder name)', id_counter, _relative_name); 
+        console.log('folder (path)', id_counter, absolute_path);
+        progressing_info('folder', id_counter, absolute_path);
+
+
+
+        // this absolute path is for children's absolute path, do not confuse with current(parent) absolute path
+        // var node =await ajax_getjson(absolute_path);
+        var node =await arcgis_ajax_cross_origin(absolute_path, _cross);  // cross origin method 
+
+
+                /**/
+                //  - - -  ---  try more times   ---  - - -
+                /**/
+
+
+                                /*
+
+                                hrsa, https://gisportal.hrsa.gov/server/rest/services/HealthCareFacilities?f=json
+                                {
+                                    "error": {
+                                        "code": -1,
+                                        "message": "Unable to check permission on folder HealthCareFacilities.Failed to return all services configurations in the folder 'HealthCareFacilities'. Could not connect to the ArcGIS component at URL 'https://gisportalha-2.hrsa.gov:7443/arcgis/sharing/rest/search'. The ArcGIS component on that machine may not be running or the machine may not be reachable at this time.Error: Read timed out",
+                                        "details": []
+                                    }
+                                }
+
+                                */
+                                console.log("sub-folder url:",absolute_path)
+                                console.log("sub-folder return:", node )
+                                if ((!node) || (node.error) || !(node.currentVersion)){
+
+
+                                    tryMoreTimesFor_subFolder = 0
+
+                                    // something wrong try more times
+                                    while (tryMoreTimesFor_subFolder < MaxNumberOfTry){
+
+                                        tryMoreTimesFor_subFolder += 1
+                                        _timeout = more_time
+
+                                        console.log("try - FOLDER - again with more waiting time, No of try, wait time in sec", tryMoreTimesFor_subFolder, _timeout )
+                                        console.log("try - FOLDER - again with more waiting time, url : ", absolute_path )
+                                        node =await arcgis_ajax_cross_origin(absolute_path, _cross);
+
+                                        if ((node) && (node.currentVersion)){
+                                            break; // while loop
+                                        }
+
+                                    }// while
+
+
+                                }  
                                 
+                                if ((node) && (node.currentVersion)){
+
+                                    node.absolute_path = absolute_path;
+                                    node.relative_path = current.relative_path+ '/'+_relative_name;
+
+                                    // must carry this id as sub-item's parent id
+                                    node.id = flatJson_item.id;
+
+                                    stack.push(node);
+                                }// if
 
 
 
 
 
                             }// for
-
-                        } // if layers.length > 0
-                } // if layers
-                
-                
-                /**/
-                //  --- NAserver    --- 
-                /**/  
-                    if ( current.hasOwnProperty('routeLayers')  && ( current.routeLayers !== null ) && ( current.routeLayers !== '' )) {
-
-                        if ( current.routeLayers.length > 0 ) {
-
-                        console.log(' processing current.routeLayers ',current,  current.routeLayers)                
-                        var layer_flatjson_array = []
-                        var current_layers = []
-                        // by default, only process layers
-                        current_layers = current.routeLayers
-
-
-                        // by default, this layer parent id should be upper level map service id       
-                        var this_layer_parent_id = current.id
-                        id_counter += 1;
-                        var folder_as_parent_id = id_counter
-
-                        flatJson_item = { 
-                        "id" :  folder_as_parent_id,                                        
-                        "parent" : this_layer_parent_id, 
-                        "text" : "Route Layers", 
-                        "icon" :  folder_icon,
-                        "state"       : {
-                        "opened"    : true,  // is the node open
-                        // disabled  : boolean  // is the node disabled
-                        // "selected"  : true   // is the node selected
-                        },
-                        "type" : "na-server-folder",
-
-                            
-                        };
-                        folder_structure_flatjson.push(flatJson_item) 
-
-
-
-                        var NAserver_layers_name;
-                        var encodedURL_NAserver_layers_name 
-                        var _NAserver_layers_display_text
-
-
-                        var NAserver_layers_absolute_path = current.absolute_path ;
-                        var current_layer_server_path =   current.absolute_path;
-
-
-                        console.log('NAserver_layers_absolute_path  ', NAserver_layers_absolute_path)
-                        console.log('current_layer_server_path  ', current_layer_server_path)
-
-                        for (var j2 = 0; j2 < current_layers.length; j2++) {  
-
-                        id_counter += 1;
-                        console.log('parent-id, self-id,  routeLayers  ', this_layer_parent_id,  id_counter, current_layers[j2])
-
-                        _NAserver_layers_display_text = current_layers[j2]
-                        NAserver_layers_name = current_layers[j2]
-                        encodedURL_NAserver_layers_name = encodeURIComponent(NAserver_layers_name) 
-
-                        flatJson_item = { 
-                        "id" :  id_counter,                                      
-                        "parent" : folder_as_parent_id,
-                        "text" : _NAserver_layers_display_text,
-                        "name" : NAserver_layers_name, 
-                        "icon" :  layer_icon,
-                        "state": {
-                        "opened"    : true,  // is the node open
-                        // disabled  : boolean  // is the node disabled
-                        // "selected"  : true   // is the node selected
-                        },
-
-                        "absolute_path" : NAserver_layers_absolute_path + "/" + encodedURL_NAserver_layers_name,
-                        "server_path" : current_layer_server_path, // MapFeatureServer url only without layer-id
-                        "type" : "route-layer",
                                 
-                        };
-                        // add layer item
-                        folder_structure_flatjson.push(flatJson_item)                                                   
-                        }// for
 
 
-                        } // if
-                    } // if routeLayers
-                /**/
-                //  --- end  ---  NAserver    --- 
-                /**/  
-                
-         //  ----- end  ----- warning: only for 2-panel, must deal with layers  -----
-             
+
+
+                            }  // if folders.length >0    
+                    }  // if folders    
+                        
+                    // all services ---> flat 
+                    if ( current.hasOwnProperty('services')  && (current.services !== null ) && (current.services !== '' )){
+                        if ( current.services.length > 0 ){
+
+
+                            var current_services = current.services;
                     
-        }// while
+                                console.log('current_services, folder-id ',current_parent_id_counter,  current_services)
 
-        if (folder_structure_flatjson.length >1) {
-                jstree_root_folder(folder_structure_flatjson, ___url_string,  _organization, ___hostname )
+                            for (var i1 = 0; i1 < current_services.length; i1++) {
+                            
+                            
+                                //console.log('i1-', i1)
+                    
+                    
+                    
+                    
+                                //---- fix bug: absolute service/folder name need to convert to relative service/folder name ----
+                                // https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Portland
+                                // service name (Portland/Aerial) is absolute, we only need the "Aerial", not need "Portland/Aerial"
+                                // Portland/Aerial (ImageServer)
+                                    
+                                    var node_path = current_services[i1].name  //      'Utilities/GeocodingTools'
+                                    var  node_path_array = node_path.split('/');
+                                    var  _relative_name = node_path_array[node_path_array.length-1]; // if have /, only need last part after last /      we only need  'GeocodingTools'
+                                    var _current_services_type = current_services[i1].type 
+                                    console.log('_current_services_type', _current_services_type)                                                                              // 'GPServer'
+                                //---- end ---- fix bug: absolute service/folder name need to convert to relative service/folder name -----
+                                
+                    
+                    
+                    
+                    
+                    
+                    // For service:  _url_path/name/type  --->   https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer
+                    
+                    
+                    // dynamic CMV
+
+        //http://localhost:10/mapserver1/viewer/?config=viewer_simple1&url=https://maps2.dcgis.dc.gov/dcgis/rest/services/Zoning/MapServer&title=Washington_DC_Zoning&zoom=14&lat=38.917292&long=-77.036420
+
+        //http://ms.transparentgov.net/?config=viewer_simple1&url=https://maps2.dcgis.dc.gov/dcgis/rest/services/Zoning/MapServer&title=Washington_DC_Zoning&zoom=14&lat=38.917292&long=-77.036420
+
+                    
+
+                        
+                        var absolute_path_service_url = current.absolute_path + '/'+ _relative_name +  '/'+_current_services_type
+                        
+                        var _relative_path = current.relative_path + '/'+ _relative_name +  '/'+_current_services_type;
+                                                                                            
+
+                        var _mapServer = {
+                            "name": current_services[i1].name,  
+                            "type": _current_services_type, 
+                            "absolute_url":absolute_path_service_url, 
+                            "relative_path":_relative_path, 
+                        };
+
+
+                        console.log('flat push a  _mapServer ', _mapServer)
+
+                        _just_get = []
+                        _just_get.push(_mapServer); 
+                        _flat = _just_get.concat(_flat);
+
+
+
+
+                                // ********* add service item *********
+
+                                            id_counter += 1;
+
+                                            switch(_current_services_type) {
+
+                                                
+
+
+                                                case "MapServer":
+                                                case "FeatureServer":
+                                                    custom_icon = mapservice_icon
+                                                break;
+
+
+                                                case "VectorTileServer":
+                                                    custom_icon = VectorTileServer_icon
+                                                break;
+
+                                                case "ImageServer":
+                                                    custom_icon = ImageServer_icon
+                                                break;
+
+                                                
+
+
+                                                case "SceneServer":
+                                                    custom_icon = SceneServer_icon
+                                                break;
+
+
+                                                case "GeocodeServer":
+                                                    custom_icon = GeocodeServer_icon
+                                                break;
+
+
+                                                    case "NAServer":
+                                                    custom_icon = NAServer_icon
+                                                break;
+
+                                                default:
+                                                custom_icon = GroupLayer_icon
+                                            }
+                                            
+                                            
+                                            service_name_and_type = _relative_name + ' ' + '<sup>' + _current_services_type + '</sup>';
+
+                                            flatJson_item =  { 
+                                            // "id" : id_counter.toString(), 
+                                                "id" : id_counter, 
+                                            // "parent" : current_parent_id_counter.toString(),   // root parent id is #
+                                                "parent" : current_parent_id_counter,   // root parent id is #
+                                                "text" :  service_name_and_type,
+                                                "icon" : custom_icon,
+                                                    "state"       : {
+                                                                    "opened"    : true,  // is the node open
+                                                                    // disabled  : boolean  // is the node disabled
+                                                                    // "selected"  : true   // is the node selected
+                                                                },
+
+                                                "relative_path": _relative_name,  // only for server(service) name (without type)              
+                                                "node_path" : node_path,
+                                                "absolute_path" : absolute_path_service_url, 
+                                                "type" : _current_services_type
+                                            };
+                                                    
+                                            
+                                                // add folder item
+                                                folder_structure_flatjson.push(flatJson_item) 
+
+
+                                // ********* end ********** add service item *********
+                
+
+
+
+
+
+
+        // * * * *** * * * for 2 panel only  * * * *** * * *
+
+                    // always before await ajax, show ajax url , instead of show progressing bar
+                    progressing_info('folder', id_counter, absolute_path_service_url);
+                    console.log('service id before ajax', id_counter, absolute_path_service_url)
+
+
+                    // this absolute path is for children's absolute path (absolute_path_service_url), do not confuse with current(parent) absolute path
+                    // var node =await ajax_getjson(absolute_path_service_url);
+                    var node =await arcgis_ajax_cross_origin(absolute_path_service_url, _cross);  // cross origin method 
+                    console.log(' layer node raw raw ', id_counter, absolute_path_service_url, node)
+
+                    if (node !== null){
+
+                        node.absolute_path = absolute_path_service_url;
+                        node.relative_path = _relative_path
+
+                        // must carry this id as sub-item's parent id
+                        //node.id = flatJson_item.id;
+                        // both works same
+                        node.id = id_counter
+
+
+                        console.log(' layer node, id, path has been set, before push ', node.id, node)
+                        stack.push(node);
+                    }// if
+
+
+        //  * * * *** * * *  end * * * *** * * * for 2 panel only  * * * *** * * *
+                    
+
+
+                            }// for 
+
+
+                        }  // if services.length > 0
+                    }  // if services
+
+
+
+
+                // ----- warning: only for 2-panel, must deal with layers  -----
+                
+                        
+                        // if response have 'layers', means it is a xxx/MapServer,  not xxx/rest/service 
+                        // this is for if the url is a  xxx/MapServer, not the home root xxx/rest/service,  there is special case seattle,   
+                        if ( current.hasOwnProperty('layers')  && ( current.layers !== null ) && ( current.layers !== '' )) {
+
+                            if ( current.layers.length > 0 ) {
+
+
+                                console.log(' processing current.layers ', current.layers)
+
+                                
+                                var layer_flatjson_array = []
+
+                                var current_layers = []
+                                
+                                // by default, only process layers
+                                current_layers = current.layers
+
+                                // if response have 'tables', means it is a mapserver, with table, just regard table as other layer
+                                // test look for BaseMap/parcels_table  at https://gis.la-quinta.org/arcgis/rest/services
+                                if ( current.hasOwnProperty('tables')  && ( current.tables !== null ) && ( current.tables !== '' )) {
+                                    if ( current.tables.length > 0 ) {
+                                        console.log(' processing current.tables ', current.tables)
+                                        current_layers = []
+                                        current_layers = current.layers.concat(current.tables);
+                                    } // if tables.length > 0
+                                } // if tables
+
+
+
+
+
+                                for (var j2 = 0; j2 < current_layers.length; j2++) {
+                                    
+
+                                    
+                                    // subLayerIds 
+                                    var subLayerIds_array = current_layers[j2].subLayerIds
+                                    var parentLayerId_relative_to_sublayerid = current_layers[j2].parentLayerId
+                                    // parentLayerId_relative_to_sublayerid = -1 means top layer or folder(group layer) relative to map server (service)
+                                
+                                    var this_layer_parent_id 
+                                    if ((parentLayerId_relative_to_sublayerid == -1) 
+                                        || (parentLayerId_relative_to_sublayerid == undefined)
+                                            || (parentLayerId_relative_to_sublayerid == null)) {
+
+                                        // by default, this layer parent id should be upper level map service id       
+                                        this_layer_parent_id = current.id
+
+                                    } else {
+
+                                        // if parent layer id has specific number 0, 1, 2...., means this is group layer folder. parent id, should be unique treeid(id counter generated) translate from parentLayerId_relative_to_sublayerid
+                                        //this_layer_parent_id =>>>>  translate (parentLayerId_relative_to_sublayerid)
+                                        var found_parent_layer = layer_flatjson_array.find((element) => element.layer_id == parentLayerId_relative_to_sublayerid);
+
+                                        if (found_parent_layer){
+                                            if (found_parent_layer.hasOwnProperty('id')){
+                                                    this_layer_parent_id = found_parent_layer.id
+                                            } 
+                                            
+                                        } else {
+                                            console.log(' warning,  found_parent_layer, not found !!!!!! this parent id not found ', parentLayerId_relative_to_sublayerid, layer_flatjson_array )
+                                            this_layer_parent_id = current.id
+                                        }
+                                        
+                                    }
+
+                                                            // --------- avoid undefined,null value, validate -----------------
+                            
+                                                                    var this_layer_id 
+                                                                    if ((current_layers[j2].id !== undefined) && (current_layers[j2].id !== null) && (current_layers[j2].id !== "")) {
+                                                                        this_layer_id = current_layers[j2].id
+                                                                    } else {
+                                                                        this_layer_id = j2 // default layer item id should be 0,1,2.... in order, (if no layer id provided) 
+                                                                    }
+
+                                            
+                                                                    var _current_layer_type 
+                                                                    if (current_layers[j2].type){
+                                                                        _current_layer_type = current_layers[j2].type
+                                                                    } else {
+                                                                        _current_layer_type =  ''; // 'unknown layer type'
+                                                                    }
+
+
+                                                                    var _current_layer_geometryType 
+                                                                    if (current_layers[j2].geometryType){
+                                                                        _current_layer_geometryType = current_layers[j2].geometryType
+                                                                    } else {
+                                                                        _current_layer_geometryType = ''; // 'unknown geometry type'
+                                                                    }
+
+
+                                                                    var _current_layer_name
+                                                                    if (current_layers[j2].name){
+                                                                        _current_layer_name = current_layers[j2].name
+                                                                    } else {
+                                                                        _current_layer_name = ''; // 'unknown layer name'
+                                                                    }
+
+                                                            
+                                                            var node_path = current_layers[j2]
+                                                            var absolute_path_service_url = current.absolute_path
+                                                            var _relative_path_service_url = current.relative_path 
+                                                            var absolute_path_layer_url = current.absolute_path + '/' + this_layer_id
+                                                            var _relative_path_layer_url = current.relative_path + '/' + this_layer_id
+                                                            
+                                                            
+                                            
+                                                            switch(_current_layer_type) {
+
+
+                                                                case "Group Layer":
+                                                                    custom_icon = GroupLayer_icon
+                                                                    _current_layer_geometryType = 'folder'
+                                                                break;
+
+                                                                case "Feature Layer":
+                                                                case "Annotation Layer":
+                                                                    //_layer_or_folder_icon = layer_icon
+                                                                    //custom_icon = AnnotationLayer_icon
+                                                                    switch(_current_layer_geometryType) {
+                                                                        case "esriGeometryPolygon":
+                                                                                custom_icon = polygon_icon
+                                                                                break;
+                                                                        case "esriGeometryPolyline":
+                                                                                custom_icon = line_icon
+                                                                                break;
+
+                                                                        case "esriGeometryMultipoint":        
+                                                                        case "esriGeometryPoint":
+                                                                                custom_icon = point_icon
+                                                                                break;
+                                                                        default:
+                                                                                    custom_icon = layer_icon
+                                                                    }//switch geometry type
+
+                                                                break;
+
+                                                            
+
+                                                                
+                                                                    
+                                                                
+
+
+                                                                case "Raster Layer":
+                                                                    custom_icon = RasterLayer_icon
+                                                                break;
+
+                                                                case "Raster Catalog Layer":
+                                                                    custom_icon = RasterCatalogLayer_icon
+                                                                break;
+
+                                                                case "Mosaic Layer":
+                                                                    custom_icon = MosaicLayer_icon
+                                                                break;
+
+
+                                                                case "Table":
+                                                                    custom_icon = table_icon
+                                                                break;
+
+
+
+                                                                default:
+                                                                custom_icon = unknow_layer_icon
+                                                            }
+
+                                                            var _node_display_text = this_layer_id + layerID_NAME_separator + _current_layer_name + '<sup>' + _current_layer_type + '<sub>' + ' ' +  _current_layer_geometryType + '</sub></sup>';
+                                            
+
+                                                        // ********* add layer item *********
+                                                        
+                                                                    id_counter += 1;
+
+
+                                                                
+
+                                                                    flatJson_item =  { 
+                                                                
+                                                                        "id" :  id_counter, 
+                                                                        
+                                                                        "layer_id" : this_layer_id, 
+                                                                        "layer_parent_id":this_layer_parent_id,
+
+                                                                        "parent" : this_layer_parent_id,   
+                                                                        "text" :  _node_display_text,
+                                                                        "icon" : custom_icon,
+                                                                            "state"       : {
+                                                                                            "opened"    : true,  // is the node open
+                                                                                            // disabled  : boolean  // is the node disabled
+                                                                                            // "selected"  : true   // is the node selected
+                                                                                        },
+
+                                                                        "relative_path_parent_service": _relative_path_service_url,
+                                                                        "relative_path": _relative_path_layer_url,                
+                                                                        "node_path" : node_path, 
+                                                                        "relative_name":_current_layer_name,
+                                                                        "absolute_path_parent_service" : absolute_path_service_url,
+                                                                        "absolute_path" : absolute_path_layer_url, 
+                                                                        "type" : _current_layer_type
+                                                                    };
+                                                                            
+
+                                                                    console.log(' stack push layer item ', _node_display_text, flatJson_item)
+                                                                    
+
+                                                                        layer_flatjson_array.push(flatJson_item)
+
+                                                                        // add layer item
+                                                                        folder_structure_flatjson.push(flatJson_item) 
+
+
+                                                        // ********* end ********** add layer item *********
+
+
+
+                                
+
+                                        
+
+
+
+
+
+                                    }// for
+
+                                } // if layers.length > 0
+                        } // if layers
+                        
+                        
+                        /**/
+                        //  --- NAserver    --- 
+                        /**/  
+                            if ( current.hasOwnProperty('routeLayers')  && ( current.routeLayers !== null ) && ( current.routeLayers !== '' )) {
+
+                                if ( current.routeLayers.length > 0 ) {
+
+                                console.log(' processing current.routeLayers ',current,  current.routeLayers)                
+                                var layer_flatjson_array = []
+                                var current_layers = []
+                                // by default, only process layers
+                                current_layers = current.routeLayers
+
+
+                                // by default, this layer parent id should be upper level map service id       
+                                var this_layer_parent_id = current.id
+                                id_counter += 1;
+                                var folder_as_parent_id = id_counter
+
+                                flatJson_item = { 
+                                "id" :  folder_as_parent_id,                                        
+                                "parent" : this_layer_parent_id, 
+                                "text" : "Route Layers", 
+                                "icon" :  folder_icon,
+                                "state"       : {
+                                "opened"    : true,  // is the node open
+                                // disabled  : boolean  // is the node disabled
+                                // "selected"  : true   // is the node selected
+                                },
+                                "type" : "na-server-folder",
+
+                                    
+                                };
+                                folder_structure_flatjson.push(flatJson_item) 
+
+
+
+                                var NAserver_layers_name;
+                                var encodedURL_NAserver_layers_name 
+                                var _NAserver_layers_display_text
+
+
+                                var NAserver_layers_absolute_path = current.absolute_path ;
+                                var current_layer_server_path =   current.absolute_path;
+
+
+                                console.log('NAserver_layers_absolute_path  ', NAserver_layers_absolute_path)
+                                console.log('current_layer_server_path  ', current_layer_server_path)
+
+                                for (var j2 = 0; j2 < current_layers.length; j2++) {  
+
+                                id_counter += 1;
+                                console.log('parent-id, self-id,  routeLayers  ', this_layer_parent_id,  id_counter, current_layers[j2])
+
+                                _NAserver_layers_display_text = current_layers[j2]
+                                NAserver_layers_name = current_layers[j2]
+                                encodedURL_NAserver_layers_name = encodeURIComponent(NAserver_layers_name) 
+
+                                flatJson_item = { 
+                                "id" :  id_counter,                                      
+                                "parent" : folder_as_parent_id,
+                                "text" : _NAserver_layers_display_text,
+                                "name" : NAserver_layers_name, 
+                                "icon" :  layer_icon,
+                                "state": {
+                                "opened"    : true,  // is the node open
+                                // disabled  : boolean  // is the node disabled
+                                // "selected"  : true   // is the node selected
+                                },
+
+                                "absolute_path" : NAserver_layers_absolute_path + "/" + encodedURL_NAserver_layers_name,
+                                "server_path" : current_layer_server_path, // MapFeatureServer url only without layer-id
+                                "type" : "route-layer",
+                                        
+                                };
+                                // add layer item
+                                folder_structure_flatjson.push(flatJson_item)                                                   
+                                }// for
+
+
+                                } // if
+                            } // if routeLayers
+                        /**/
+                        //  --- end  ---  NAserver    --- 
+                        /**/  
+                        
+                //  ----- end  ----- warning: only for 2-panel, must deal with layers  -----
+                    
+                            
+                }// while
+
+                if (folder_structure_flatjson.length >1) {
+                        jstree_root_folder(folder_structure_flatjson, ___url_string,  _organization, ___hostname )
+                } else {
+                    progressing_info('folder', "Warning:", "works but has no content");
+                } 
+            
+            
         } else {
-            progressing_info('folder', "Warning:",_warning_message);
-        }        
+                progressing_info('folder', "Warning:", "bad request failed");
+        }//if
           
     }
 

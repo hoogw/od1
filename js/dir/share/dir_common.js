@@ -1,6 +1,39 @@
    
     
 
+    
+
+/**/
+//  - - -  ---  try more times   ---  - - -
+/**/
+
+    var MaxNumberOfTry = 3
+
+    // serial number + arcgis.com, may be not work on first ajax, 
+    // but will work on 2nd ajax
+    var tryMoreTimesFor_root = 0
+    var tryMoreTimesFor_subFolder = 0
+
+
+    /*
+      for most of rest-root, use 1 sec, 
+      Can not be too long, otherwise, 
+      scan folder can stuck for ever. 
+
+      hrsa take a very long time to get root-folder, and many of sub-folder is login required, take very long time
+      search for "try More Times"
+    */
+    var default_time = 1800
+    var more_time = 36000 // for more try on both root, and sub-folder
+    var _timeout = default_time; //   
+    var param_timeout; // get URL param value time out, feed to real _timeout
+
+/**/
+//  --- end  ---  try more times    - - -  --- 
+/**/
+
+
+
 
 var localdomain
 
@@ -166,16 +199,6 @@ var options = {};
           
 var input = {};
 
-
-// ========= timeout ========= 
-  /*
-        default timeout for most of case, 1 sec, Can not be too long, otherwise, scan folder can stuck for ever. for example  any USGS, http://localhost:10/json2tree/esri/server2/folder.html?url=https%3A%2F%2Fgis.usgs.gov%2Fsciencebase1%2Frest%2Fservices&org=USGS+-+ScienceBase%2C%C2%A0%C2%A0&_center_lat=43.04614726082467&_center_long=-128.43724108004662&_center_zoom=16&select_folder=60&select_layer=0
-        if need longer timeout, set in url:   ?..&timeout=5000
-        lowest timeout is 300,  because 200 will cause bad request error.  300 is lowest, 500 is safe number.
-    */
-    var _timeout = 9000;  // 9 sec
-    var param_timeout; // get URL param value time out, feed to real _timeout
-// =========   end   =========    timeout ========= 
 
 var layers_flat;
 

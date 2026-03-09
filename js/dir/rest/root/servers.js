@@ -481,7 +481,7 @@ async function nested_to_flat(_url){
         // do not deal with layers or tables., because this is all-mapserver-list
         if (current.hasOwnProperty('layers') || current.hasOwnProperty('tables')) {
             console.log('Not Support MapServer or FeatureServer, must be a (Home or Root) Folder or sub-Folder',);
-            _warning_message = 'Not Support MapServer or FeatureServer, must be a (Home or Root) Folder or sub-Folder';
+            progressing_info('folder', "Warning:", "Not Support MapServer or FeatureServer, must be a (Home or Root) Folder or sub-Folder");
         } // layers 
             
     }// while

@@ -1,0 +1,291 @@
+
+
+/* Make Iframe to fit 100% of container's remaining height https://stackoverflow.com/questions/325273/make-iframe-to-fit-100-of-containers-remaining-height */
+body, html {width: 100%; height: 100%; margin: 0; padding: 0}
+
+
+
+
+
+
+/* - - - -  full page dark theme - - - -   always at top - - - -   */
+
+
+:root {
+  color-scheme: dark;
+  font-family: monospace,sans-serif;
+}
+
+input,button {
+  font-size: xx-small;
+}
+
+/* dark theme set link color white, for blue color use this line*/
+a {
+  color: revert; /* Restores the default blue color for unvisited links */
+}
+
+
+
+
+
+.back  {
+  font-size:small; 
+  font-weight: bolder; 
+  font-family: monospace; 
+  font-style: oblique; 
+  color:yellow;
+}
+
+.letsgo {
+  font-size: small; 
+  font-weight: bolder; 
+  font-family: monospace; 
+  font-style: oblique; 
+  color:yellow;
+}
+.current_rest_api_endpoint {
+  font-size: small; 
+  font-weight: bolder; 
+  font-family: monospace; 
+  font-style: oblique;
+  color:yellow;
+}
+
+
+
+
+/*   - - - -    end - - - -  full page dark theme - - - -   always at top - - - -   */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* scrollable flexbox sample is here  https://www.bennadel.com/blog/4499-sanity-check-using-overflow-scrolling-on-css-flexbox-panels.htm */
+
+
+
+/* for different size of screen, sample is here  https://www.w3schools.com/Css/css3_flexbox_responsive.asp */
+
+
+
+
+.flex-container {
+  
+  display: flex ;
+  flex-direction: column;
+
+  bottom: 0px ;
+  left: 0px ;
+  position: fixed ;
+  right: 0px ;
+  top: 0px ;
+  z-index: 1 ;
+
+}
+
+
+/*
+  Sanity check that flex "panels" will scroll properly when they have
+  overflow:auto applied to them. And, won't just grow in strange ways when they
+  have too much content.
+*/
+
+
+/* vertical 2 panel */
+.flex-2-top, /* free */
+.flex-2-bottom
+
+{
+  overflow: auto ;
+  overscroll-behavior: contain ;
+  
+}
+
+
+
+    .flex-2-top {
+      flex: 1 1 auto ;
+    }
+    .flex-2-bottom {
+      flex: 0 0 auto ;
+      height: 500px ;
+    }
+
+    
+
+
+    
+
+
+
+          /* for HD 1920x1080  max 2000px */
+          @media screen and (max-height: 1600px) {
+          
+            .flex-2-bottom {
+              height: 400px ;
+            }
+
+          }
+
+          @media screen and (max-height: 1200px) {
+           
+
+            .flex-2-bottom {
+              height: 300px ;
+            }
+
+
+          }
+
+          @media screen and (max-height: 800px) {
+           
+
+            .flex-2-bottom {
+              height: 200px ;
+            }
+
+
+            
+          }
+          
+          @media screen and (max-height: 400px) {
+           
+            .flex-2-bottom {
+             height: 100px ;
+            }
+
+            
+          }
+
+          
+
+        
+
+
+/* Make Iframe to fit 100% of container's remaining height https://stackoverflow.com/questions/325273/make-iframe-to-fit-100-of-containers-remaining-height */
+
+.row-container {display: flex; width: 100%; height: 100%; flex-direction: column; }
+/*.first-row {}*/
+.second-row { flex-grow: 1; border: none; margin: 0; padding: 0; }
+
+/* Make Iframe to fit 100% of container's remaining height */
+
+
+
+
+
+
+
+/*    -----  from    ----- flex    ----- vertical     -----  design     -----    -----  */
+
+
+
+   .flex-key-for-column {
+    font-style: oblique 60deg;
+    font-size: 0.7em;
+    font-stretch: expanded;
+    font-family: 'Bradley Hand', cursive; /* cursive; */
+   }
+
+   .flex-value-for-column {
+    font-style: normal;
+    font-size: 1.2em;
+    font-stretch: expanded;
+    font-weight: lighter;
+    /*  23 font family
+         https://blog.hubspot.com/website/web-safe-html-css-fonts
+         https://stackoverflow.com/questions/21334839/applying-comic-sans-ms-font-style
+    */
+    font-family: "Comic Sans MS", "Comic Sans", cursive;   /* system-ui; */
+   }
+
+
+   .flex-key-for-row {
+    font-style: oblique 60deg;
+    font-size: 0.6em;
+    font-family: 'Bradley Hand', cursive; /* cursive; */
+   }
+
+   .flex-value-for-row {
+    font-style: normal;
+    font-size: 0.9em;
+    font-stretch: expanded;
+    font-weight: lighter;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;   /* system-ui; */
+   }
+
+
+  
+
+
+  
+
+
+
+/* large radio apply to all
+
+  input[type='radio'] {
+    height: 28px;
+    width: 28px;
+    vertical-align: middle;
+  }
+
+
+*/
+
+  input[type='checkbox'] {
+    height: 19px;
+    width: 19px;
+    vertical-align: middle;
+  }
+
+
+/*   -----  end ------  -----  from    ----- flex    ----- vertical     -----  design     -----    -----  */
+
+
+
+
+
+.cross-line {
+
+   text-decoration-line: line-through;
+   text-decoration-thickness: 0.1px; /* Adjust thickness here */
+   /*  text-decoration-color: black;    Optional: sets color */
+    text-decoration-style: dashed;    /* solid;    Optional: sets style */
+}
+
+
+
+
+
+/*  utility always at bottom */
+
+  .flex-row {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    /* border: 1px dotted grey; */
+  }
+
+
+ 
+  .flex-column {
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .font-size-xx-small{
+    font-size: xx-small;
+  }

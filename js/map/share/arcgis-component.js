@@ -175,7 +175,8 @@ function pan_to_real_location(){
                                 if (! found_1_valid_geometry){
                                   console.log('not find a valid feature geometry, so zoom to all features array (full extent)')
                                   // goto full extent, always works
-                                  arcgisMap.goTo(results.features); 
+                                  //arcgisMap.goTo(results.features); 
+                                  arcgisMap.goTo(backgroundFeatureLayer.fullExtent, { animate: true, duration: 2500 }); 
                                 }
           })
           .catch(function(error) {

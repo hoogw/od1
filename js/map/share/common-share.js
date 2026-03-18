@@ -2943,10 +2943,18 @@ maxRecordCount = _featurelayerJSON.maxRecordCount
                                   document.title = _layer  
                                   update_url_parameter('layer',_layer ) 
 
-                                  var html_layerInfo = '<a href="' + _url_layer + '">' + '<strong style="font-size:27px;">' + _layer + '</strong>'  + '</a>'
+                                  var html_layerInfo = '<a href="' + _url_layer + '">' + '<span style="font-size:xx-large;">' + _layer + '</strong>'  + '</a>'
                                   html_layerInfo += '</br>'
-                                  html_layerInfo += '<a href="' + _url_layer + '">' + '<span style="font-size:10px;">' + _url_layer + '</span>' +  '</a>'
+                                  html_layerInfo += '<a href="' + _url_layer + '">' + '<span style="font-size:xx-small;">' + _url_layer + '</span>' +  '</a>'
                                   $('#layer-info').html(html_layerInfo)
+
+
+                                  
+
+
+                                  // only for vertical
+                                  $('#layer-info-vertical').html('<a style="font-size:large;" target="_blank" href="' + _url +'">' + _layer + '</a>')
+
                         
                           } catch (error) {
                               console.error(' error on field name,  fail to get feature attribute -----> ', error);

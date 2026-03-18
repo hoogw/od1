@@ -1,7 +1,5 @@
 
 
-
-
 // dynamic import is async(return promise)
 // case 1. even use "a w a i t     a r c g i s _ i m p o r t ()" also put it inside a s y n c function, sometime still cause module not define error,
 // case 2. self-run this function, sometime still cause module not define error,
@@ -21,15 +19,17 @@
 
     // must at top to load first,
     request = await $arcgis.import("@arcgis/core/request.js");
+    promiseUtils = await $arcgis.import("@arcgis/core/core/promiseUtils.js");
+
     
 
     // layer 
     // f e a t u r e    l a y e r     must use array [] for multiple export item  
     [FeatureLayer] = await $arcgis.import(["@arcgis/core/layers/FeatureLayer.js"]);
     GeoJSONLayer = await $arcgis.import("@arcgis/core/layers/GeoJSONLayer.js");
+    ImageryLayer = await $arcgis.import("@arcgis/core/layers/ImageryLayer.js");
+
     
-    // util
-    promiseUtils = await $arcgis.import("@arcgis/core/core/promiseUtils.js");
     
 
     //geometry
@@ -49,6 +49,7 @@
     // because sometime, not always, get error as webTileLayer not available
     
     Field = await $arcgis.import("@arcgis/core/layers/support/Field.js");
+
 
     
 

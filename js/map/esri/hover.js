@@ -323,8 +323,6 @@
          init_user_interface_for_component()
          
                           
-         update_layer_name(background_layer_url, _layer)  
-                          
                           
                           
       } // dom ready
@@ -390,16 +388,7 @@ $('#info-window-div').html("")
               // -- -- -- vertial adjustment  -- -- -- 
 
 
-              // arcgis common adjustment
-              function update_layer_name(___layer_url, ___layer_name){
-
-                // without link
-                //$('#layer-info-vertical').html('<strong style="font-size:12px;">' + ___layer_name + '</strong>')
-                // with link
-                $('#layer-info-vertical').html('<a  target="_blank" href="' + ___layer_url +'">' + ___layer_name + '</a>')
-
-
-              }
+              
 
 
               function update_statistic_info_vertical(rendered, total){

@@ -231,7 +231,11 @@ var groundoverlay_opacity = 0.8
           html_layerInfo += '</br>'
           html_layerInfo += '<a href="' + _url_layer + '">' + '<span style="font-size:xx-small;">' + _url_layer + '</span>' +  '</a>'
           $('#layer-info').html(html_layerInfo)
-                              
+                    
+          
+          // only for vertical
+          $('#layer-info-vertical').html('<a style="font-size:large;" target="_blank" href="' + _url +'">' + _layer + '</a>')
+
                             
         } 
       /**/

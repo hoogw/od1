@@ -1,23 +1,30 @@
 
 
-// . . . import arcgis component  . . . (keep top)
 
+// . . . import arcgis component  . . . (keep top)
+var arcgisMap
 
 var esriConfig
 var geocodingServiceUrl
 var apiKey
 
 
-var arcgisMap
+// must at top, load first
+var request
+var promiseUtils
+
+
+
+
 
 
 // layer
 var FeatureLayer
 var GeoJSONLayer
+var ImageryLayer
 
 
-// util
-var promiseUtils
+
 
 
 //geometry
@@ -37,7 +44,7 @@ var Basemap
 var WebTileLayer
 var BasemapStyle
 
-var request
+
 var Field
 
 

@@ -604,7 +604,7 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
         var selected_node_text = data.node.original.text
         var selected_node_layer_name = data.node.original.relative_path
         var selected_node_type = data.node.original.type
-
+        console.log('-- selected node type --', selected_node_type)
 
 
         update_url_parameter('select_layer_id', selected_node_layer_id);

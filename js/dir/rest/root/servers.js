@@ -173,17 +173,27 @@ folder_structure_flatjson = [
              console.log( 'window.location  ', window.location)
 
              
-            var _newTab_link =  window.location.origin + window.location.pathname.replace('root/servers.html', 'svr/server.html')
-            _newTab_link += '?org=' + selected_node_relative_name  
-            _newTab_link += '&url=' + selected_node_path 
-            _newTab_link += '&type=' + selected_node_type
-            _newTab_link += '&model=' + model // will pass model number to server.js
-            console.log('_newTab_link', _newTab_link)
+             var _newTab_link
+             if (selected_node_type == "ImageServer"){
 
+                    _newTab_link = url_template_esri_image_server
+                    _newTab_link += '?url=' + selected_node_path 
+
+             } else {
+
+                // only for map server, feature server
+                    _newTab_link = url_template_server
+                    _newTab_link += '?org=' + selected_node_relative_name  
+                    _newTab_link += '&url=' + selected_node_path 
+                    _newTab_link += '&type=' + selected_node_type
+                    _newTab_link += '&model=' + model // will pass model number to server.js
+
+            }
+
+            console.log('_newTab_link', _newTab_link)
             //window.open(_newTab_link, "mozillaWindow", "popup");
             //window.open(_newTab_link, "_blank", "popup");
             window.open(_newTab_link, "_blank");
-            
             
 
 

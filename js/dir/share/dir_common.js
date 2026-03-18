@@ -235,6 +235,7 @@ function build_url_base_template(){
   url_template_online = window.location.origin + "/open-data/dir/online/layers.html"
 
   url_template_esri = window.location.origin + "/open-data/map/esri/hover.html"
+  url_template_esri_image_server = window.location.origin + "/open-data/map/esri/image-server.html"
   url_template_google = window.location.origin + "/open-data/map/google/hover.html"
   url_template_apple = window.location.origin + "/open-data/map/apple/hover.html"
           

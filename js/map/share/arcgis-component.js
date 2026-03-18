@@ -123,8 +123,8 @@ var objectId
 
 
 
-
-
+var backgroundFeatureLayer  
+var imageryLayer
 
 
 
@@ -132,74 +132,100 @@ var objectId
 // component  
 function pan_to_real_location(){
 
-  /*
-  Do not Zoom to extent of all features, bad idea, slow, bulky,  https://developers.arcgis.com/javascript/latest/sample-code/featurelayer-queryextent/
-  only zoom to first feature, good idea, fast, neat
-  does not matter you add feature layer to map or not, it can alway zoom to 1st feature
-  */
-  const  query1stFeature = {
-    
-            // query object https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html
-            where: '1=1',  // return max count of return feature
 
-            /*  
-                Do not use "num" and "start", because if use any of them, will require 'paging', however, if shapefile as source, 'paging' will not be supported, will get error failed query due to paging not supported
-                https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#num
-                without use them, must use "where 1=1" will return max number of return count
-                if use "num" and "start", then do not use "where 1=1"
+  if (backgroundFeatureLayer){
 
-                num:1,
-                start:0,
-            */
+        /*
+        Do not Zoom to extent of all features, bad idea, slow, bulky,  https://developers.arcgis.com/javascript/latest/sample-code/featurelayer-queryextent/
+        only zoom to first feature, good idea, fast, neat
+        does not matter you add feature layer to map or not, it can alway zoom to 1st feature
+        */
+        const  query1stFeature = {
+          
+                  // query object https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html
+                  where: '1=1',  // return max count of return feature
 
-            returnGeometry:true,
-          }
+                  /*  
+                      Do not use "num" and "start", because if use any of them, will require 'paging', however, if shapefile as source, 'paging' will not be supported, will get error failed query due to paging not supported
+                      https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#num
+                      without use them, must use "where 1=1" will return max number of return count
+                      if use "num" and "start", then do not use "where 1=1"
 
-          backgroundFeatureLayer
-          .queryFeatures(query1stFeature)
-          .then((results) => {
-                                console.log("zoom to 1st valid feature, if not find valid, zoom to all feature array(full extent) : ",results.features)
-                                // goto(geometry) https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo
-                                var found_1_valid_geometry = false
-                                for (let i = 0; i < results.features.length; i++) {
-                                  if (results.features[i].geometry){
-                                  console.log(' go to the 1st valid feature, index, geometry  ', i, results.features[i].geometry)
-                                  found_1_valid_geometry = true
-                                  
+                      num:1,
+                      start:0,
+                  */
 
-                          console.log("arcgisMap.center", arcgisMap.center)
-                          console.log("arcgisMap.zoom", arcgisMap.zoom)
-                          console.log("arcgisMap", arcgisMap)
+                  returnGeometry:true,
+                }
+
+                backgroundFeatureLayer
+                .queryFeatures(query1stFeature)
+                .then((results) => {
+                                      console.log("zoom to 1st valid feature, if not find valid, zoom to all feature array(full extent) : ",results.features)
+                                      // goto(geometry) https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo
+                                      var found_1_valid_geometry = false
+                                      for (let i = 0; i < results.features.length; i++) {
+                                        if (results.features[i].geometry){
+                                        console.log(' go to the 1st valid feature, index, geometry  ', i, results.features[i].geometry)
+                                        found_1_valid_geometry = true
+                                        
+
+                                console.log("arcgisMap.center", arcgisMap.center)
+                                console.log("arcgisMap.zoom", arcgisMap.zoom)
+                                console.log("arcgisMap", arcgisMap)
 
 
-                          arcgisMap.goTo(results.features[i].geometry)
+                                arcgisMap.goTo(results.features[i].geometry)
 
 
 
-                                  break; // break for loop
-                                  }
-                                }//for 
-                                if (! found_1_valid_geometry){
-                                  console.log('not find a valid feature geometry, so zoom to all features array (full extent)')
-                                  // goto full extent, always works
-                                  //arcgisMap.goTo(results.features); 
-                                  arcgisMap.goTo(backgroundFeatureLayer.fullExtent, { animate: true, duration: 2500 }); 
-                                }
-          })
-          .catch(function(error) {
-                                console.log('failed to zoom to any feature ', error); 
-          }); 
-                                                                                                                    
+                                        break; // break for loop
+                                        }
+                                      }//for 
+                                      if (! found_1_valid_geometry){
+                                        console.log('not find a valid feature geometry, so zoom to all features array (full extent)')
+                                        // goto full extent, always works
+                                        //arcgisMap.goTo(results.features); 
+                                        arcgisMap.goTo(backgroundFeatureLayer.fullExtent, { animate: true, duration: 2500 }); 
+                                      }
+                })
+                .catch(function(error) {
+                                      console.log('failed to zoom to any feature ', error); 
+                }); 
+               
+  }  
+
+
+
+  if (imageryLayer){
+    arcgisMap.goTo(imageryLayer.fullExtent, { animate: true, duration: 2500 });
+  }
+
+
                                             
 }  
            
 
  function full_extent(){
   console.log('go to map image layer full extent')
-  backgroundFeatureLayer.queryExtent().then(function(results){
-    // go to the extent of the results satisfying the query
-    arcgisMap.goTo(results.extent);
-  });   
+
+  if (backgroundFeatureLayer){
+    /* keep works, 
+    backgroundFeatureLayer.queryExtent().then(function(results){
+      // go to the extent of the results satisfying the query
+      arcgisMap.goTo(results.extent);
+    }); 
+    */
+   arcgisMap.goTo(backgroundFeatureLayer.fullExtent, { animate: true, duration: 2500 });
+
+  }
+
+  if (imageryLayer){
+    arcgisMap.goTo(imageryLayer.fullExtent, { animate: true, duration: 2500 });
+  }
+
+
+
  }
 
 
@@ -315,7 +341,7 @@ function init_user_interface_for_component(){
     var esri_imagery_standard
     var esri_road
     var esri_labels
-   
+    var open_street_map
     var base_map_source_array = []
    
 
@@ -375,14 +401,43 @@ async function create_rasterTile_basemap(){
             });
 
 
+            // Google road
+            google_road = new Basemap({
+              baseLayers: [new WebTileLayer({
+                // also work   https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}
+                urlTemplate : "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}", 
+                copyright: "&#169;" + (new Date().getFullYear()) + '.' + (new Date().getMonth() + 1) + " Google Road with Label ",
+                id: "layerID_google_road",
+                title: "Google-Road",
+              })],
+              id: "Google-Road",
+              title: "Google-Road",
+              thumbnailUrl: "../../public/images/google1000.png",
+            });
 
          
+          // . . . . open street map  . . . .
+            open_street_map = new Basemap({
+              baseLayers: [new WebTileLayer({
+                urlTemplate : "http://tile.openstreetmap.org/{z}/{x}/{y}.png", 
+                copyright: "Open Street Map " + (new Date().getFullYear()) + '.' + (new Date().getMonth() + 1),
+                id: "layerID_open_street_map",
+                title: "Open Street Map One Way Layer",
+              })],
+
+              id: "OpenStreetMap",
+              title: "OpenStreetMap", // icon already has text
+              thumbnailUrl: "../../public/images/openstreetmap002.png",
+            });
+
 
 
 
             // raster tile base map only, not include esri's vector tile
              base_map_source_array = [
                       google_hybrid, 
+                      google_road,
+                      open_street_map,
                       
       ];
 

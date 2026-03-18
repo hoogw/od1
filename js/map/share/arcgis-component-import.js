@@ -24,10 +24,12 @@
     
 
     // layer 
+    
     // f e a t u r e    l a y e r     must use array [] for multiple export item  
     [FeatureLayer] = await $arcgis.import(["@arcgis/core/layers/FeatureLayer.js"]);
     GeoJSONLayer = await $arcgis.import("@arcgis/core/layers/GeoJSONLayer.js");
     ImageryLayer = await $arcgis.import("@arcgis/core/layers/ImageryLayer.js");
+    
 
     
     

@@ -1,7 +1,8 @@
 
 // feature layer opacity
 var groundoverlay_opacity = 0.8
-      
+
+   
 
         // any document ready function is in here
         dom_ready_dojo();
@@ -24,7 +25,7 @@ var groundoverlay_opacity = 0.8
                 arcgisMap.center = [_center_long, _center_lat]
                 arcgisMap.zoom = _center_zoom
 
-               
+              
 
                 // component // reactive Utils . watch (
                 arcgisMap.addEventListener("arcgisViewChange", (event) => {
@@ -35,11 +36,18 @@ var groundoverlay_opacity = 0.8
                 }); 
                   
                 // component // view . when 
-                // await arcgisMap.viewOnReady();
+                // only works if <script type="module"
+               //await arcgisMap.viewOnReady();
+               //https://developers.arcgis.com/javascript/latest/watch-for-changes/
                 arcgisMap.addEventListener("arcgisViewReadyChange", (event) => {
 
-                      
+                   //fix TypeError: ImageryLayer is not a constructor
+                   // have to wait until ImageryLayer module fully load completed.
+                   // esri recommend use time out to wait //https://developers.arcgis.com/javascript/latest/watch-for-changes/
+                    setTimeout(() => {
                       createImageryLayer()
+                    }, 2000);
+                      
                      
 
                       // must place after  createa feature layer, other wise view is not ready, will cause error
@@ -105,7 +113,13 @@ var groundoverlay_opacity = 0.8
       /**/
         var imageryLayer
         async function createImageryLayer(){
+
+          // only for image server, enforce road map
+          esri_basemap_id =  "Google-Road" // "OpenStreetMap" 
+          setup_radio_basemap()
+
         
+          
           imageryLayer = new ImageryLayer({
             url: ___url_string,
               //url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer",
@@ -123,9 +137,7 @@ var groundoverlay_opacity = 0.8
           //arcgisMap.constraints = { geometry: imageryLayer.fullExtent, minScale: 10000 };
 
 
-          // only for image server, enforce road map
-           esri_basemap_id = "OpenStreetMap"
-           setup_radio_basemap()
+          
         
         } 
          

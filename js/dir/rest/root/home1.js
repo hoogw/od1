@@ -175,7 +175,8 @@ folder_structure_flatjson = [
             console.log( '(server) selected_node_layer_id  ', selected_node_layer_id)   
 
 
-            if (selected_node_layer_id){
+            //if (selected_node_layer_id){ // 0 will not work
+            if (Number.isInteger(selected_node_layer_id)){
                  // layer id found, means this is a layer, not a mapserver
 
                  // model-number, layer-name, type, MapFeatureServer-url-without-layer-ID, layer-id
@@ -774,7 +775,50 @@ folder_structure_flatjson = [
                     var node =await arcgis_ajax_cross_origin(absolute_path_service_url, _cross);  // cross origin method 
                     console.log(' layer node raw raw ', id_counter, absolute_path_service_url, node)
 
-                    if (node !== null){
+                    /**/
+                    //  - - -  ---  try more times   ---  - - -
+                    /**/
+
+
+                    /*
+
+                    hrsa, https://gisportal.hrsa.gov/server/rest/services/HealthCareFacilities?f=json
+                    {
+                        "error": {
+                            "code": -1,
+                            "message": "Unable to check permission on folder HealthCareFacilities.Failed to return all services configurations in the folder 'HealthCareFacilities'. Could not connect to the ArcGIS component at URL 'https://gisportalha-2.hrsa.gov:7443/arcgis/sharing/rest/search'. The ArcGIS component on that machine may not be running or the machine may not be reachable at this time.Error: Read timed out",
+                            "details": []
+                        }
+                    }
+
+                    */
+                    console.log("sub-folder url:",absolute_path_service_url)
+                    console.log("sub-folder return:", node )
+                    if ((!node) || (node.error) || !(node.currentVersion)){
+
+
+                        tryMoreTimes = 0
+
+                        // something wrong try more times
+                        while (tryMoreTimes < MaxNumberOfTry){
+
+                            tryMoreTimes += 1
+                            _timeout = more_time
+
+                            console.log("try - FOLDER - again with more waiting time, No of try, wait time in sec", tryMoreTimes, _timeout )
+                            console.log("try - FOLDER - again with more waiting time, url : ", absolute_path_service_url )
+                            node =await arcgis_ajax_cross_origin(absolute_path_service_url, _cross);
+
+                            if ((node) && (node.currentVersion)){
+                                break; // while loop
+                            }
+
+                        }// while
+
+
+                    }  
+                                
+                    if ((node) && (node.currentVersion)){
 
                         node.absolute_path = absolute_path_service_url;
                         node.relative_path = _relative_path

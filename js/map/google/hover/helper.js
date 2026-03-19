@@ -471,34 +471,7 @@
                 }
   
 
-                    function reduce_feature_count(___arcgis_feature_Set, ___reduced_feature_count){
-                
-                      //  console.log('___arcgis_feature_Set', ___arcgis_feature_Set)
-
-                        var __features_array = ___arcgis_feature_Set.features
                   
-
-                        if ( __features_array.length > ___reduced_feature_count) {
-
-                          __features_array.length = ___reduced_feature_count
-
-                        }
-                      
-
-                        ___arcgis_feature_Set.features = __features_array;
-
-
-
-                        console.log(' after reduced feature count === ', ___arcgis_feature_Set.features.length)
-
-              return ___arcgis_feature_Set
-
-
-
-                    
-
-                    }  
-
 
 
                         //  +++++++++ ********* +++++++++    map tile   +++++++++ ********* +++++++++  

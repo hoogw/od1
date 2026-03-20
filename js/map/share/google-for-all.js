@@ -3647,7 +3647,7 @@ var _google_public_map_only_api_key = "AIzaSyCeIFVL6oxxXNT7NToJjfU4J9TV2J8m4vE"
 
 
                                     "wkid": 102100,                       // ESRI always available, can use https://gis.stackexchange.com/questions/278165/getting-lat-lng-from-wkid-latestwkid-and-x-y-coordinates
-                                                                          // https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer/project
+                                                                          // https://tasks.arcgisonline.com/arcgis/rest/services/Geometry/GeometryServer/project
                                                                           // to get lat long on the fly
 
 
@@ -3694,7 +3694,7 @@ var _google_public_map_only_api_key = "AIzaSyCeIFVL6oxxXNT7NToJjfU4J9TV2J8m4vE"
                                   } else {
 
                                             // this could over-write previous 'read_proj_string' , if latestWkid is not 3857
-                                            projection_method = 'esri_proj'   // get lat lng directly from  https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer/project
+                                            projection_method = 'esri_proj'   // get lat lng directly from  https://tasks.arcgisonline.com/arcgis/rest/services/Geometry/GeometryServer/project
                                   }
 
                   } // wkid
@@ -3900,7 +3900,7 @@ var _google_public_map_only_api_key = "AIzaSyCeIFVL6oxxXNT7NToJjfU4J9TV2J8m4vE"
                                                       // in use, client side projection, very fast, no need await, fit bound must be inside require module
 
                                                                 // some case, may not await,
-                                                                esri_clientSide_projection(bbox)  
+                                                                //esri_clientSide_projection(bbox)  
                                                                   
                                                                 
                                                                 
@@ -3912,7 +3912,7 @@ var _google_public_map_only_api_key = "AIzaSyCeIFVL6oxxXNT7NToJjfU4J9TV2J8m4vE"
 
 
                                                       // not use, esri server side projection , very slow, due to ajax call, but works, must use await, because it has ajax call, 
-                                                            /*  
+                                                             
                                                                   var _esri_serverSide_projection_result = await esri_serverSide_projection(bbox)
 
                                                                   console.log('_esri_serverSide_projection_result', _esri_serverSide_projection_result)
@@ -3922,7 +3922,7 @@ var _google_public_map_only_api_key = "AIzaSyCeIFVL6oxxXNT7NToJjfU4J9TV2J8m4vE"
                                                                   console.log('  esri server projection  ---->  non-(3857)   always to --> 4326   _south_west_point_long_lat_array ----> ',   _south_west_point_long_lat_array )
                                                                   console.log('  esri server projection  ---->  non-(3857)   always to --> 4326   _north_east_point_long_lat_array ----> ',   _north_east_point_long_lat_array )
                                                                   fit_bound_googlemaps(_south_west_point_long_lat_array,  _north_east_point_long_lat_array)
-                                                            */
+                                                          
 
 
 
@@ -4230,8 +4230,8 @@ var _google_public_map_only_api_key = "AIzaSyCeIFVL6oxxXNT7NToJjfU4J9TV2J8m4vE"
                                                       __geometries_max = encodeURIComponent(JSON.stringify(__geometries_max))
 
 
-                                                      var  _esri_proj_min_url =   'https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer/project?inSR=' + _________wkid    +  '&outSR=4326&geometries=' + __geometries_min + '&f=pjson';
-                                                      var  _esri_proj_max_url =   'https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer/project?inSR=' + _________wkid    +  '&outSR=4326&geometries=' + __geometries_max + '&f=pjson';
+                                                      var  _esri_proj_min_url =   'https://tasks.arcgisonline.com/arcgis/rest/services/Geometry/GeometryServer/project?inSR=' + _________wkid    +  '&outSR=4326&geometries=' + __geometries_min + '&f=pjson';
+                                                      var  _esri_proj_max_url =   'https://tasks.arcgisonline.com/arcgis/rest/services/Geometry/GeometryServer/project?inSR=' + _________wkid    +  '&outSR=4326&geometries=' + __geometries_max + '&f=pjson';
 
 
                                                       var _esri_proj_min_result

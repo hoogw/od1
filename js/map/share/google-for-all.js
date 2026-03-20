@@ -3897,7 +3897,7 @@ var _google_public_map_only_api_key = "AIzaSyCeIFVL6oxxXNT7NToJjfU4J9TV2J8m4vE"
 
 
 
-                                                      // in use, client side projection, very fast, no need await, fit bound must be inside require module
+                                                      // client side projection, very fast, no need await, fit bound must be inside require module
 
                                                                 // some case, may not await,
                                                                 //esri_clientSide_projection(bbox)  
@@ -3911,7 +3911,7 @@ var _google_public_map_only_api_key = "AIzaSyCeIFVL6oxxXNT7NToJjfU4J9TV2J8m4vE"
 
 
 
-                                                      // not use, esri server side projection , very slow, due to ajax call, but works, must use await, because it has ajax call, 
+                                                      // esri server side projection , very slow, due to ajax call, but works, must use await, because it has ajax call, 
                                                              
                                                                   var _esri_serverSide_projection_result = await esri_serverSide_projection(bbox)
 
@@ -3997,173 +3997,278 @@ var _google_public_map_only_api_key = "AIzaSyCeIFVL6oxxXNT7NToJjfU4J9TV2J8m4vE"
 
             }
 
-            // fit bound must inside require module
-            function esri_clientSide_projection(extent_geometry){
+            
+ 
+  // error: SpatialReference is not a constructor
+  // means module is not load, so far, just use server side projection          
+  //must load arcgis module v5.0,  2026
+ // sample to load arcgis module v5.0 see google/mapimagelayer.html
+  var SpatialReference
+  var shapePreservingProjectOperator
+  async function esri_clientSide_projection(extent_geometry){
 
-              /*
-
-                                              // also works at https://developers.arcgis.com/rest/services-reference/project.htm
-                                              // var _projection_server_url = 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/project?';
-
-                                              all 3 kind of extent works, just choose one of them  
-                                        
-                                                    "extent": {
-                                                        "xmin": 1440000,
-                                                        "ymin": 535000,
-                                                        "xmax": 1455000,
-                                                        "ymax": 550000,
-                                                        "spatialReference": {
-                                                            "wkid": 102719,
-                                                            "latestWkid": 2264
-                                                        }
-                                                    },
-
-
-
-                                                    "initialExtent": {
-                                                        "xmin": 1440000,
-                                                        "ymin": 535000,
-                                                        "xmax": 1455000,
-                                                        "ymax": 550000,
-                                                        "spatialReference": {
-                                                            "wkid": 102719,
-                                                            "latestWkid": 2264
-                                                        }
-                                                    },
+    console.log("esri client Side rojection ( extent geometry )", extent_geometry)
+    /*
+      esri prefer fullExtent, even all 3 kind of extent works,  
+            
+              "extent": {
+                  "xmin": 1440000,
+                  "ymin": 535000,
+                  "xmax": 1455000,
+                  "ymax": 550000,
+                  "spatialReference": {
+                      "wkid": 102719,
+                      "latestWkid": 2264
+                  }
+              },
 
 
 
-                                                    "fullExtent": {
-                                                        "xmin": 1440000,
-                                                        "ymin": 535000,
-                                                        "xmax": 1455000,
-                                                        "ymax": 550000,
-                                                        "spatialReference": {
-                                                            "wkid": 102719,
-                                                            "latestWkid": 2264
-                                                        }
-                                                    },
-                                                    
-
-                                              
-                                        
-                                        */
-                                        
-                                      
-
-                                                  
+              "initialExtent": {
+                  "xmin": 1440000,
+                  "ymin": 535000,
+                  "xmax": 1455000,
+                  "ymax": 550000,
+                  "spatialReference": {
+                      "wkid": 102719,
+                      "latestWkid": 2264
+                  }
+              },
 
 
-                                      
-                                                              require([
-                                                                "esri/geometry/SpatialReference",
-                                                                "esri/geometry/projection",
-                                                                "dojo/domReady!"
-                                                              ], function (
-                                                                SpatialReference, projection
-                                                              ) {
+
+              "fullExtent": {
+                  "xmin": 1440000,
+                  "ymin": 535000,
+                  "xmax": 1455000,
+                  "ymax": 550000,
+                  "spatialReference": {
+                      "wkid": 102719,
+                      "latestWkid": 2264
+                  }
+              },
+                      
+    */
+  
+
+   var outSpatialReference
+   var extent_projectedGeometries
+
+
+   // must wait 3 sec, let arcgis module to load completed.
+   setTimeout(async () => {
+
+        // error: SpatialReference is not a constructor
+        outSpatialReference = new SpatialReference({
+          wkid: 4326 //Sphere_Sinusoidal projection
+        });
+
+
+        extent_projectedGeometries = await shapePreservingProjectOperator.execute(
+             extent_geometry, 
+             outSpatialReference
+        );
+        console.log("extent_projectedGeometries", extent_projectedGeometries);
+
+  
+
+        
+
+        var _xmin = extent_projectedGeometries.xmin;
+        var _ymin = extent_projectedGeometries.ymin;
+        var _xmax = extent_projectedGeometries.xmax;
+        var _ymax = extent_projectedGeometries.ymax;
+                                       
+        // not use pan to lat/lng
+        /*
+                var _xmiddle = (_xmax - _xmin) / 2 + _xmin;
+                var _ymiddle = (_ymax - _ymin) / 2 + _ymin;
+                panto_googlemaps( _ymiddle, _xmiddle, _center_zoom )   
+        */
+        
+        
+        // in use, fit bound
+        var _south_west_point_long_lat_array = [_xmin,    _ymin]
+        var _north_east_point_long_lat_array = [_xmax,    _ymax]  
+
+        console.log(' -- esri client side projection  --   _south_west_point_long_lat_array',  _south_west_point_long_lat_array )
+        console.log(' -- esri client side projection  --   _north_east_point_long_lat_array',  _north_east_point_long_lat_array )       
+        fit_bound_googlemaps(_south_west_point_long_lat_array,  _north_east_point_long_lat_array)
+
+
+
+
+    }, 10000);
+              
+  }
+
+
+
+
+ // fit bound must inside require module
+ function v4_dojo_esri_clientSide_projection(extent_geometry){
+
+  /*
+
+                                  // also works at https://developers.arcgis.com/rest/services-reference/project.htm
+                                  // var _projection_server_url = 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer/project?';
+
+                                  all 3 kind of extent works, just choose one of them  
                             
-                                                                          /*
+                                        "extent": {
+                                            "xmin": 1440000,
+                                            "ymin": 535000,
+                                            "xmax": 1455000,
+                                            "ymax": 550000,
+                                            "spatialReference": {
+                                                "wkid": 102719,
+                                                "latestWkid": 2264
+                                            }
+                                        },
 
-                                                                              fix bug projection do not have function isSupported()
 
 
-                                                                                https://www.esri.com/arcgis-blog/products/js-api-arcgis/mapping/introducing-the-client-side-projection-engine/
+                                        "initialExtent": {
+                                            "xmin": 1440000,
+                                            "ymin": 535000,
+                                            "xmax": 1455000,
+                                            "ymax": 550000,
+                                            "spatialReference": {
+                                                "wkid": 102719,
+                                                "latestWkid": 2264
+                                            }
+                                        },
 
-                                                                                https://developers.arcgis.com/javascript/3/jssamples/client_projection.html
 
-                                                                                https://developers.arcgis.com/javascript/3/jsapi/esri.geometry.projection-amd.html
-                                                                          */
 
-                                                                            
+                                        "fullExtent": {
+                                            "xmin": 1440000,
+                                            "ymin": 535000,
+                                            "xmax": 1455000,
+                                            "ymax": 550000,
+                                            "spatialReference": {
+                                                "wkid": 102719,
+                                                "latestWkid": 2264
+                                            }
+                                        },
+                                        
+
+                                   
+                            
+                            */
+                             
+                           
+
+                                       
+
+
+                          
+                                                  require([
+                                                    "esri/geometry/SpatialReference",
+                                                    "esri/geometry/projection",
+                                                    "dojo/domReady!"
+                                                  ], function (
+                                                    SpatialReference, projection
+                                                  ) {
+                
+                                                              /*
+
+                                                                  fix bug projection do not have function isSupported()
+
+
+                                                                    https://www.esri.com/arcgis-blog/products/js-api-arcgis/mapping/introducing-the-client-side-projection-engine/
+
+                                                                    https://developers.arcgis.com/javascript/3/jssamples/client_projection.html
+
+                                                                    https://developers.arcgis.com/javascript/3/jsapi/esri.geometry.projection-amd.html
+                                                              */
+
+                                                                
+                                                                    
+                                                                    console.log('  - 1 - projection.isSupported() ', projection)
+
+
+
+                                                            
+                                                              // load the projection module
+                                                              projection.load().then(function () {
+
+                                                                            var outSpatialReference = new SpatialReference({
+                                                                              wkid: 4326 //Sphere_Sinusoidal projection
+                                                                            });
+
+
+                                                                    try {
+
+
+                                                                            // project an array of geometries to the specified output spatial reference
+                                                                            var extent_projectedGeometries = projection.project(extent_geometry , outSpatialReference);
+                                                                                console.log("extent_projectedGeometries", extent_projectedGeometries);
+
+
+                                                                                var _xmin = extent_projectedGeometries.xmin;
+                                                                                var _ymin = extent_projectedGeometries.ymin;
+                                                                                var _xmax = extent_projectedGeometries.xmax;
+                                                                                var _ymax = extent_projectedGeometries.ymax;
                                                                                 
-                                                                                console.log('  - 1 - projection.isSupported() ', projection)
+                                                                                
 
 
 
-                                                                        
-                                                                          // load the projection module
-                                                                          projection.load().then(function () {
+                                                                            // fit bound must inside require module 
+                                                                               
+  
+  
+                                               
+                                              
+                                                                                // in use, fit bound
+                                                                                var _south_west_point_long_lat_array = [_xmin,    _ymin]
+                                                                                var _north_east_point_long_lat_array = [_xmax,    _ymax]  
 
-                                                                                        var outSpatialReference = new SpatialReference({
-                                                                                          wkid: 4326 //Sphere_Sinusoidal projection
-                                                                                        });
-
-
-                                                                                try {
-
-
-                                                                                        // project an array of geometries to the specified output spatial reference
-                                                                                        var extent_projectedGeometries = projection.project(extent_geometry , outSpatialReference);
-                                                                                            console.log("extent_projectedGeometries", extent_projectedGeometries);
-
-
-                                                                                            var _xmin = extent_projectedGeometries.xmin;
-                                                                                            var _ymin = extent_projectedGeometries.ymin;
-                                                                                            var _xmax = extent_projectedGeometries.xmax;
-                                                                                            var _ymax = extent_projectedGeometries.ymax;
-                                                                                            
-                                                                                            
-
-
-
-                                                                                        // fit bound must inside require module 
-                                                                                          
-              
-              
-                                                                                            // not use pan to lat/lng
-                                                                                            /*
-                                                                                                    var _xmiddle = (_xmax - _xmin) / 2 + _xmin;
-                                                                                                    var _ymiddle = (_ymax - _ymin) / 2 + _ymin;
-                                                                                                    panto_googlemaps( _ymiddle, _xmiddle, _center_zoom )   
-                                                                                            */
-                                                          
-                                                          
-                                                                                            // in use, fit bound
-                                                                                            var _south_west_point_long_lat_array = [_xmin,    _ymin]
-                                                                                            var _north_east_point_long_lat_array = [_xmax,    _ymax]  
-
-                                                                                            console.log(' -- esri client side projection  --   _south_west_point_long_lat_array',  _south_west_point_long_lat_array )
-                                                                                            console.log(' -- esri client side projection  --   _north_east_point_long_lat_array',  _north_east_point_long_lat_array )       
-                                                                                            fit_bound_googlemaps(_south_west_point_long_lat_array,  _north_east_point_long_lat_array)
+                                                                                console.log(' -- esri client side projection  --   _south_west_point_long_lat_array',  _south_west_point_long_lat_array )
+                                                                                console.log(' -- esri client side projection  --   _north_east_point_long_lat_array',  _north_east_point_long_lat_array )       
+                                                                                fit_bound_googlemaps(_south_west_point_long_lat_array,  _north_east_point_long_lat_array)
 
 
 
 
 
-                                                                      
+                                                           
 
 
 
-                                                                                          } catch (projection_error) {
+                                                                              } catch (projection_error) {
 
-                                                                                            console.log(" +++ client side projection failed, projection is not load   ",projection_error );
+                                                                                console.log(" +++ client side projection failed, projection is not load   ",projection_error );
 
-                                                                                            
-                                                                                              
-                                                                                            // only xxx/MapServer have initialExtent, the other FeatureServer, ImageServer do NOT have it. 
-                                                                                            
+                                                                                
+                                                                                  
+                                                                                // only xxx/MapServer have initialExtent, the other FeatureServer, ImageServer do NOT have it. 
+                                                                                 
 
-                                                                                            return;
+                                                                                return;
 
-                                                            
-                                                                                  }// catch
-                                                          
-
-
-
-                                                                        }); // load projectin module
-
-
-                                                            }); //require([
+                                                 
+                                                                      }// catch
+                                               
 
 
 
-                                                            
-                              
-            }
+                                                            }); // load projectin module
 
-            // not use, but keep here,  esri server side projection , very slow, due to ajax call, but works, must use await, because it has ajax call, 
+
+                                                }); //require([
+
+
+
+                                                
+                  
+                            }
+
+
+
+
+            //esri server side projection , very slow, due to ajax call, but works, must use await, because it has ajax call, 
             async function esri_serverSide_projection(__bbox){
 
 

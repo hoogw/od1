@@ -620,6 +620,7 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
             /**/
                 // Do not confuse with 'FeatureServer'(no space between),  'Feauter Layer'(have space between)
                 case "Feature Layer": 
+                case "Raster Layer": 
                 case "Annotation Layer":
                 case "Table":
                         console.log('open new popup window for -- feature layer --', )
@@ -652,15 +653,7 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
                 break;
 
 
-
-            case "Raster Layer": 
-                        console.log('render MapServer -- raster layer --')
-                        // show icon , with 
-                        //render_raster_layer(_selected_id[0])
-                        // for 3 panel only, show layer legend,because already have map.server.full.json, do not need ajax again show layer legend,  
-                        //show_legend(_selected_id[0], mapserver_legend)
-            break;
-
+                 
 
         //   - - - -   end - - - -  feature layer  type  - - - - 
 

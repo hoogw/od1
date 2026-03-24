@@ -2859,9 +2859,24 @@ function use_what_model_to_open_popup(__model__name__, _name_, _type_, _url_, _i
             break;
 
         case 'google':
-            // for google hover 6392
-            _newTab_link =  url_template_google
-            _newTab_link += '?layer_id=' + _id_  + '&url=' + _url_ 
+
+               if (_type_ == "Raster Layer"){
+
+                // use google map image layer
+                _newTab_link =  url_template_google_mapimagelayer
+                _newTab_link += '?layer_id=' + _id_  + '&url=' + _url_ 
+
+
+
+               } else {
+                 // feature layer
+
+                    // use google hover 6392
+                    _newTab_link =  url_template_google
+                    _newTab_link += '?layer_id=' + _id_  + '&url=' + _url_ 
+
+
+               }
             break;   
             
         case 'apple':

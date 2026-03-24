@@ -184,7 +184,7 @@ folder_structure_flatjson = [
 
                    } else if (selected_model == 'google'){
                     _newTab_link =  url_template_google_mapimagelayer
-                    _newTab_link += '?layer_id=0' + '&url=' + encodeURIComponent(selected_node_path)
+                    _newTab_link += '?url=' + selected_node_path
 
                    }
 

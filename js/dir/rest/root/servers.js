@@ -176,8 +176,16 @@ folder_structure_flatjson = [
              var _newTab_link
              if (selected_node_type == "ImageServer"){
 
+                   if (selected_model == 'esri'){
+
                     _newTab_link = url_template_esri_image_server
                     _newTab_link += '?url=' + selected_node_path 
+
+                   } else if (selected_model == 'google'){
+                    _newTab_link =  url_template_google_mapimagelayer
+                    _newTab_link += '?url=' + selected_node_path
+
+                   }
 
              } else {
 

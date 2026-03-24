@@ -194,12 +194,20 @@ folder_structure_flatjson = [
                 // No layer id , means this is mapserver, not layer, 
 
                 var _newTab_link
-                if (selected_node_type == "ImageServer"){
+                 if (selected_node_type == "ImageServer"){
 
-                        _newTab_link = url_template_esri_image_server
-                        _newTab_link += '?url=' + selected_node_path 
+                   if (selected_model == 'esri'){
 
-                } else {
+                    _newTab_link = url_template_esri_image_server
+                    _newTab_link += '?url=' + selected_node_path 
+
+                   } else if (selected_model == 'google'){
+                    _newTab_link =  url_template_google_mapimagelayer
+                    _newTab_link += '?url=' + selected_node_path
+
+                   }
+
+             } else {
 
                     // only for map server, feature server
                     _newTab_link = url_template_server

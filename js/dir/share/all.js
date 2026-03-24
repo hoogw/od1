@@ -2846,8 +2846,9 @@ function standard_json_to_html(_results) {
 // model-number, layer-name, type, MapFeatureServer-url-without-layer-ID, layer-id
 function use_what_model_to_open_popup(__model__name__, _name_, _type_, _url_, _id_){
 
-    console.log( 'window.location  ', window.location)
-    console.log( ' layer url :', _url_)
+    console.log( 'use what model window.location  ', window.location)
+    console.log( 'use what model layer url :', _url_)
+    console.log( 'use what model type :', _type_)
 
     var _newTab_link
     switch (__model__name__) {

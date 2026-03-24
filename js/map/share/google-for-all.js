@@ -560,6 +560,191 @@ var pegman_follow_you_or_not = 'follow' // 'not_follow'
 
 
 
+/**/
+// - - - - dynamic layer  - - - - 
+/**/
+
+
+// default blue 
+var polygonFillBy = 'blue-diagonal-cross' //'original-color' 
+var param_polygonFillBy
+
+
+var current_fillColor = 'rgba(0, 200, 255, 0.87)'     // teal
+var current_outlineColor = 'rgba(0, 0, 255, 0.87)'       // blue 
+var current_outlineWidth = 1   // array[6] = 5
+var current_outlinePattern = 0  // solid
+var current_simplefillPattern = 2  // esriSFSDiagonalCross
+var current_pointSize = 24       // array[4] = 24
+var current_pointShape = 0      // circle
+
+
+
+/**/
+//   ###  ###  ### width size  ###  ###  ###
+
+     
+      // Simple Line Symbol (esriSLS) https://developers.arcgis.com/web-map-specification/objects/esriSLS_symbol/
+      var pattern_simpleLineSymbol_array = ['Solid', 'Dash', 'Dash Dot', 'Dash Dot Dot', 'Dot', 'Long Dash', 'Long Dash Dot', 'Short Dash','Short Dash Dot', 'Short Dash Dot Dot','Short Dot','Null']
+      var pattern_simpleLineSymbol_esriSLS_array = ['esriSLSSolid', 'esriSLSDash', 'esriSLSDashDot', 'esriSLSDashDotDot', 'esriSLSDot', 'esriSLSLongDash', 'esriSLSLongDashDot', 'esriSLSShortDash','esriSLSShortDashDot', 'esriSLSShortDashDotDot','esriSLSShortDot','esriSLSNull']
+      
+      // Simple Fill Symbol (esriSFS) https://developers.arcgis.com/rest/services-reference/enterprise/symbol-objects/
+      var pattern_simpleFillSymbol_array = ['Backward Diagonal', 'Cross', 'Diagonal Cross', 'Forward Diagonal', 'Horizontal', 'Null', 'Solid', 'Vertical']
+      var pattern_simpleFillSymbol_esriSFS_array = ['esriSFSBackwardDiagonal', 'esriSFSCross', 'esriSFSDiagonalCross', 'esriSFSForwardDiagonal', 'esriSFSHorizontal', 'esriSFSNull', 'esriSFSSolid', 'esriSFSVertical']
+
+      // Simple Marker Symbol (esriSMS) https://developers.arcgis.com/web-map-specification/objects/esriSMS_symbol/
+      var shape_array = ['Circle', 'Cross', 'Diamond', 'Square', 'Triangle', 'X']
+      var shape_esriSMS_array = ['esriSMSCircle', 'esriSMSCross', 'esriSMSDiamond', 'esriSMSSquare', 'esriSMSTriangle', 'esriSMSX']
+
+//   ###  ###  ### width size  ###  ###  ###
+/**/
+
+
+
+
+        var polygon_renderer = {
+                                    "type":"simple",
+                                    "symbol":{
+                                                "color": esri_rgba_color_array[current_fillColor],  //[0,112,255,255],
+                                                "outline":{
+                                                                "color": esri_rgba_color_array[current_outlineColor],  //[255,255,0,255],
+                                                                "width": current_outlineWidth, //4.5,
+                                                                "type": "esriSLS",
+                                                                "style": pattern_simpleLineSymbol_esriSLS_array[current_outlinePattern], //"esriSLSSolid"
+                                                },
+                                                "type":"esriSFS",  // Simple Fill Symbol (esriSFS)
+                                                "style":pattern_simpleFillSymbol_esriSFS_array[current_simplefillPattern], // esriSFSBackwardDiagonal | esriSFSCross | esriSFSDiagonalCross | esriSFSForwardDiagonal | esriSFSHorizontal | esriSFSNull | esriSFSSolid | esriSFSVertical  
+                                    }
+                                }
+
+
+
+        var line_renderer = {
+                                "type":"simple",
+                                "symbol":{
+                                    "color": esri_rgba_color_array[current_fillColor],  //[0,92,230,255],
+                                    "width": current_outlineWidth, //4.5,
+                                    "type":"esriSLS",   // Simple Line Symbol (esriSLS)
+                                    "style": pattern_simpleLineSymbol_esriSLS_array[current_outlinePattern], //"esriSLSSolid"
+                                }
+                            }
+
+
+        
+        var point_renderer = {
+                                "type":"simple",
+                                "symbol":{
+                                    "color": esri_rgba_color_array[current_fillColor],  //[0,77,168,128],
+                                    "size":  current_pointSize, //10,
+                                    "angle":0,
+                                    "xoffset":0,
+                                    "yoffset":0,
+                                    "type":"esriSMS",
+                                    "style": shape_esriSMS_array[current_pointShape],  //"esriSMSCircle",
+
+                                    "outline":{
+                                        "color": esri_rgba_color_array[current_outlineColor],  //[230,230,0,255],
+                                        "width": current_outlineWidth, //4.5,
+                                        "type": "esriSLS",
+                                        "style": pattern_simpleLineSymbol_esriSLS_array[current_outlinePattern], //"esriSLSSolid"
+                                    }
+                                }
+                            }
+
+
+   var template_polygon_renderer = {
+                              "type":"simple",
+                              "symbol":{
+                                          "color":[0,112,255,255],
+                                          "outline":{
+                                                          "color":[255,255,0,255],
+                                                          "width":4.5,
+                                                          "type":"esriSLS",
+                                                          "style":"esriSLSSolid"
+                                          },
+                                          "type":"esriSFS",  // Simple Fill Symbol (esriSFS)
+                                          "style":"esriSFSSolid", // esriSFSBackwardDiagonal | esriSFSCross | esriSFSDiagonalCross | esriSFSForwardDiagonal | esriSFSHorizontal | esriSFSNull | esriSFSSolid | esriSFSVertical 
+                              }
+                          }
+
+
+
+  var template_line_renderer = {
+                          "type":"simple",
+                          "symbol":{
+                              "color":[0,92,230,255],
+                              "width":4.5,
+                              "type":"esriSLS",   // Simple Line Symbol (esriSLS)
+                              "style":"esriSLSSolid"
+                          }
+                      }
+
+
+  
+  var template_point_renderer = {
+                          "type":"simple",
+                          "symbol":{
+                              "color":[0,77,168,128],
+                              "size":10,
+                              "angle":0,
+                              "xoffset":0,
+                              "yoffset":0,
+                              "type":"esriSMS",
+                              "style":"esriSMSCircle",
+
+                              "outline":{
+                                  "color":[230,230,0,255],
+                                  "width":4.5,
+                                  "type":"esriSLS",
+                                  "style":"esriSLSSolid"
+                              }
+                          }
+                      }
+
+
+
+
+        
+        var current_geometryType = ''
+
+        var dynamicLayers_string = ''
+
+        var dynamicLayers_string_encoded = ''
+
+        
+        var editor_dynamicLayers_array 
+        var dynamicLayers_array = [
+                                              {
+                                                  "id":1,
+                                                  "name":"parks_trail",
+
+                                                  "source": {
+                                                                  "type":"mapLayer",
+                                                                  "mapLayerId":1
+                                                            },
+                                                            
+                                                  "definitionExpression": "",   // example: "definitionExpression": "STVR='allow'",
+
+                                                  "drawingInfo": {
+                                                                    "renderer": polygon_renderer,   // default is empty string, will change later depending on feature type(line,point, polygon)
+                                                                    "showLabels":false,
+                                                                 },  
+
+                                                    "minScale":0,
+                                                    "maxScale":0
+                                                }
+                                        ]
+
+
+
+/**/
+//  - - - -  end  - - - -  dynamic layer   - - - - 
+/**/
+
+
+
+
+
 
 
 

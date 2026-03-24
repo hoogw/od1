@@ -623,7 +623,7 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
                 case "Raster Layer": 
                 case "Annotation Layer":
                 case "Table":
-                        console.log('open new popup window for -- feature layer --', )
+                        console.log('open new popup window for -- feature layer or raster layer or others depends on type --', )
                         console.log('-- feature layer url with layer-id --', selected_node_path)
                         console.log('-- MapFeatureServer url without layer-id --', selected_node_server_path)
                         console.log('-- layer id --', selected_node_layer_id)

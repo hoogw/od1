@@ -726,6 +726,319 @@ var current_queryFeatureResultsAsGraphic_length
 
 
 
+              /**/
+              //   ........... 18 color ...........
+
+                            /* 18 color  from https://htmlcolorcodes.com/   
+
+                            esri, color foramt "color":[51,51,51,255],  https://developers.arcgis.com/web-map-specification/objects/esriTS_symbol/
+                              Color is represented as a four-element array. The four elements represent values for red, green, blue, and alpha in that order. Values range from 0 through 255. If color is undefined for a symbol, the color value is null.
+                            rgba,    Alpha 0 - 255 ... where as alpha = 0 means - ---- completely transparent.  255 means complete opaque.
+                            */
+                          
+                            var esri_rgba_color_array = [
+
+
+                                          [0,0,0, 255],  // black
+                                          [0, 0, 255, 255],  // blue
+                                          [255, 0, 0, 255],   // red
+                                          [0, 128, 0, 255],   // green
+                                          [0, 0, 128, 255],   // navy
+                                          [128, 0, 0, 255],   // Maroon
+                                          [128, 0, 128, 255], // Purple
+                                          [0, 128, 128, 255], // teal
+                                          [255, 0, 255, 255], // Fuchsia
+                                          [0, 255, 0, 255], // Lime
+                                          [0, 255, 255, 255], // Aqua
+                                                    
+
+                                                    // popular color
+                                                    [204, 204, 255, 255], // Periwinkle
+                                                    [255, 191, 0, 255],   // Amber 
+                                                    [159, 226, 191, 255],  // Seafoam Green
+                                                    [100, 149, 237, 255],  // Cornflower Blue
+                                                    [222, 49, 99, 255],    // Cerise
+                                                    [64, 224, 208, 255],   // Turquoise
+                                                    [255, 127, 80, 255],   // Coral
+                                                    [223, 255, 0, 255],    // Chartreuse
+
+                                          [255,255,255, 255],  // white
+                                          [255,255,255, 0],  //nocolor
+                                ]; 
+
+
+
+
+                                var css_rgba_color_array = [
+
+
+                                'rgba(0,0,0, 0.9)',  // black
+                                'rgba(0, 0, 255, 0.9)',  // blue
+                                'rgba(255, 0, 0, 0.9)',   // red
+                                'rgba(0, 128, 0, 0.9)',   // green
+                                'rgba(0, 0, 128, 0.9)',   // navy
+                                'rgba(128, 0, 0, 0.9)',   // Maroon
+                                'rgba(128, 0, 128, 0.9)', // Purple
+                                'rgba(0, 128, 128, 0.9)', // teal
+                                'rgba(255, 0, 255, 0.9)', // Fuchsia
+                                'rgba(0, 255, 0, 0.9)', // Lime
+                                'rgba(0, 255, 255, 0.9)', // Aqua
+
+
+                                // popular color
+                                'rgba(204, 204, 255, 0.9)',   // Periwinkle
+                                'rgba(255, 191, 0, 0.9)',     // Amber 
+                                'rgba(159, 226, 191, 0.9)',   // Seafoam Green
+                                'rgba(100, 149, 237, 0.9)',   // Cornflower Blue
+                                'rgba(222, 49, 99, 0.9)',     // Cerise
+                                'rgba(64, 224, 208, 0.9)',    // Turquoise
+                                'rgba(255, 127, 80, 0.9)',    // Coral
+                                'rgba(223, 255, 0, 0.9)',     // Chartreuse
+
+                                'rgba(255,255,255, 0.9)',  // white
+                                'rgba(255,255,255, 0)',  //nocolor
+
+                                ]; 
+
+
+                                var color_name_array = [
+
+
+                                  'Black',
+                                  'Blue',
+                                  'Red',
+                                  'Green',
+                                  'Navy',
+                                  'Maroon',
+                                  'Purple',
+                                  'Teal',
+                                  'Fuchsia',
+                                  'Lime',
+                                  'Aqua',
+                                            
+
+                                            // popular color
+                                            'Periwinkle',
+                                            'Amber', 
+                                            'SeafoamGreen',
+                                            'CornflowerBlue',
+                                            'Cerise',
+                                            'Turquoise',
+                                            'Coral',
+                                            'Chartreuse',
+
+                                  'White',  
+                                  'NoColor',          
+                                ]; 
+
+                  // ........... end  ........... 18 color ...........
+                  /**/
+
+
+
+
+
+
+                  /**/
+                  //   --- --- --- --- color scale  --- --- --- ---
+                  /**/
+
+
+
+                  var esri_possible_numeric_field_type_array = ['esriFieldTypeBigInteger', 'esriFieldTypeDouble', 'esriFieldTypeInteger', 'esriFieldTypeSingle', 'esriFieldTypeSmallInteger']
+
+                  // 5 class, element 0 is not used,
+                  var line_stroke_weight = [1,2,5,10,15,20]
+                  var point_marker_size_radius = [1,5,10,15,20,25]
+                  
+                                 
+                  
+                
+                  var color_scale_outline_width = 1
+                  var color_scale_outline_color = 'rgba(0,0,0, 0.9)'  // black
+
+
+                  var color_scale_name_index = [
+                      
+                      'colorScale_red',
+                      'colorScale_blue',
+                      'colorScale_pink',
+                      'colorScale_purple',
+                      'colorScale_orange',
+                      'colorScale_violet',
+                      'colorScale_yellow',
+                      'colorScale_slateblue',
+                      'colorScale_green',
+                      'colorScale_brown',
+                      'colorScale_teal',
+                      'colorScale_turquoise',
+                      'colorScale_tan',
+                      'colorScale_gray',
+
+                  ];
+
+                  var color_scale = {
+
+                   
+                    
+                      
+                      'colorScale_red': [
+                              'rgba(255, 160, 122, 0.98)',   // LightSalmon
+                              'rgba(250, 128, 114, 0.98)',   // Salmon
+                              'rgba(205, 92, 92, 0.98)',   // IndianRed
+                              'rgba(255, 0, 0, 0.98)',   // Red
+                              'rgba(178, 34, 34, 0.98)',   // FireBrick
+                              'rgba(139, 0, 0, 0.98)',   // DarkRed
+                            ],
+
+
+                      'colorScale_blue' :[
+                              'rgba(135, 206, 250, 0.98)',   // LightSkyBlue
+                              'rgba(135, 206, 250, 0.98)',   // LightSkyBlue
+                              'rgba(0, 191, 255, 0.98)',   // DeepSkyBlue
+                              'rgba(0, 0, 255, 0.98)',   // Blue
+                              'rgba(0, 0, 169, 0.98)',   // DarkBlue
+                              'rgba(0, 0, 98, 0.98)',   // Navy
+                            ],
+
+
+
+                      'colorScale_pink' :[
+                                'rgba(255, 182, 193, 0.98)',   // LightPink
+                                'rgba(255, 192, 203, 0.98)',   // Pink
+                                'rgba(255, 105, 180, 0.98)',   // HotPink
+                                'rgba(255, 20, 147, 0.98)',   // DeepPink
+                                'rgba(219, 112, 147, 0.98)',   // PaleVioletRed
+                                'rgba(199, 21, 133, 0.98)',   // MediumVioletRed
+                              ], 
+
+
+                     'colorScale_purple' :[
+                                'rgba(230, 230, 250, 0.98)',   // Lavender
+                                'rgba(230, 230, 250, 0.98)',   // Lavender
+                                'rgba(221, 160, 221, 0.98)',   // Plum
+                                'rgba(255, 0, 255, 0.98)',   // Fuchsia
+                                'rgba(147, 112, 219, 0.98)',   // MediumPurple
+                                'rgba(128, 0, 128, 0.98)',   // Purple
+                              ],
+
+
+
+                      'colorScale_orange' :[
+                                    'rgba(255, 127, 80, 0.98)',   // Coral
+                                    'rgba(255, 160, 122, 0.98)',   // LightSalmon
+                                    'rgba(255, 165, 0, 0.98)',   // Orange
+                                    
+                                    'rgba(255, 140, 0, 0.98)',   // DarkOrange
+                                    'rgba(255, 99, 71, 0.98)',   // Tomato
+                                    'rgba(255, 69, 0, 0.98)',   // OrangeRed
+                                  ],
+
+
+                      'colorScale_violet' :[
+                                    'rgba(230, 230, 250, 0.98)',   // Lavender
+                                    'rgba(238, 130, 238, 0.98)',   // Violet
+                                    'rgba(255, 0, 255, 0.98)',   // Fuchsia
+                                    'rgba(138, 43, 226, 0.98)',   // BlueViolet
+                                    'rgba(148, 0, 211, 0.98)',   // DarkViolet
+                                    'rgba(75, 0, 130, 0.98)',   // Indigo
+                                  ],
+
+                 
+                   'colorScale_yellow' :[
+                                'rgba(255, 250, 205, 0.98)',   // LemonChiffon
+                                'rgba(255, 255, 224, 0.98)',   // LightYellow
+                                'rgba(240, 230, 140, 0.98)',   // Khaki
+                                'rgba(255, 255, 0, 0.98)',   // Yellow
+                                'rgba(255, 215, 0, 0.98)',   // Gold
+                                'rgba(189, 183, 107, 0.98)',   // DarkKhaki
+                              ],
+
+
+                    'colorScale_slateblue' :[
+                                  'rgba(230, 230, 250, 0.98)',   // Lavender
+                                  'rgba(230, 230, 250, 0.98)',   // Lavender
+                                  'rgba(255, 0, 255, 0.98)',   // Magenta
+                                  'rgba(123, 104, 238, 0.98)',   // MediumSlateBlue
+                                  'rgba(106, 90, 205, 0.98)',   // SlateBlue
+                                  'rgba(72, 61, 139, 0.98)',   // DarkSlateBlue
+                                ],
+
+                      'colorScale_green' :[
+                                  'rgba(144, 238, 144, 0.98)',   // LightGreen
+                                  'rgba(144, 238, 144, 0.98)',   // LightGreen
+                                  'rgba(0, 250, 154, 0.98)',   // MediumSpringGreen
+                                  'rgba(60, 179, 113, 0.98)',   // MediumSeaGreen
+                                  'rgba(0, 128, 0, 0.98)',   // Green
+                                  'rgba(0, 100, 0, 0.98)',   // DarkGreen
+                                ],
+
+                      'colorScale_brown' :[
+                                  'rgba(244, 164, 96, 0.98)',   // SandyBrown
+                                  'rgba(244, 164, 96, 0.98)',   // SandyBrown
+                                  'rgba(210, 105, 30, 0.98)',   // Chocolate
+                                  'rgba(160, 82, 45, 0.98)',   // Sienna
+                                  'rgba(165, 42, 42, 0.98)',   // Brown
+                                  'rgba(128, 0, 0, 0.98)',   // Maroon
+                                ],
+
+
+                      'colorScale_teal' :[
+                                  'rgba(0, 250, 154, 0.98)',   // MediumSpringGreen
+                                  'rgba(0, 250, 154, 0.98)',   // MediumSpringGreen
+                                  'rgba(102, 205, 170, 0.98)',   // MediumAquamarine
+                                  'rgba(32, 178, 170, 0.98)',   // LightSeaGreen
+                                  'rgba(0, 139, 139, 0.98)',   // DarkCyan
+                                  'rgba(0, 98, 98, 0.98)',   // Teal
+                                ],
+
+
+
+                    
+
+                     'colorScale_turquoise' :[
+                                  'rgba(224, 255, 255, 0.98)',   // LightCyan
+                                  'rgba(224, 255, 255, 0.98)',   // LightCyan
+                                  'rgba(175, 238, 238, 0.98)',   // PaleTurquoise
+                                  'rgba(64, 224, 208, 0.98)',   // Turquoise
+                                  'rgba(0, 206, 209, 0.98)',   // DarkTurquoise
+                                  'rgba(70, 130, 180, 0.98)',   // SteelBlue
+                                ],
+
+
+                    
+
+
+                   'colorScale_tan' :[
+                                  'rgba(255, 248, 220, 0.98)',   // Cornsilk
+                                  'rgba(255, 248, 220, 0.98)',   // Cornsilk
+                                  'rgba(245, 222, 179, 0.98)',   // Wheat
+                                  'rgba(210, 180, 140, 0.98)',   // Tan
+                                  'rgba(188, 143, 143, 0.98)',   // RosyBrown
+                                  'rgba(139, 69, 19, 0.98)',   // SaddleBrown
+                                ],
+
+
+
+                   'colorScale_gray' :[
+                                  'rgba(245, 245, 245, 0.98)',   // WhiteSmoke
+                                  'rgba(245, 245, 245, 0.98)',   // WhiteSmoke
+                                  'rgba(211, 211, 211, 0.98)',   // LightGray
+                                  'rgba(169, 169, 169, 0.98)',   // DarkGray
+                                  'rgba(112, 128, 144, 0.98)',   // SlateGray
+                                  'rgba(47, 79, 79, 0.98)',   // DarkSlateGray
+                                ],
+
+                  }
+
+
+
+
+
+                  /**/
+                  //   --- --- end --- --- color scale  --- --- --- ---  
+                  /**/
+
 
 
 

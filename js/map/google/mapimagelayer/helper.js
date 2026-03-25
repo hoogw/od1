@@ -377,11 +377,11 @@ function change_style(){
 
 
                     
-                    case 'yellow-forward-diagonal':
+                    case 'red-forward-diagonal':
                             current_simplefillPattern = 3  // backward-diagonal
                             current_outlinePattern = 0
-                            current_fillColor = 'rgba(255,255,0, 0.87)'; // yellow
-                            current_outlineColor = 'rgba(255, 215, 0, 0.87)'
+                            current_fillColor = 'rgba(255, 160, 122, 0.87)'; // red
+                            current_outlineColor = 'rgba(255, 0, 0, 0.87)'
                             current_outlineWidth = 1   // array[6] = 5
 
                             current_pointSize = 24       // array[4] = 24

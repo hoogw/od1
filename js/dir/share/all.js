@@ -2853,13 +2853,19 @@ function use_what_model_to_open_popup(__model__name__, _name_, _type_, _url_, _i
     var _newTab_link
     switch (__model__name__) {
 
+
+        // esri feature layer, hover
         case 'esri':
             // for esri component hover 6122
             _newTab_link =  url_template_esri
             _newTab_link += '?backgroundlayerurl=' + _url_ + "/" + _id_
             break;
 
-        case 'google':
+
+
+
+        // google feature layer, hover
+        case 'google':   
 
                if (_type_ == "Raster Layer"){
 
@@ -2879,6 +2885,26 @@ function use_what_model_to_open_popup(__model__name__, _name_, _type_, _url_, _i
 
                }
             break;   
+
+
+         case 'esri-image':   
+
+               // feature layer, Raster Layer, no matter what, all use same google map image layer
+                _newTab_link =  url_template_esri_mapimagelayer
+                _newTab_link += '?layer_id=' + _id_  + '&url=' + _url_ 
+            break;  
+
+
+        case 'google-image':   
+
+               // feature layer, Raster Layer, no matter what, all use same google map image layer
+                _newTab_link =  url_template_google_mapimagelayer
+                _newTab_link += '?layer_id=' + _id_  + '&url=' + _url_ 
+            break;   
+
+
+
+
             
         case 'apple':
             // for apple hover 7760

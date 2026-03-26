@@ -255,13 +255,36 @@ a {
 
 
 
-.cross-line {
+            .cross-line {
+              text-decoration-line: line-through;
+              text-decoration-thickness: 0.1px; /* Adjust thickness here */
+              /*  text-decoration-color: black;    Optional: sets color */
+                text-decoration-style: dashed;    /* solid;    Optional: sets style */
+            }
 
-   text-decoration-line: line-through;
-   text-decoration-thickness: 0.1px; /* Adjust thickness here */
-   /*  text-decoration-color: black;    Optional: sets color */
-    text-decoration-style: dashed;    /* solid;    Optional: sets style */
-}
+
+
+             /*  ----- hover-span  ----- */
+
+                /* when user hover */
+                .hover-span:hover {
+
+                   background-color: rgb(63, 63, 63);
+                   transform: translateY(2px); 
+
+                }
+                /* when user click mouse down*/
+                .hover-span:active,  
+                /* after user clicked*/
+                .hover-span-clicked {
+
+                  /* all use same effect */
+                 
+                  background-color: rgb(100, 100, 100);
+                  transform: translateY(2px); 
+                }
+            /*  -----  end ------ hover-span */
+
 
 
 

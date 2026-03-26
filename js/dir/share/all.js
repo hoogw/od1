@@ -2758,7 +2758,9 @@ function standard_json_to_html(_results) {
                 html +=  _name + '\', \'' +  _url 
                 html += '\')">' 
                 if (_name){
-                  html += '<span class="context" style="cursor: pointer;  font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
+                  // ----- hover-span  ----- 
+                  html += '<span class="context hover-span" style="cursor: pointer;  font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
+                  //  --- end  ---  ----- hover-span  ----- 
                 }
                 if (_org){
                   html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
@@ -2779,7 +2781,9 @@ function standard_json_to_html(_results) {
                           html +=  _name + '\', \'' +  _url 
                           html += '\')">' 
                           if (_name){
-                            html += '<span class="context" style="cursor: pointer;font-size:large;">' +  _name  +  '</span>' 
+                            // ----- hover-span  -----
+                            html += '<span class="context hover-span" style="cursor: pointer;font-size:large;">' +  _name  +  '</span>' 
+                            //  --- end  ---  ----- hover-span  ----- 
                           }
                           if (_org){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
@@ -2795,7 +2799,9 @@ function standard_json_to_html(_results) {
                           html +=  _name + '\', \'' +  _url 
                           html += '\')">' 
                           if (_name){
-                            html += '<span class="context" style="cursor: pointer; font-weight:bolder; font-size:large;">' +  _name  +  '</span>' 
+                            // ----- hover-span  -----
+                            html += '<span class="context hover-span" style="cursor: pointer; font-weight:bolder; font-size:large;">' +  _name  +  '</span>' 
+                            //  --- end  ---  ----- hover-span  ----- 
                           }
                           if (_org){
                               html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
@@ -2814,7 +2820,10 @@ function standard_json_to_html(_results) {
             // demo version, without org, url, only have name
             html += '<span>' 
             if (_name){
-              html += '<span class="context cross-line" style="font-weight: lighter;">' +  _name  +  '</span>'  
+              // not use,  with cross line
+              //html += '<span class="context cross-line" style="font-weight: lighter;">' +  _name  +  '</span>' 
+              // in use, no cross line
+              html += '<span class="context" style="font-weight: lighter;">' +  _name  +  '</span>'
             }
             if (_org){
               html +=  ' <sup class="context" style="font-size:xx-small;">' +   _org + '</sup>' 
@@ -2832,6 +2841,19 @@ function standard_json_to_html(_results) {
   } 
   html +='</div>'
    $('#json-renderer').html(html);
+
+
+   
+  // ----- hover-span  ----- 
+    $(".hover-span").on("click", function() {
+        // first clean all previously clicked effect on other item
+        $(".hover-span").removeClass("hover-span-clicked");
+        // apply clicked effect on this clicked item
+        $(this).addClass("hover-span-clicked");
+    });
+  //  --- end  ---  ----- hover-span  ----- 
+
+
             
 }  
         

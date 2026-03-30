@@ -98,7 +98,7 @@ var ___url_getJson
 
 
 
-                            function init_search_button_event_handler(){
+                            function init_ui_event_handler(){
 
                                         // click search
                                       // $('#start_search_button').on('click',search_layer_now) 
@@ -222,7 +222,7 @@ var ___url_getJson
                
                init_global_var()
                
-               init_search_button_event_handler();
+               init_ui_event_handler();
 
                init_streaming_event_handler();
 

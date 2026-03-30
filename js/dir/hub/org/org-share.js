@@ -110,7 +110,7 @@ var _search_content_split
 
 
 
-                  function init_search_button_event_handler(){
+                  function init_ui_event_handler(){
                         
                     /**/
                     //  - - - download csv  - - - 
@@ -325,7 +325,7 @@ var _search_content_split
 
                
                
-               init_search_button_event_handler();
+               init_ui_event_handler();
 
              
 

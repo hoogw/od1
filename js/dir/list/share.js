@@ -109,7 +109,7 @@ function show_current(_current_showing) {
     highlight_keywords()
 }
 
-  function init_search_button_event_handler(){
+  function init_ui_event_handler(){
 
 
 

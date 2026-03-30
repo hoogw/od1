@@ -165,7 +165,7 @@ var this_element
                                 
                                  
                                 
-                                 init_search_button_event_handler();
+                                 init_ui_event_handler();
 
 
 

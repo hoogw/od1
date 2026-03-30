@@ -2,10 +2,11 @@
 
 
 
-           // get full list
-          
+           
          
            var all_json_array_url = "https://arcgis-online.com/php/all.php"
+           var rest_json_array_url = "https://arcgis-online.com/php/rest.php"
+           var site_json_array_url = "https://arcgis-online.com/php/site.php"
            
 
 

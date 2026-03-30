@@ -177,7 +177,7 @@ var this_element
                                  // Works, but not use,  (directly download csv.zip file)
                                  //stream_zip_by_url(sample_csv_zip_url)
                                  // in use, (download json array by url)
-                                 getJsonArrayByUrl(all_json_array_url)
+                                 getJsonArrayByUrl(in_use_json_array_url)
                                  
 
 

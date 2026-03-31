@@ -86,6 +86,20 @@ function render_json_as_orderListORtreeORwhatEver(_results){ // for layers only
 
     $('#jstree_root_folder').html(html);
 
+
+
+    
+   
+  // ----- hover-span  ----- 
+    $(".hover-span").on("click", function() {
+        // first clean all previously clicked effect on other item
+        $(".hover-span").removeClass("hover-span-clicked");
+        // apply clicked effect on this clicked item
+        $(this).addClass("hover-span-clicked");
+    });
+  //  --- end  ---  ----- hover-span  ----- 
+
+
 }  // function
 
 

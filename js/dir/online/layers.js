@@ -56,13 +56,17 @@ function render_json_as_orderListORtreeORwhatEver(_results){ // for layers only
                     var _____layer_url = __restapi_url
 
                     //    ++++++++++++++++    open popup when click layer name     ++++++++++++++++ 
-                    html += '<li style="font-size:xx-small;">' 
-                            // text  -   context class for mark.js highlight , no tool-tip , no link
-                            html += '<span onclick="open_popup(\''                    
+                    html += '<li class="space">' 
+                            // ----- hover-span  ----- 
+                            html += '<span class="context hover-span" style="cursor: pointer;font-size:medium;"  onclick="open_popup(\''                    
                             html +=  this_layer_id + '\', \'' + _current_layer_name + '\', \'' + "feature layer" + '\', \'' +  _____layer_url
                             html += '\')">'
-                            html += '<span class="context" style="cursor: pointer;font-size:small;">' + _current_layer_name +  '</span>'  
+                            
+                            html +=     _current_layer_name 
+                            
                             html +=  '</span>'  
+                            //  --- end  ---  ----- hover-span  ----- 
+
                     html += '</li>';   
                     //    ++++++++++++++++   end  +++++++++++   open popup when click layer name     ++++++++++++++++ 
 

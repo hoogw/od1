@@ -269,7 +269,7 @@ a {
                 /* when user hover */
                 .hover-span:hover {
 
-                   background-color: rgb(63, 63, 63);
+                   background-color: rgb(173, 172, 241);
                    transform: translateY(2px); 
 
                 }
@@ -280,7 +280,7 @@ a {
 
                   /* all use same effect */
                  
-                  background-color: rgb(100, 100, 100);
+                  background-color: rgb(58, 60, 228);
                   transform: translateY(2px); 
                 }
             /*  -----  end ------ hover-span */

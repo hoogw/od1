@@ -561,23 +561,13 @@ function init_global_var(){
    
    
    
-     // ---------------------------   mark.js higlight keywords --------------------------- 
-                function highlight_keywords(){
-                            _filter_by = $('#filter_by').val();
-
-                            _filter_by = _filter_by.toLowerCase();
-
-                            if (_filter_by.length > 0){
-
-
-                                     $("span.context").mark(_filter_by); // will mark the keyword "test", requires an element with class "context" to exist
-
-
-                            }// if
-
-
-                 }// function
-                 
+    // ---------------------------   mark.js higlight keywords --------------------------- 
+      function highlight_keywords(){
+        _filter_by = $('#filter_by').val();
+        //_filter_by = _filter_by.toLowerCase();
+        $("span.context").unmark();
+        $("span.context").mark(_filter_by); // will mark the keyword "test", requires an element with class "context" to exist
+      }// function
     // --------------- End ------------   mark.js higlight keywords ---------------------------  
     
     

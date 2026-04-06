@@ -264,12 +264,12 @@ a {
 
 
 
-             /*  ----- hover-span  ----- */
+                /*  ----- hover-span  ----- */
 
                 /* when user hover */
                 .hover-span:hover {
 
-                   background-color: rgb(173, 172, 241);
+                   background-color: rgb(70, 70, 70);
                    transform: translateY(2px); 
 
                 }
@@ -280,12 +280,20 @@ a {
 
                   /* all use same effect */
                  
-                  background-color: rgb(58, 60, 228);
+                  background-color: rgb(48, 48, 48);
                   transform: translateY(2px); 
                 }
             /*  -----  end ------ hover-span */
 
 
+
+
+            
+.space {
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
 
 

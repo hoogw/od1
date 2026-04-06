@@ -2728,12 +2728,139 @@ async function get_mapserver_info_html(mapserver_url){
 
 
 
-
-
-
-
-
+// a link version
 function standard_json_to_html(_results) {
+      
+  var html = '';
+  html += '<div>';
+  if (_results.length > 0) {
+    html += '<ol>';
+    for (var i = 0; i < _results.length; ++i){
+
+      var _name = _results[i].name
+      var _org  = _results[i].org
+      var _url = _results[i].url
+
+      html += '<li class="space">' 
+
+      // demo without url, full access have url
+      if (_url){
+     
+
+            if (_url.includes('.hub.arcgis.com')){
+
+                // .hub.arcgis.com means it is a site 
+                html += '<a href="javascript:void(0)" onclick="open_popup_online(\''                    
+                html +=  _name + '\', \'' +  _url 
+                html += '\')">' 
+                if (_name){
+                   // ----- hover-span  ----- 
+                  html += '<span class="context hover-span" style="cursor: pointer;  font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
+                  //  --- end  ---  ----- hover-span  ----- 
+                }
+                html +=  '</a>'
+                if (_org){
+                  html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
+                }
+                
+
+            }
+
+
+
+            if (_url.includes('/rest/services')){
+
+
+              if (get_serial_no_from_url(_url)){
+
+                          // for arcgis.com domain, with 16 serial number, use span tag
+                          html += '<a href="javascript:void(0)" onclick="open_popup_home(\''                    
+                          html +=  _name + '\', \'' +  _url 
+                          html += '\')">' 
+                          if (_name){
+                             // ----- hover-span  -----
+                            html += '<span class="context hover-span" style="cursor: pointer;font-size:large;">' +  _name  +  '</span>' 
+                            //  --- end  ---  ----- hover-span  -----                           
+                          }
+                           html += "</a>"
+                          if (_org){
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
+                          }
+                         
+
+                } else {
+
+                          // for custom domain, without 16 serial number, use a tag
+                          // link not work on iphone chrome
+                          //html += '<a target="_blank" href="#" onclick="open_popup_home(\''
+                          html += '<a href="javascript:void(0)" onclick="open_popup_home(\''                     
+                          html +=  _name + '\', \'' +  _url 
+                          html += '\')">' 
+                          if (_name){
+                            // ----- hover-span  -----
+                            html += '<span class="context hover-span" style="cursor: pointer; font-weight:bolder; font-size:large;">' +  _name  +  '</span>' 
+                            //  --- end  ---  ----- hover-span  -----
+                            html +=  '</a>' 
+                          }
+                          if (_org){
+                              html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
+                          }
+                          
+
+
+                }//if
+
+
+            }//if
+
+
+      } else {
+
+            // demo version, without org, url, only have name
+            html += '<span>' 
+            if (_name){
+              // not use,  with cross line
+              //html += '<span class="context cross-line" style="font-weight: lighter;">' +  _name  +  '</span>' 
+              // in use, no cross line
+              html += '<span class="context" style="font-weight: lighter;">' +  _name  +  '</span>'
+            }
+            if (_org){
+              html +=  ' <sup class="context" style="font-size:xx-small;">' +   _org + '</sup>' 
+            }
+            html +=  '</span>'  
+
+
+      }//if
+
+            
+      html += '</li>';  
+        
+    }// for
+    html += '</ol>';
+  } 
+  html +='</div>'
+   $('#json-renderer').html(html);
+
+
+   
+  // ----- hover-span  ----- 
+    $(".hover-span").on("click", function() {
+        // first clean all previously clicked effect on other item
+        $(".hover-span").removeClass("hover-span-clicked");
+        // apply clicked effect on this clicked item
+        $(this).addClass("hover-span-clicked");
+    });
+  //  --- end  ---  ----- hover-span  ----- 
+
+
+            
+}  
+ 
+
+
+
+// span version, 
+function span_standard_json_to_html(_results) {
       
   var html = '';
   html += '<div>';

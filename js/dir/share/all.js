@@ -3073,7 +3073,7 @@ function use_what_model_to_open_popup(__model__name__, _name_, _type_, _url_, _i
     console.log('_newTab_link', _newTab_link)
     //window.open(_newTab_link, "mozillaWindow", "popup");
     //window.open(_newTab_link, "_blank", "popup");
-    window.open(_newTab_link, "_blank");
+    window.open(_newTab_link, "_self");
 }
 
 
@@ -3111,7 +3111,7 @@ function open_popup_server(_name, _url ){
     console.log('_newTab_link', _newTab_link)
     //window.open(_newTab_link, "mozillaWindow", "popup");
     //window.open(_newTab_link, "_blank", "popup");
-            window.open(_newTab_link, "_blank");
+            window.open(_newTab_link, "_self");
 }
 
 
@@ -3127,7 +3127,7 @@ function open_popup_home(_name, _url ){
     console.log('_newTab_link', _newTab_link)
     //window.open(_newTab_link, "mozillaWindow", "popup");
     //window.open(_newTab_link, "_blank", "popup");
-            window.open(_newTab_link, "_blank");
+            window.open(_newTab_link, "_self");
 }
 
 
@@ -3145,6 +3145,6 @@ function open_popup_online(_site_name, _site_url){
     console.log('_newTab_link', _newTab_link)
     //window.open(_newTab_link, "mozillaWindow", "popup");
     //window.open(_newTab_link, "_blank", "popup");
-            window.open(_newTab_link, "_blank");
+            window.open(_newTab_link, "_self");
 
 }

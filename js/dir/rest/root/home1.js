@@ -220,7 +220,7 @@ folder_structure_flatjson = [
                 console.log('_newTab_link', _newTab_link)
                 //window.open(_newTab_link, "mozillaWindow", "popup");
                 //window.open(_newTab_link, "_blank", "popup");
-                window.open(_newTab_link, "_blank");
+                window.open(_newTab_link, "_self");
                 
 
             }

@@ -530,7 +530,7 @@ function init_global_var(){
 
                                 // instead avoid reload
                                 var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
-                                history.pushState(null, '', newRelativePathQuery);
+                                history.replaceState(null, '', newRelativePathQuery);
                          //   }            
 
                 } 

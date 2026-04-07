@@ -1340,7 +1340,7 @@ function change_style(){
 
               // instead avoid reload
               var _____newRelativePathQuery = window.location.pathname + '?' + _____searchParams.toString();
-              history.pushState(null, '', _____newRelativePathQuery);
+              history.replaceState(null, '', _____newRelativePathQuery);
 
              
 

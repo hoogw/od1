@@ -2748,7 +2748,7 @@ var geojsonTemplateFeatures_array = []
 
                           // instead avoid reload
                           var _____newRelativePathQuery = window.location.pathname + '?' + _____searchParams.toString();
-                          history.pushState(null, '', _____newRelativePathQuery);
+                          history.replaceState(null, '', _____newRelativePathQuery);
 
                             // ...  ... ... share url  ...  ... ...
                             $('#share_url').val(window.location.href);
@@ -2801,7 +2801,7 @@ var geojsonTemplateFeatures_array = []
 
                             // instead avoid reload
                             var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
-                            history.pushState(null, '', newRelativePathQuery);
+                            history.replaceState(null, '', newRelativePathQuery);
                             
                             }// if
 
@@ -2841,7 +2841,7 @@ var geojsonTemplateFeatures_array = []
 
                             // instead avoid reload
                             var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
-                            history.pushState(null, '', newRelativePathQuery);
+                            history.replaceState(null, '', newRelativePathQuery);
                             
                             }// if
 

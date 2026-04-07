@@ -2864,7 +2864,7 @@ var _google_public_map_only_api_key = "AIzaSyCeIFVL6oxxXNT7NToJjfU4J9TV2J8m4vE"
 
                       // instead avoid reload
                       var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
-                      history.pushState(null, '', newRelativePathQuery);
+                      history.replaceState(null, '', newRelativePathQuery);
                       
                       }// if
 

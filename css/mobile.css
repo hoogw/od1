@@ -193,7 +193,7 @@ a {
     font-style: oblique 60deg;
     font-size: 0.7em;
     font-stretch: expanded;
-    font-family: 'Bradley Hand', cursive; /* cursive; */
+    /* font-family: 'Bradley Hand', cursive; */
    }
 
    .flex-value-for-column {
@@ -205,14 +205,14 @@ a {
          https://blog.hubspot.com/website/web-safe-html-css-fonts
          https://stackoverflow.com/questions/21334839/applying-comic-sans-ms-font-style
     */
-    font-family: "Comic Sans MS", "Comic Sans", cursive;   /* system-ui; */
+   /* font-family: "Comic Sans MS", "Comic Sans", cursive;    system-ui; */
    }
 
 
    .flex-key-for-row {
     font-style: oblique 60deg;
     font-size: 0.6em;
-    font-family: 'Bradley Hand', cursive; /* cursive; */
+    /* font-family: 'Bradley Hand', cursive;  cursive; */
    }
 
    .flex-value-for-row {
@@ -220,7 +220,7 @@ a {
     font-size: 0.9em;
     font-stretch: expanded;
     font-weight: lighter;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;   /* system-ui; */
+    /* font-family: "Comic Sans MS", "Comic Sans", cursive;   system-ui; */
    }
 
 

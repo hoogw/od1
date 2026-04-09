@@ -212,7 +212,7 @@ function show_current(_current_showing) {
 
 
 
-//       - -  -  -  dead removal   - -  -  -  
+//       - -  -  -  remove Dead, Tiles, etc   - -  -  -  
 
   $("#dead_removal_button").on("click", async function() {
 
@@ -242,10 +242,14 @@ function show_current(_current_showing) {
 
 
           // these kind of always not working, remove it from array
-          if (url.includes("utility.arcgis.com")){
+          if (url.includes("utility.arcgis.com") || 
+              url.includes("tiledimageservices.arcgis.com") ||
+              url.includes("tiles.arcgis.com")
+          
+          ){
 
-                        console.log("utility.arcgis.com ", url)
-                        $("#json-renderer").html("<span style='color:blue;'>{utility.arcgis.com}" + " " + name + " " + org + " " + url  + " " + "</span>")
+                        console.log("tiles, utility, removed", url)
+                        $("#json-renderer").html("<span style='color:blue;'>{tiles, utility, removed .arcgis.com}" + " " + name + " " + org + " " + url  + " " + "</span>")
                         dead_array.push(standard_array[i])
           } else {
 
@@ -412,7 +416,7 @@ function show_current(_current_showing) {
 
   });
 
-//      - -  -  -   end    - -  -  -  dead removal   - -  -  -  
+//      - -  -  -   end    - -  -  -  remove Dead, Tiles, etc   - -  -  -  
 
 
 

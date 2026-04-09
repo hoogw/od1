@@ -54,13 +54,8 @@ var this_element
         _name_candidate = row_array[i][0]
         
         
-        // skip tile.arcgis.com
-        if (_url_candidate 
-            && _url_candidate.includes("/rest/services") 
-            && !(_url_candidate.includes("tiles.arcgis.com"))  // do not handle tiles, so exclude them
-            && !(_url_candidate.includes("tiledimageservices.arcgis.com"))
-            && !(_url_candidate.includes("utility.arcgis.com"))  // these kind have 32 char serial number, always not working, so exclude them
-          ){
+        // undefined.includes cause error, must use and 
+        if (_url_candidate && _url_candidate.includes("/rest/services")){
           
           start_position = _url_candidate.indexOf("/rest/services")
           url = _url_candidate.substring(0,start_position) + "/rest/services"

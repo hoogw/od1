@@ -187,11 +187,8 @@ var _any_instance
 var _domain_candidate
 
 var urlObject
-
-
 var start_position
-var urlExistsOrNot_customDomain
-var urlExistsOrNot_serialNo
+var urlExistsOrNot
 var this_element
 
 
@@ -228,8 +225,8 @@ var this_element
 
 
           start_position = ""
-          urlExistsOrNot_customDomain = ""
-          urlExistsOrNot_serialNo = ""
+          
+          urlExistsOrNot = ""
           this_element = ""
           // must reset to empty for each loop
 

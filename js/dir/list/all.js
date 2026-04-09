@@ -15,10 +15,7 @@ var _any_instance
 var _domain_candidate
 
 var urlObject
-
-
 var start_position
-
 var urlExistsOrNot
 var this_element
 

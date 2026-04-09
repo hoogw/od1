@@ -266,9 +266,8 @@ var this_element
             
             start_position = _url_candidate.indexOf("/rest/services")
             url = _url_candidate.substring(0,start_position) + "/rest/services"
-            urlExistsOrNot_customDomain = custom_domain_array.some(item => item["url"] == url); 
-            urlExistsOrNot_serialNo = arcgis_domain_serialNo_array.some(item => item["url"] == url); 
-            if ((urlExistsOrNot_customDomain) || (urlExistsOrNot_serialNo)){
+            urlExistsOrNot = standard_array.some(item => item["url"] == url); 
+          if (urlExistsOrNot){
               // exist, skip, nothing to do
             } else {
               // not exist, add new

@@ -6,11 +6,7 @@
 
 
       var standard_array = []
-      // only for self hosted domain ArcServer
-      var custom_domain_array = []
-      // only for arcgis.com domain with 16 serial number
-      var arcgis_domain_serialNo_array = []
- 
+      
 
 
 

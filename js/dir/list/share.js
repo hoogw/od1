@@ -14,10 +14,7 @@ var site_json_array_url = "https://arcgis-online.com/php/site-only.php"
 
       
       var standard_array = []
-      // only for self hosted domain ArcServer
-      var custom_domain_array = []
-      // only for arcgis.com domain with 16 serial number
-      var arcgis_domain_serialNo_array = []
+     
 
 
       // dead + live = standard array 
@@ -426,17 +423,7 @@ function show_current(_current_showing) {
     /**/
     $("#download_csv_button").on("click", function() {
 
-      if (custom_domain_array){
-        var final_csv_string = parse_json_to_csv_string(custom_domain_array)
-        saveStringAsFile('custom_domain.csv', final_csv_string)
-      }
-
-      
-      if (arcgis_domain_serialNo_array){
-        var final_csv_string = parse_json_to_csv_string(arcgis_domain_serialNo_array)
-        saveStringAsFile('arcgis_domain_16serialNo.csv', final_csv_string)
-      }
-
+     
 
       if (standard_array){
         var final_csv_string = parse_json_to_csv_string(standard_array)

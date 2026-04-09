@@ -8,11 +8,7 @@
 
 
       var standard_array = []
-      // only for self hosted domain ArcServer
-      var custom_domain_array = []
-      // only for arcgis.com domain with 16 serial number
-      var arcgis_domain_serialNo_array = []
- 
+     
 
 
 
@@ -185,8 +181,7 @@ var urlObject
 
 
 var start_position
-var urlExistsOrNot_customDomain
-var urlExistsOrNot_serialNo
+
 var this_element
 
 
@@ -221,8 +216,8 @@ var this_element
 
 
           start_position = ""
-          urlExistsOrNot_customDomain = ""
-          urlExistsOrNot_serialNo = ""
+          
+          urlExistsOrNot = ""
           this_element = ""
           // must reset to empty for each loop
 
@@ -251,9 +246,8 @@ var this_element
             
             start_position = _url_candidate.indexOf("/rest/services")
             url = _url_candidate.substring(0,start_position) + "/rest/services"
-            urlExistsOrNot_customDomain = custom_domain_array.some(item => item["url"] == url); 
-            urlExistsOrNot_serialNo = arcgis_domain_serialNo_array.some(item => item["url"] == url); 
-            if ((urlExistsOrNot_customDomain) || (urlExistsOrNot_serialNo)){
+            urlExistsOrNot = standard_array.some(item => item["url"] == url); 
+          if (urlExistsOrNot){
               // exist, skip, nothing to do
             } else {
               // not exist, add new
@@ -380,10 +374,10 @@ var this_element
               if (_serial_number){
                         // 32 serial number do not works, so ignore 32
                         if (_serial_number.length < 17){
-                            arcgis_domain_serialNo_array.push(this_element) 
+                            standard_array.push(this_element) 
                         }//if 32
               } else {
-                        custom_domain_array.push(this_element)
+                        standard_array.push(this_element) 
               }//if
 
 

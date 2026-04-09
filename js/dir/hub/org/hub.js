@@ -392,10 +392,10 @@ var this_element
               if (_serial_number){
                         // 32 serial number do not works, so ignore 32
                         if (_serial_number.length < 17){
-                            arcgis_domain_serialNo_array.push(this_element) 
+                            standard_array.push(this_element)  
                         }//if 32
               } else {
-                        custom_domain_array.push(this_element)
+                        standard_array.push(this_element) 
               }//if
 
 

@@ -199,8 +199,7 @@ var this_element
 
 
           start_position = ""
-          urlExistsOrNot_customDomain = ""
-          urlExistsOrNot_serialNo = ""
+          urlExistsOrNot = ""
           this_element = ""
           // must reset to empty for each loop
 

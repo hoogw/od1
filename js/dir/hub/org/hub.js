@@ -376,7 +376,7 @@ var this_element
                         // 2st priority, without serial number, then use instance name
                         _any_instance = get_instance_from_url(_url_candidate)
                         if (_any_instance){
-                                org = _domain_candidate + " - " +_any_instance
+                                org = _domain_candidate + "   " +_any_instance
                         } else{
                         }
               }

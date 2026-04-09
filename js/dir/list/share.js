@@ -2,14 +2,7 @@
 
 
 
-           
-         
-var selected_team = "ALL"
-var in_use_json_array_url 
-var all_json_array_url = "https://arcgis-online.com/php/all.php"
-var rest_json_array_url = "https://arcgis-online.com/php/rest-only.php"
-var site_json_array_url = "https://arcgis-online.com/php/site-only.php"
-           
+       var in_use_json_array_url = "https://transparentgov.net/data/secure/all.php"     
 
 
       
@@ -110,58 +103,12 @@ function show_current(_current_showing) {
 
  
 
-  function change_team(_selectedTeam){
-
-    switch (_selectedTeam) {
-      case "ALL":
-        in_use_json_array_url = all_json_array_url
-        break;
-      case "REST":
-        in_use_json_array_url = rest_json_array_url
-        break;
-      case "SITE":
-        in_use_json_array_url = site_json_array_url
-        break;
-      default:
-        in_use_json_array_url = all_json_array_url
-    }
-
-  }
-
 
 
 
   function init_ui_event_handler(){
 
 
-
-
-        /**/
-        //  - - -  ---  select team radio   ---  - - -
-        /**/
-
-        if ($("input[type=radio][name=team-radio]")){
-
-            // first time set radio
-            $("input[type=radio][name=team-radio][value=" + selected_team + "]").prop('checked', true);
-            change_team(selected_team)
-
-
-
-            $("input[type='radio'][name='team-radio']").change(function(){
-                        selected_team = $("input[type='radio'][name='team-radio']:checked").val();
-                        console.log(" selected team changed to : --  ", selected_team);
-
-                        change_team(selected_team)
-                        getJsonArrayByUrl(in_use_json_array_url)
-
-                      });
-        }//if
-      
-
-        /**/
-        //  --- end  --- select team radio    - - -  --- 
-        /**/
 
 
 

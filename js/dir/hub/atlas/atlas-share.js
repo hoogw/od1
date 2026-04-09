@@ -246,12 +246,11 @@ var this_element
           // skip tile.arcgis.com
           if (_url_candidate 
             && _url_candidate.includes("/rest/services") 
-          ){
-    /*
             && !(_url_candidate.includes("tiles.arcgis.com"))  // do not handle tiles, so exclude them
+            && !(_url_candidate.includes("tiledimageservices.arcgis.com"))
             && !(_url_candidate.includes("utility.arcgis.com"))  // these kind have 32 char serial number, always not working, so exclude them
           ){
-    */
+    
             
             
             
@@ -329,6 +328,23 @@ var this_element
               if (_serial_number){
                         // 1st priority serial number
                         org = _serial_number
+
+                        
+                              
+                              // same serial number but could have different host name, instance name
+                              // UnTXoPXBYERF0OH6
+                              // https://services.arcgis.com/UnTXoPXBYERF0OH6/arcgis/rest/services
+                              // https://tiledimageservices.arcgis.com/UnTXoPXBYERF0OH6/arcgis/rest/services
+                              // https://tiles.arcgis.com/tiles/UnTXoPXBYERF0OH6/arcgis/rest/services
+
+                              // add domain after serial number
+                              try {
+                                urlObject = new URL(_accessURL);
+                                _domain_candidate = urlObject.hostname;
+                                org += " " +  _domain_candidate
+                              } catch{
+
+                              }
               } else {
 
 

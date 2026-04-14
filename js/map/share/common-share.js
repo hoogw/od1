@@ -624,6 +624,12 @@ var current_queryFeatureResultsAsGraphic_length
 
 
 
+var esri_system_managed_field_array = [
+                      // possible field name in arcgis 
+                      'oid','fid','objectid', 
+                      'shape',                  
+     ]
+
 
 
 
@@ -3406,43 +3412,58 @@ view.goTo({
 
 
 
-
-
+ // skip esri system managed fields
             function json_flex_tip_viewer(object1){
 
               var attribute_html = ''
+              var skip_yes_no = false
+
+              console.log("object1", object1)
 
               for (const [key, value] of Object.entries(object1)) {
                 //console.log(`${key}: ${value}`);
 
-               
-                attribute_html += '<sup><span class="flex-key-for-row">' + key + '</span></sup>'
-                attribute_html += '&nbsp;'
-
-
-
-                if (isValidUrl(value)){
-                  // http link
-                  attribute_html += '<a target="_blank" href="' + value + '" class="flex-value-for-row context">' + value + '</a>'
-
-                } else {
-                    // normal
-                    attribute_html += '<span class="flex-value-for-row context">' + value + '</span>'
+                if (typeof value == 'string') {
+                  if (value.trim()){
+                    skip_yes_no = false
+                  } else {
+                    skip_yes_no = true
+                  }//if
                 }
-
-
-              
-               
-
-
-               
-
-
-
                 
+                  var fieldNameLowerCase = key.toLowerCase()
+                  var _hasMatch = esri_system_managed_field_array.some(word => fieldNameLowerCase.includes(word));
+                  if (_hasMatch){
+                      // skip esri system managed fields
+                      skip_yes_no = true
+                  } 
+                  
+                  
+                 if (skip_yes_no){
 
-                attribute_html += '&nbsp;&nbsp;&nbsp;'
+                 } else {
+
+      
+                    attribute_html += '<div>'
+                    attribute_html +=   '<sup class="flex-key-for-column" style="font-size:xx-small; background-color: rgb(70, 70, 70);">' + key + '</sup>'
+                    attribute_html +=   '&nbsp;'
+
+                    if (isValidUrl(value)){
+                      // http link
+                      attribute_html += '<a target="_blank" href="' + value + '" class="flex-value-for-row context">' + value + '</a>'
+                    } else {
+                        // normal
+                        attribute_html += '<span class="flex-value-for-row context">' + value + '</span>'
+                    }
+
+                    attribute_html += '&nbsp;&nbsp;'
+                    attribute_html += '</div>'
+
+
+                  }//if
+
                
+
               }// for 
 
               return attribute_html;
@@ -3477,28 +3498,6 @@ view.goTo({
 
             
 
-            //Check if a JavaScript string is a URL https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
-            function isValidURL(_test_value) {
-
-              // must combine 2 method to check   
-            
-              try {
-
-                  // check 1, failed on "xxx:"
-                  const urlObject = new URL(_test_value);
-
-                  // Additional checks, if necessary.
-                  // check 2, failed on email, xxx@xx.com
-                  var _test_string = String(_test_value)
-                  var res = _test_string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-                  return (res !== null)
-
-              } catch (error) {
-                  return false;
-              }
-
-            };
-
 
             //Check if a JavaScript string is a image URL, https://stackoverflow.com/questions/9714525/javascript-image-url-verify
             function isValidImageURL(_test_value) {
@@ -3515,7 +3514,7 @@ view.goTo({
               for (const [key, value] of Object.entries(object1)) {
                 
                 // only find url link as vale, ignore other field
-                if (isValidURL(value)){
+                if (isValidUrl(value)){
                   attribute_html +=     '<a target="_blank" href="' + value + '">' + value + '</a>' + '&nbsp;&nbsp;&nbsp;'
                 
 
@@ -3553,14 +3552,21 @@ view.goTo({
 
 
 
-        function isValidUrl(string) {
-          try {
-            new URL(string);
-            return true;
-          } catch (err) {
-            return false;
-          }
+        
+
+        function isValidUrl(urlString) {
+
+          // https://www.freecodecamp.org/news/check-if-a-javascript-string-is-a-url/
+           var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
+              '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
+              '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
+              '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
+              '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
+              '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
+          
+             return urlPattern.test(urlString)
         }
+
 
 
       

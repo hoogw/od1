@@ -622,6 +622,12 @@ function init_global_var(){
 
 
 
+var esri_system_managed_field_array = [
+                      // possible field name in arcgis 
+                      'oid','fid','objectid', 
+                      'shape',                  
+     ]
+
 
 
             var possible_idx_field_name_array = [

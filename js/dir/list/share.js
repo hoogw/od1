@@ -2,7 +2,7 @@
 
 
 
-       var in_use_json_array_url = "https://transparentgov.net/data/secure/all.php"     
+       var in_use_json_array_url = "https://arcgis-online.com/php/all.php"     
 
 
       

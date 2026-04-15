@@ -46,7 +46,8 @@ var BasemapStyle
 
 
 var Field
-
+var SpatialReference
+var shapePreservingProjectOperator
 
 
 

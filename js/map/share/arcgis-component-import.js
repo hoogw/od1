@@ -54,6 +54,10 @@
 
 
     
+    // sample  https://developers.arcgis.com/javascript/latest/sample-code/client-projection/                             
+    SpatialReference = await $arcgis.import("@arcgis/core/geometry/SpatialReference.js");
+    shapePreservingProjectOperator  = await $arcgis.import("@arcgis/core/geometry/operators/shapePreservingProjectOperator");
+    
 
 })(); // self-run
 

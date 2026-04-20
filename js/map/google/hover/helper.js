@@ -815,10 +815,16 @@
                         map.data.addListener('mouseover', function (event) {   
                           
 
-                          // console.log('hover-event.feature - ', event.feature)
+                            // console.log('hover-event.feature - ', event.feature)
 
-                              //  --- click or hover   ---
-                              if (click_or_hover == 'hover'){
+                            /**/
+                            //  --- semi hover for esri    --- 
+                            /**/
+                                    map.data.revertStyle();
+                                    empty_info_outline_Tab()
+                            /**/
+                            //  --- end  ---  semi hover for esri    --- 
+                            /**/
                                
                                     //map.data.revertStyle();                 
                                     map.data.overrideStyle(event.feature, {
@@ -842,7 +848,7 @@
 
                                     show_info_outline_Tab(event)
 
-                               }//if
+                             
 
                         });
 
@@ -852,13 +858,19 @@
                           // mouse out listener
                         map.data.addListener('mouseout', function (event) {
 
-                          //  --- click or hover   ---
-                          if (click_or_hover == 'hover'){
-                            
-                                   map.data.revertStyle(event.feature);
-                                   empty_info_outline_Tab()
+                         
+                          /**/
+                          //  --- semi hover for esri    --- 
+                          /**/
+                              /*
+                                    map.data.revertStyle(event.feature);
+                                    empty_info_outline_Tab()
+                              */
 
-                           }//if
+                          /**/
+                          //  --- end  ---  semi hover for esri    --- 
+                          /**/
+
                         
                         });
 

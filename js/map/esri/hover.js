@@ -239,12 +239,24 @@
                                       // fix bug, object id could be 0,  if (0) is false, actually, 0 is real id, should be true here.
                                       //if (!newObjectId) {
                                       if (newObjectId == undefined) {
-                                                                if (mouse_pointed_feature_highlight_handle){
-                                                                  mouse_pointed_feature_highlight_handle.remove()
-                                                                }
-                                                                objectId = undefined
-                                                                // hide info outline 
-                                                                empty_info_outline_Tab()
+
+                                                        
+                            /**/
+                            //  --- semi hover for esri    --- 
+                            /**/
+
+                                /*  semi hover, comment out this section, bypass if mouse out event.
+                                if (mouse_pointed_feature_highlight_handle){
+                                  mouse_pointed_feature_highlight_handle.remove()
+                                }
+                                objectId = undefined
+                                // hide info outline 
+                                empty_info_outline_Tab()
+                                */
+
+                            /**/
+                            //  --- end  ---  semi hover for esri    --- 
+                            /**/
                                                             
                                       } else if (objectId !== newObjectId) {
                               

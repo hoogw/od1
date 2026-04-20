@@ -626,7 +626,7 @@ var current_queryFeatureResultsAsGraphic_length
 
 var esri_system_managed_field_array = [
                       // possible field name in arcgis 
-                      'oid','fid','objectid', 
+                      'oid','fid','objectid','globalid',  
                       'shape',                  
      ]
 

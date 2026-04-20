@@ -204,15 +204,13 @@
 
 
 
-     // mapimagelayer - widget - convert - to - component - 
                 
                 async function createMapImageLayer(){
-                 const [MapImageLayer] = await $arcgis.import(["@arcgis/core/layers/MapImageLayer.js"]); 
-                //- - end - - mapimagelayer - widget - convert - to - component -  
-                        
-                                        
+                       
+                      console.log("background_mapserver_url", background_mapserver_url)
+                      console.log("layer_id", layer_id)
 
-                                        backgroundMapImageLayer = new MapImageLayer({
+                                    backgroundMapImageLayer = new MapImageLayer({
 
                                           //url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer",
                                           url: background_mapserver_url,

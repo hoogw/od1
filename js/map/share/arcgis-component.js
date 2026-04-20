@@ -20,6 +20,7 @@ var promiseUtils
 
 // layer
 var FeatureLayer
+var MapImageLayer
 var GeoJSONLayer
 var ImageryLayer
 

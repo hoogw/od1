@@ -3040,7 +3040,7 @@ function use_what_model_to_open_popup(__model__name__, _name_, _type_, _url_, _i
 
                // feature layer, Raster Layer, no matter what, all use same google map image layer
                 _newTab_link =  url_template_esri_mapimagelayer
-                _newTab_link += '?layer_id=' + _id_  + '&url=' + _url_ 
+                _newTab_link += '?backgroundlayerurl=' + _url_ 
             break;  
 
 

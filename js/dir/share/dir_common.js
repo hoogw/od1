@@ -239,7 +239,7 @@ function build_url_base_template(){
 
   url_template_esri = window.location.origin + "/open-data/map/esri/hover.html"
   url_template_esri_image_server = window.location.origin + "/open-data/map/esri/image-server.html"
-  url_template_esri_mapimagelayer = window.location.origin + "/open-data/map/esri/mapimagelayer.html"
+  url_template_esri_mapimagelayer = window.location.origin + "/open-data/map/esri/map-image-layer.html"
   url_template_google = window.location.origin + "/open-data/map/google/hover.html"
   url_template_google_mapimagelayer = window.location.origin + "/open-data/map/google/mapimagelayer.html"
   url_template_apple = window.location.origin + "/open-data/map/apple/hover.html"

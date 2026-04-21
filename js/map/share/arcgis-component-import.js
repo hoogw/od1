@@ -22,9 +22,14 @@
     promiseUtils = await $arcgis.import("@arcgis/core/core/promiseUtils.js");
 
     
+    
+
+    // better load before feature layer, map image layer, etc. 
+    LabelClass = await $arcgis.import("@arcgis/core/layers/support/LabelClass.js");
+    
+
 
     // layer 
-    
     // f e a t u r e    l a y e r     must use array [] for multiple export item  
     [FeatureLayer] = await $arcgis.import(["@arcgis/core/layers/FeatureLayer.js"]);
     MapImageLayer = await $arcgis.import("@arcgis/core/layers/MapImageLayer.js");
@@ -60,8 +65,6 @@
     shapePreservingProjectOperator  = await $arcgis.import("@arcgis/core/geometry/operators/shapePreservingProjectOperator");
     
 
-    
-    LabelClass = await $arcgis.import("@arcgis/core/layers/support/LabelClass.js");
     
 
 

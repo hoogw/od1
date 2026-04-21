@@ -17,6 +17,11 @@ var promiseUtils
 
 
 
+var LabelClass
+
+
+     
+
 
 // layer
 var FeatureLayer
@@ -51,11 +56,6 @@ var SpatialReference
 var shapePreservingProjectOperator
 
 
-
-var LabelClass
-
-
-     
 
 
 //  . . .   end . . . import arcgis component  . . . (keep top)

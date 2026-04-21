@@ -653,7 +653,7 @@ $('#info-window-div').html("")
 
             /**/
               // -- -- -- only for map image layer classified  -- -- -- 
-              var polygonFillBy = 'red-diagonal-cross' // 'yellow-forward-diagonal'
+              var polygonFillBy = 'nothing'//'red-diagonal-cross' // 'yellow-forward-diagonal'
 
 
               // only for map image layer,             

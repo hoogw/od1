@@ -60,6 +60,11 @@
     shapePreservingProjectOperator  = await $arcgis.import("@arcgis/core/geometry/operators/shapePreservingProjectOperator");
     
 
+    
+    LabelClass = await $arcgis.import("@arcgis/core/layers/support/LabelClass.js");
+    
+
+
 })(); // self-run
 
 

@@ -14,6 +14,18 @@
   </head>
   <body>
 
+      <?php 
+          require __DIR__. '/counter/counter.php'; 
+        
+        // to get hit
+        echo getHit();
+
+
+        // to get unique visitors ip
+	      echo getUniqueVisitor();	
+      ?>
+
+
     
       <button id='refresh_button' onclick="window.location.reload();">
               Load next 50 sample
@@ -33,10 +45,6 @@
 
         
 
-
-
- <a href='https://free-hit-counters.net/'>Get free Hit Counters</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=aed0b8f5229d51a84a50563ac256dcb36ac08cdd'></script>
-<script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1530526/t/1"></script>
 
 
 

@@ -1096,7 +1096,78 @@ folder_structure_flatjson = [
                         ) {
                             console.log('Not Support layer url, must be a (Home or Root) Folder or sub-Folder',);
                             progressing_info('folder', "this is:", "layer");
-                            render_just_layer(___url_string)
+                            
+                            
+                            
+                       // this is for 2-panel-sys,  render_just_layer(___url_string)
+                       // so far only deal with feature layer, image layer, raster layer, does not support geocode server
+
+                        var url_part = root_url.split("/"); 
+                        
+                        var _layer_id_ = url_part[url_part.length-1]
+                        var _layer_name_ = "layer"
+
+
+                        url_part.pop(); // Removes the last segment
+                        var _map_server_url_ = url_part.join('/');
+
+                        var _node_path_ = root_url
+
+
+    var _type_
+    if (root_url.includes("ImageServer")){
+            _type_ = "ImageServer"
+
+            if (selected_model == 'esri'){
+
+                _newTab_link = url_template_esri_image_server
+                _newTab_link += '?url=' + root_url 
+
+            } else if (selected_model == 'google'){
+                _newTab_link =  url_template_google_mapimagelayer
+                _newTab_link += '?url=' + root_url
+
+            }
+
+
+            console.log('_newTab_link', _newTab_link)
+            //window.open(_newTab_link, "mozillaWindow", "popup");
+            //window.open(_newTab_link, "_blank", "popup");
+            window.open(_newTab_link, "_self");
+
+
+    } else if (root_url.includes("MapServer") || root_url.includes("FeatureServer")){
+
+                        _type_ = "MapServer"
+
+                        update_url_parameter('select_layer_id', _layer_id_);
+                        update_url_parameter('select_layer_text', _layer_name_);
+
+                       // model-number, layer-name, type, MapFeatureServer-url-without-layer-ID, layer-id
+                        use_what_model_to_open_popup(
+                            selected_model, 
+                            _layer_name_, 
+                            _type_, 
+                            _map_server_url_, // selected_node_path, 
+                            _layer_id_ 
+                        )
+
+    } else if (root_url.includes("VectorTileServer")){
+    _type_ = "VectorTileServer"
+    } else if (root_url.includes("SceneServer")){
+    _type_ = "SceneServer"
+    } else if (root_url.includes("GeocodeServer")){
+    _type_ = "GeocodeServer"
+    } else if (root_url.includes("NAServer")){
+    _type_ = "NAServer"
+    } else {
+    _type_ = "unknown"
+    }
+
+                       
+
+
+
                         } // layers  
 
 

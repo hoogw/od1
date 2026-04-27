@@ -1262,11 +1262,9 @@ folder_structure_flatjson = [
                             
                 }// while
 
-                if (folder_structure_flatjson.length >1) {
-                        jstree_root_folder(folder_structure_flatjson, ___url_string,  _organization, ___hostname )
-                } else {
-                    progressing_info('folder', "Warning:", "works but has no content");
-                } 
+               
+              jstree_root_folder(folder_structure_flatjson, ___url_string,  _organization, ___hostname )
+               
             
             
         } else {

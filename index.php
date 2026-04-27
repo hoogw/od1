@@ -17,12 +17,11 @@
       <?php 
           require __DIR__. '/counter/counter.php'; 
         
-        // to get hit
-        echo getHit();
-
-
-        // to get unique visitors ip
-	      echo getUniqueVisitor();	
+          // to make hit
+          makeHit();	
+          
+          // to get hit
+          echo getHit();
       ?>
 
 

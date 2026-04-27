@@ -103,7 +103,7 @@ folder_structure_flatjson = [
     console.log(" jstree all folder  flat json feed : ", root_allfolders_flatjson)
 
 
-
+ if (root_allfolders_flatjson.length >1) {
 
     $('#jstree_root_folder')
     
@@ -300,7 +300,7 @@ folder_structure_flatjson = [
     });
 
 
-
+    }// if length > 1
 
 
 
@@ -1089,6 +1089,17 @@ folder_structure_flatjson = [
                         } // if layers
                         
                         
+
+                         // only if user input a layer URL, 
+                        if (current.hasOwnProperty('fields') || current.hasOwnProperty('geometryType')   // only for feature layer and image layer
+                            || current.hasOwnProperty('addressFields') || current.hasOwnProperty('categories') // only for geocode server
+                        ) {
+                            console.log('Not Support layer url, must be a (Home or Root) Folder or sub-Folder',);
+                            progressing_info('folder', "this is:", "layer");
+                            render_just_layer(___url_string)
+                        } // layers  
+
+
                         /**/
                         //  --- NAserver    --- 
                         /**/  

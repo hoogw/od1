@@ -103,6 +103,7 @@ folder_structure_flatjson = [
     console.log(" jstree all folder  flat json feed : ", root_allfolders_flatjson)
 
 
+ if (root_allfolders_flatjson.length >1) {
 
 
     $('#jstree_root_folder')
@@ -277,7 +278,7 @@ folder_structure_flatjson = [
     });
 
 
-
+  }// if length > 1
 
 
 
@@ -746,19 +747,47 @@ async function scan_root_folder(){
                         }  // if services.length > 0
                     }  // if services
                             
-                    // do not deal with layers or tables., because this is all-mapserver-list
+                    // only if user input a map server URL, 
                     if (current.hasOwnProperty('layers') || current.hasOwnProperty('tables')) {
                         console.log('Not Support MapServer or FeatureServer, must be a (Home or Root) Folder or sub-Folder',);
-                        progressing_info('folder', "Warning:", "Not Support MapServer or FeatureServer, must be a (Home or Root) Folder or sub-Folder");
-                    } // layers 
+                        progressing_info('folder', "this is:", "MapServer/FeatureServer");
+                        
+                        
+                        var _newTab_link
+                        _newTab_link = url_template_server
+                        _newTab_link += '?org=' + root_url  
+                        _newTab_link += '&url=' + root_url 
+                        _newTab_link += '&type=' + "MapServer"
+                        _newTab_link += '&model=' + model // will pass model number to server.js
+                        console.log('_newTab_link', _newTab_link)
+                        //window.open(_newTab_link, "mozillaWindow", "popup");
+                        //window.open(_newTab_link, "_blank", "popup");
+                        window.open(_newTab_link, "_self");
+
+
+
+
+                    } // layers                                                           
+                                    
+                    
+                    // only if user input a layer URL, 
+                    if (current.hasOwnProperty('fields') || current.hasOwnProperty('geometryType')   // only for feature layer and image layer
+                        || current.hasOwnProperty('addressFields') || current.hasOwnProperty('categories') // only for geocode server
+                    ) {
+                        console.log('Not Support layer url, must be a (Home or Root) Folder or sub-Folder',);
+                        progressing_info('folder', "this is:", "layer");
+                       
+                       
+                       
+                       
+                       // render_just_layer(___url_string)
+                    } // layers    
                             
                 }// while
 
-                if (folder_structure_flatjson.length >1) {
-                        jstree_root_folder(folder_structure_flatjson, ___url_string,  _organization, ___hostname )
-                } else {
-                    progressing_info('folder', "Warning:", "works but has no content");
-                }   
+               
+                jstree_root_folder(folder_structure_flatjson, ___url_string,  _organization, ___hostname )
+                  
             
             
 

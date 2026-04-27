@@ -14,16 +14,15 @@
   </head>
   <body>
 
-      <?php 
-          require __DIR__. '/counter/counter.php'; 
-        
-          // to make hit
-          makeHit();	
+  
+  <?php 
           
-          // to get hit
-          echo getHit();
-      ?>
-
+    $hit = file_get_contents(__DIR__ . "/../counter/hits.txt");
+    echo $hit;
+    echo " visit";
+	file_put_contents(__DIR__ . "/../counter/hits.txt", $hit + 1);
+	
+   ?>
 
     
       <button id='refresh_button' onclick="window.location.reload();">
@@ -38,26 +37,13 @@
       <button id='download_csv_button' hidden>
               Download standard.csv
       </button> 
+      
+      
                    
       <div id="json-renderer" style="margin: 18px;"></div>
-        
-
-        
-
-
-
-
-      <!-- ********* zip.js *********** -->
     
-        
-        <!-- customized zip.js file, use relative path to fixed deep level of html for 'z-worker.js', 'deflate.js'  -->
-    <script src="./js/lib/zipjs/zip.js" type="text/javascript"></script>
-    <!-- when use zip.js make sure html is same deep level as previous one  -->
-
-        <!-- you must add this, to use zip.HttpReader later -->
-        <script src="./js/lib/zipjs/zip-ext.js" type="text/javascript"></script> 
-  
-     <!-- ********* End ******** zip.js *********** -->
+    
+      
 
 
 

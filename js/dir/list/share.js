@@ -21,9 +21,27 @@
                    var current_filter_result_count;
                   var __total_item_count;
                    
-      
+   
                   
 
+
+                  
+
+        /**/
+        //  -  -  - fast render 100    -  -  - 
+        /**/
+          // default show top 100 for fast rendering, when user click scroll button to render all
+            var fast_render_count = 100;
+            var isScrolling = false;
+        /**/
+        //  -  -  - end  -  -  -  fast render 100   -  -  - 
+        /**/
+
+
+                  
+  
+
+  
 
 
 
@@ -97,7 +115,28 @@
 
 function show_current(_current_showing) {
     display_count_info('', _current_showing.length, __total_item_count, 'counter_label')
-    standard_json_to_html(_current_showing)
+
+    
+        /**/
+        //  -  -  - fast render 100    -  -  - 
+        /**/
+
+             if (isScrolling){
+
+              standard_json_to_html(_current_showing)
+
+             } else {
+              
+              standard_json_to_html(_current_showing.slice(0, fast_render_count))
+
+             }
+        /**/
+        //  -  -  - end  -  -  -  fast render 100   -  -  - 
+        /**/
+
+
+
+    
     highlight_keywords()
 }
 
@@ -110,6 +149,31 @@ function show_current(_current_showing) {
 
 
 
+
+
+
+        /**/
+        //  -  -  - fast render 100    -  -  - 
+        /**/
+         // only when human use wheel scroll, not code based scroll, windows.scrollTo
+        //window.addEventListener('wheel', (event) => {
+          // both wheel scroll or click hold scroll bar scroll or code based scroll, windows.scrollTo
+        window.addEventListener('scroll', () => {
+          if (!isScrolling) {
+            console.log('Scroll started!');
+            isScrolling = true;
+
+            // render full
+            standard_json_to_html(input_current) 
+
+          }
+
+        
+        });
+
+        /**/
+        //  -  -  - end  -  -  -  fast render 100   -  -  - 
+        /**/
 
 
 

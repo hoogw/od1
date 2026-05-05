@@ -87,15 +87,21 @@ folder_structure_flatjson = [
     // only for layers.js
     function jstree_root_folder(root_allfolders_flatjson, root_url, root_url_organization, root_url_hostname){
 
-    var _html_org = ""
     // arcgis version number
     var _html_version = '<span style="font-size:xx-small;">ArcGIS Enterprise Version </span>'
     _html_version += '<span style="font-size:small; font-weight: bolder;">' + currentVersion + '</span>'
-    _html_org += '<a target="_blank" id="_orgnization_link" href="'+ root_url + '">' + _html_version +  '</a>'
-    // org name, not use, but keep here for future use 
-    //_html_org += '<a target="_blank" id="_orgnization_link" href="'+ root_url + '">' + root_url_organization +  '</a>'
-    // domain, not use, but keep here for future use 
-    //_html_org += '<a target="_blank" id="_orgnization_link2" href="'+ root_url +'">' + root_url_hostname    + '</a>' 
+
+    var _html_org = ""
+    if (root_url_organization){
+        // org name, 
+        _html_org += '<a target="_blank" id="_orgnization_link" href="'+ root_url + '">' + root_url_organization + '</a>'
+    } else {
+         // use domain name ( without org name) 
+         _html_org += '<a target="_blank" id="_orgnization_link2" href="'+ root_url +'">' + root_url_hostname + '</a>'
+        
+    }
+    _html_org += "&nbsp;"
+    _html_org += _html_version
 
 
     $('#message_root_folder').html(_html_org);

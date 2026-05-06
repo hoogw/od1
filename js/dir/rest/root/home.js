@@ -87,7 +87,7 @@ folder_structure_flatjson = [
 
     
     // arcgis version number
-    var _html_version = '<span style="font-size:xx-small;">ArcGIS Enterprise Version </span>'
+    var _html_version = '<span style="font-size:xx-small;">ArcGIS Enterprise v</span>'
     _html_version += '<span style="font-size:small; font-weight: bolder;">' + currentVersion + '</span>'
 
     var _html_org = ""

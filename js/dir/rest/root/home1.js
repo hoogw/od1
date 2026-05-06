@@ -86,7 +86,7 @@ folder_structure_flatjson = [
     function jstree_root_folder(root_allfolders_flatjson, root_url, root_url_organization, root_url_hostname){
 
     // arcgis version number
-    var _html_version = '<span style="font-size:xx-small;">ArcGIS Enterprise Version </span>'
+    var _html_version = '<span style="font-size:xx-small;">ArcGIS Enterprise v</span>'
     _html_version += '<span style="font-size:small; font-weight: bolder;">' + currentVersion + '</span>'
 
     var _html_org = ""
@@ -101,7 +101,7 @@ folder_structure_flatjson = [
     _html_org += "&nbsp;"
     _html_org += _html_version
 
-    
+
 
     $('#message_root_folder').html(_html_org);
 

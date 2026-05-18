@@ -1196,8 +1196,7 @@ var highlighted_color = '#1F51FF' // Neon Blue
                                   //console.log('place : ' + _place)   
                                   console.log('rest api url: ' + _url)  
                                   
-                                  add_search_place();
-
+                             
                                   // mouseover geojson event
                                   add_mapdata_listener()
                                   

@@ -271,8 +271,12 @@ a {
                 /* when user hover */
                 .hover-span:hover {
 
-                   background-color: rgb(70, 70, 70);
-                   transform: translateY(2px); 
+                   background-color: rgb(255, 255, 0);
+                   transform: translateY(2px);
+
+                   color:blue;
+                   /* font-size: larger;  not working */
+                   font-weight: bolder;
 
                 }
                 /* when user click mouse down*/
@@ -282,8 +286,13 @@ a {
 
                   /* all use same effect */
                  
-                  background-color: rgb(48, 48, 48);
+                  background-color: rgb(255, 255, 0);
                   transform: translateY(2px); 
+
+
+                   color:blue;
+                   /* font-size: larger;  not working */
+                   font-weight: bolder;
                 }
             /*  -----  end ------ hover-span */
 

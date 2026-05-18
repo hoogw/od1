@@ -2822,7 +2822,7 @@ function standard_json_to_html(_results) {
               // not use,  with cross line
               //html += '<span class="context cross-line" style="font-weight: lighter;">' +  _name  +  '</span>' 
               // in use, no cross line
-              html += '<span class="context" style="font-weight: lighter;">' +  _name  +  '</span>'
+              html += '<span class="context hover-span" style="font-weight: lighter;">' +  _name  +  '</span>'
             }
             if (_org){
               html +=  ' <sup class="context" style="font-size:xx-small;">' +   _org + '</sup>' 

@@ -31,7 +31,7 @@
 
        
                
-               var image_opacity = 0;  // default
+               var image_opacity = 0.3;  // feature layer use 0.3 to show possible map-image-layer
                var spatial_reference = 4326 // default for layer (image, groundOverlay is regards layers)
                var groundoverlay;
                var groundOverlayImage = null // must be global var for image loading progressing bar

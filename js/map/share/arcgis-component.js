@@ -238,10 +238,6 @@ function init_user_interface_for_component(){
 
 
   
-      // my location button also outside of map, as custom button
-      browser_my_location()
-
-
   // zoom 2 layer event handle
   $('#zoom2layer_button').on("click", (event) => {
     console.log('zoom 2 layer button clicked')
@@ -255,81 +251,6 @@ function init_user_interface_for_component(){
 
 }
 
-
-
-   
-    async function create_my_location_graphic_point(____lng, ____lat){
-   
-
-              // First create a point geometry 
-              var point = {
-                type: "point", // autocasts as new Point()
-                longitude: ____lng,
-                latitude: ____lat
-              };
-
-              
-              markerSymbol = {
-                                        type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
-                                        style: "square",
-                                        color: [39, 66, 245, 0.376],
-                                        size: "31px",  // pixels
-                                        outline: {  // autocasts as new SimpleLineSymbol()
-                                          color: [255,255,0,0.676],
-                                          width: 3  // points
-                                        }
-                          };    
-                
-          
-          
-              
-              // Create a graphic and add the geometry and symbol to it
-              var pointGraphic = new Graphic({
-                geometry: point,
-                symbol: markerSymbol
-              });
-
-              // Add the graphics to the view's graphics layer
-              return arcgisMap.graphics.add(pointGraphic);
-
-    }
-
-
-    var myLocationGraphicPoint
-    function browser_my_location(){
-
-      $("#panToCurrent_geolocation_button").on("click", function(){
-
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                              var my_lat = position.coords.latitude
-                              var my_lng = position.coords.longitude
-                              arcgisMap.center = [my_lng, my_lat]
-
-                              arcgisMap.zoom = 18 // zoom to my location
-
-                              // clean last time my location point
-                              if (myLocationGraphicPoint){
-                                // https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#methods-summary
-                                arcgisMap.graphics.remove(myLocationGraphicPoint);
-                              }
-                              myLocationGraphicPoint = create_my_location_graphic_point(my_lng, my_lat)
-                            },
-              () => {
-                      alert('failed to get your location')
-                    }
-            );
-        } else {
-                 // Browser doesn't support Geolocation
-                 alert('browser not support geolocation')
-        }
-                            
-       
-      });
-
-    }
 
 
 

@@ -6230,69 +6230,6 @@ maxRecordCount = _featurelayerJSON.maxRecordCount
 
 
 
-
-/**/
-// ................ google geolocation api  ................    ................
-
-    // https://developers.google.com/maps/documentation/javascript/examples/map-geolocation#maps_map_geolocation-javascript
-    // https://developers.google.com/maps/documentation/javascript/geolocation#maps_map_geolocation-javascript
-
-    var myLocationMarker;
-
-
-    // must after map object created
-    function geolocation(){
-
-        var locationButton = document.getElementById("panToCurrent_geolocation_button");
-
-        locationButton.addEventListener("click", () => {
-            // Try HTML5 geolocation.
-            if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-
-                  panto_googlemaps(position.coords.latitude, position.coords.longitude, 18) 
-
-                  var pos = {
-                      lat: position.coords.latitude,
-                      lng: position.coords.longitude,
-                  };
-                       
-                  if (myLocationMarker){
-                   // remove previous my location marker
-                   myLocationMarker.setMap(null)
-                  }
-
-                  myLocationMarker = new google.maps.Marker({
-                    position: pos,
-                    map,
-
-                    // default icon used if comment out this custom svg icon
-                    icon: {
-                            path: "M32,0C18.746,0,8,10.746,8,24c0,5.219,1.711,10.008,4.555,13.93c0.051,0.094,0.059,0.199,0.117,0.289l16,24 	C29.414,63.332,30.664,64,32,64s2.586-0.668,3.328-1.781l16-24c0.059-0.09,0.066-0.195,0.117-0.289C54.289,34.008,56,29.219,56,24 	C56,10.746,45.254,0,32,0z M32,32c-4.418,0-8-3.582-8-8s3.582-8,8-8s8,3.582,8,8S36.418,32,32,32z",
-                            fillColor: "blue",
-                            fillOpacity: 0.6,
-                            strokeWeight: 0,
-                            rotation: 0,
-                            scale: 0.666,
-                            anchor: new google.maps.Point(0, 20),
-                          },
-
-                         
-                  });
-                
-                },
-                () => {
-                alert("failed: Turn on (allow) geolocation in your browser setting.")
-                }
-            );
-            } else {
-            // Browser doesn't support Geolocation
-            alert("Error: Your browser doesn't support geolocation.")
-            }
-        });
-
-    }
     
 
     
@@ -6306,10 +6243,7 @@ maxRecordCount = _featurelayerJSON.maxRecordCount
       });
     }
 
-
-// ................ end   ................  google geolocation api  ................    ................
-/**/
-           
+       
 
 
 function reduce_feature_count(___arcgis_feature_Set, ___reduced_feature_count){

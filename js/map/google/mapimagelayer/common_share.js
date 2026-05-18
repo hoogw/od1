@@ -1187,9 +1187,7 @@ var highlighted_color = '#1F51FF' // Neon Blue
                                   //enable 45° imagery 
                                   //map.setTilt(45);
 
-                                  // google geolocation api  ................    ................
-                                  // must after map object created,
-                                  geolocation()
+                            
                                   zoom_to_layer() // reverse pan-to-your-current-location
 
 

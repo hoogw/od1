@@ -257,6 +257,19 @@
 
             //  --- highlight feature on click ---
             arcgisMap.addEventListener("arcgisViewClick", (event) => {
+
+
+              //The <arcgis-map> element gets focused when clicked because the ArcGIS Maps SDK for JavaScript automatically assigns DOM focus to the map container. 
+              // This default behavior ensures keyboard navigation (like zooming with \(\pm \) or panning with arrow keys) works immediately after you interact with the map
+              // to remove focus style,
+              //arcgisMap.blur(); 
+
+              // disable binging of keyboard with up,down,left,right key, 
+              // https://developers.arcgis.com/javascript/latest/sample-code/view-disable-navigation/
+              //event.detail.stopPropagation();
+
+
+
               console.log('a r c g i s V i e w P o i n t e r M o v e - for - h o v e r')
               debouncedUpdate(event).catch((err) => {
                                                     if (!promiseUtils.isAbortError(err)) {

@@ -194,113 +194,85 @@
 
 
 
-     // component 
-     // component must use e v e n t .  d e t a i l
-     async function init_feature_layer_view(){
+        /**/
+        //  -  -  - only for mobile (hover convert to click)   -  -  - 
+        /**/
 
-
-
-      
-               // -- - - - -- - - -   mouse-move -- - - - event -- - - -  
-       
-                  /*
-                      mouse-move will fire 100 event each time, which freeze browser, not responsive.  mouse-click don't have such problem. 
-                      for best performance, place inside layerView scope,  
-
-                        esri sample solution to improve, not solve the 100+ mouse-move event each time, 
-                        https://developers.arcgis.com/javascript/latest/sample-code/sandbox/?sample=widgets-feature-sidepanel
-
-                        Map flickering on mouse move, because fire 100+ mouse-move event each time, down stream operation will pile up, jamed.
-                        https://community.esri.com/t5/net-maps-sdk-questions/map-flickering-on-mouse-move/m-p/542909#M6637
-                  */
-                        
-                        // component 
-                        // warning: component must use e v e n t .  d e t a i l
-                        const debouncedUpdate = promiseUtils.debounce(async (event) => {
-    
-    
-
-                          // component 
-                          // warning: component must use e v e n t .  d e t a i l
-                                      const hitTest = await arcgisMap.hitTest(event.detail, { include: backgroundFeatureLayer});
-                                      let hitResult = hitTest.results.filter(function (result) {
-                                                                              return result.graphic.layer === backgroundFeatureLayer;
-                                                                            })
-    
-                                      let graphic      
-                                      
-                                      // && logical AND assignment,  only when hitResult[0] is truthy, same as : 
-                                      // var newObjectId
-                                      // if (hitResult[0]) { newObjectId = hitResult[0].graphic.attributes[backgroundFeatureLayer.objectIdField]; } else { newObjectId = undefined }
-                                      var newObjectId = hitResult[0] && hitResult[0].graphic.attributes[backgroundFeatureLayer.objectIdField];
-                                                          
-                                       
-                                      //console.log('hover new Object Id vs old object Id : ', newObjectId, objectId);
-                                      // fix bug, object id could be 0,  if (0) is false, actually, 0 is real id, should be true here.
-                                      //if (!newObjectId) {
-                                      if (newObjectId == undefined) {
-
-                                                        
-                            /**/
-                            //  --- semi hover for esri    --- 
-                            /**/
-
-                                /*  semi hover, comment out this section, bypass if mouse out event.
-                                if (mouse_pointed_feature_highlight_handle){
-                                  mouse_pointed_feature_highlight_handle.remove()
-                                }
-                                objectId = undefined
-                                // hide info outline 
-                                empty_info_outline_Tab()
-                                */
-
-                            /**/
-                            //  --- end  ---  semi hover for esri    --- 
-                            /**/
-                                                            
-                                      } else if (objectId !== newObjectId) {
-                              
-                                                                if (mouse_pointed_feature_highlight_handle){
-                                                                  mouse_pointed_feature_highlight_handle.remove()
-                                                                }
-                                                                objectId = newObjectId;
-                                                                graphic = hitResult[0].graphic;
-    
-                                                                // if outside scope of layer View, must need get layer v  i e w. For single layer, if inside scrope, it is optional. For multi layer, even inside scope, still must get layer view
-                                                                // to be safe, I always get layer view here, even it is single layer, inside scope.
-                                                             
-                                                                          mouse_pointed_feature_highlight_handle = layerView.highlight(graphic);
-                                                               
-    
-                                                                console.log('newObjectId', newObjectId)
-                                                                console.log(' ! * ! hit test ! * ! result ! * ! graphic ! * ! ', graphic )
-                                                                show_info_outline_Tab(graphic.attributes)
-                                      }//if newObjectId
-                                        
-    
-                        
-    
-                      });// debounce
-
-    //  --- highlight feature on pointer-move ---    https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#highlight
-    // component // view . on ( " pointer-move " , function(event){
-    arcgisMap.addEventListener("arcgisViewPointerMove", (event) => {
-
-      console.log('a r c g i s V i e w P o i n t e r M o v e - for - h o v e r')
-                  debouncedUpdate(event).catch((err) => {
-                                                          if (!promiseUtils.isAbortError(err)) {
-                                                            throw err;
-                                                          }
-                });
-
-
-         
-              // -- - - -  -- - - -  end  -- - - - -- - - -   mouse-move -- - - -  -- - - -  
-    
+        async function init_feature_layer_view(){
+     
           
+            const debouncedUpdate = promiseUtils.debounce(async (event) => {
+
+                // component 
+                // warning: component must use e v e n t .  d e t a i l
+                const hitTest = await arcgisMap.hitTest(event.detail, { include: backgroundFeatureLayer});
+                let hitResult = hitTest.results.filter(function (result) {
+                                                        return result.graphic.layer === backgroundFeatureLayer;
+                                                      })
+
+                let graphic      
+                
+                // && logical AND assignment,  only when hitResult[0] is truthy, same as : 
+                // var newObjectId
+                // if (hitResult[0]) { newObjectId = hitResult[0].graphic.attributes[backgroundFeatureLayer.objectIdField]; } else { newObjectId = undefined }
+                var newObjectId = hitResult[0] && hitResult[0].graphic.attributes[backgroundFeatureLayer.objectIdField];
+                                    
+                  
+                //console.log('hover new Object Id vs old object Id : ', newObjectId, objectId);
+                // fix bug, object id could be 0,  if (0) is false, actually, 0 is real id, should be true here.
+                //if (!newObjectId) {
+                if (newObjectId == undefined) {
+
+                      if (mouse_pointed_feature_highlight_handle){
+                        mouse_pointed_feature_highlight_handle.remove()
+                      }
+                      objectId = undefined
+                      // hide info outline 
+                      empty_info_outline_Tab()
          
-        }); // view . on . hover
-      }// function
+                                      
+                } else if (objectId !== newObjectId) {
+        
+                                          if (mouse_pointed_feature_highlight_handle){
+                                            mouse_pointed_feature_highlight_handle.remove()
+                                          }
+                                          objectId = newObjectId;
+                                          graphic = hitResult[0].graphic;
+
+                                          // if outside scope of layer View, must need get layer v  i e w. For single layer, if inside scrope, it is optional. For multi layer, even inside scope, still must get layer view
+                                          // to be safe, I always get layer view here, even it is single layer, inside scope.
+                                        
+                                                    mouse_pointed_feature_highlight_handle = layerView.highlight(graphic);
+                                          
+
+                                          console.log('newObjectId', newObjectId)
+                                          console.log(' ! * ! hit test ! * ! result ! * ! graphic ! * ! ', graphic )
+                                          show_info_outline_Tab(graphic.attributes)
+                }//if newObjectId
+                           
+            });// debounce
+
+
+
+
+            //  --- highlight feature on click ---
+            arcgisMap.addEventListener("arcgisViewClick", (event) => {
+              console.log('a r c g i s V i e w P o i n t e r M o v e - for - h o v e r')
+              debouncedUpdate(event).catch((err) => {
+                                                    if (!promiseUtils.isAbortError(err)) {
+                                                      throw err;
+                                                    }
+              });
+            }); // view . on . click
+
+        }// function
+        
+        /**/
+        //  -  -  - end  -  -  -   only for mobile (hover convert to click)    -  -  - 
+        /**/
+
+    
+      
 
 
              

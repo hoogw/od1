@@ -817,15 +817,14 @@
 
                             // console.log('hover-event.feature - ', event.feature)
 
-                            /**/
-                            //  --- semi hover for esri    --- 
-                            /**/
+                            
                                     map.data.revertStyle();
                                     empty_info_outline_Tab()
-                            /**/
-                            //  --- end  ---  semi hover for esri    --- 
-                            /**/
+                           
                                
+
+
+                                    
                                     //map.data.revertStyle();                 
                                     map.data.overrideStyle(event.feature, {
 
@@ -859,18 +858,9 @@
                         map.data.addListener('mouseout', function (event) {
 
                          
-                          /**/
-                          //  --- semi hover for esri    --- 
-                          /**/
-                              /*
                                     map.data.revertStyle(event.feature);
                                     empty_info_outline_Tab()
-                              */
-
-                          /**/
-                          //  --- end  ---  semi hover for esri    --- 
-                          /**/
-
+                             
                         
                         });
 

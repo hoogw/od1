@@ -23,13 +23,6 @@ var _base_map_type = 'streets' // for apple bing, not for google
 var _first_time_load = true;
 
 
-//  --- click or hover   --- 
-var click_or_hover = 'hover'   // 'click'
-
-
-
-
-
 
 
 

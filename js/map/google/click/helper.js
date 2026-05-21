@@ -765,6 +765,10 @@
 
 
 
+        /**/
+        //  -  -  - only for mobile (hover convert to click)   -  -  - 
+        /**/
+
                   function add_mapdata_listener(){
 
 
@@ -777,10 +781,12 @@
                     // click listener
                       map.data.addListener('click', function(event) {
 
-                        //  --- click or hover   ---
-                        if (click_or_hover == 'click'){
+
+                        
+                                    map.data.revertStyle();
+                                    empty_info_outline_Tab()
+                           
                                     
-                                map.data.revertStyle();    
                                 map.data.overrideStyle(event.feature, {
                                   
                                   // icon only affect point 
@@ -802,70 +808,24 @@
 
                               show_info_outline_Tab(event)
 
-                            }//if
-
+                          
                               
                           });    
 
 
-
-
-
-                      // mouse over listener
-                        map.data.addListener('mouseover', function (event) {   
-                          
-
-                            // console.log('hover-event.feature - ', event.feature)
-
-                            
-                                    map.data.revertStyle();
-                                    empty_info_outline_Tab()
-                           
-                               
-
-
-                                    
-                                    //map.data.revertStyle();                 
-                                    map.data.overrideStyle(event.feature, {
-
-                                      // icon only affect point 
-                                      icon        : {
-                                        path: google.maps.SymbolPath.CIRCLE,
-                                        scale: _classfiy_pointRadius,
-                                        strokeColor: _highlight_strokeColor, 
-                                        strokeOpacity: _default_pointStrokeOpacity, 
-                                        strokeWeight: _highlight_strokeWeight
-                                      },
-
-                                        // affect polygon and polyline
-                                        strokeWeight: _highlight_strokeWeight,
-                                        strokeColor: _highlight_strokeColor,
-                                        fillOpacity: _highlight_fillOpacity
-                                        //fillColor:''
-                                    });
-                                    
-
-                                    show_info_outline_Tab(event)
-
-                             
-
-                        });
-
-
-
-
-                          // mouse out listener
-                        map.data.addListener('mouseout', function (event) {
-
-                         
-                                    map.data.revertStyle(event.feature);
-                                    empty_info_outline_Tab()
-                             
-                        
-                        });
-
-
                   }
+
+
+
+        /**/
+        //  -  -  - end  -  -  -   only for mobile (hover convert to click)    -  -  - 
+        /**/
+
+
+
+
+
+                
 
 
 

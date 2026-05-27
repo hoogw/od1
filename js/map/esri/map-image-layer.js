@@ -166,28 +166,28 @@
           async function createFeatureLayer(){
           
 
+            try {
+                if (backgroundFeatureLayer){
+                } else {
+                        backgroundFeatureLayer = new FeatureLayer({
+                          url: background_layer_url,
+                          outFields: "*",
+                          opacity: groundoverlay_opacity,
+                        });
+                }
 
-            if (backgroundFeatureLayer){
-            } else {
-                    backgroundFeatureLayer = new FeatureLayer({
-                      url: background_layer_url,
-                      outFields: "*",
-                      opacity: groundoverlay_opacity,
-                    });
-            }
 
+            
+      
+                // queryFeatureCount https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryFeatureCount
+                // How To Show Total Count  https://community.esri.com/t5/arcgis-javascript-maps-sdk-questions/how-to-show-total-count/m-p/65357
+                backgroundFeatureLayer.queryFeatureCount().then(function(numFeatures){
+                            // prints the total count to the console
+                            console.log('total count is : ', numFeatures);
+                            total_feature_count = numFeatures
+                            update_statistic_info_vertical(current_feature_rendered , total_feature_count)
 
-           
-    
-            // queryFeatureCount https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryFeatureCount
-            // How To Show Total Count  https://community.esri.com/t5/arcgis-javascript-maps-sdk-questions/how-to-show-total-count/m-p/65357
-            backgroundFeatureLayer.queryFeatureCount().then(function(numFeatures){
-                        // prints the total count to the console
-                        console.log('total count is : ', numFeatures);
-                        total_feature_count = numFeatures
-                        update_statistic_info_vertical(current_feature_rendered , total_feature_count)
-
-            });
+                });
 
              
                 // first time zoom to layer must wait until view is ready, otherwise, may not zoom to.
@@ -198,6 +198,18 @@
                                               //first time pan to real location, or zoom to last feature of max return count(zoom to 1st feature), must wait until view is ready, inside v i e w . w h e n ( ) here
                                               pan_to_real_location()
                   }//if 
+
+        
+            } catch (error) {
+              console.log("Error creating ESRI's feature layer, blocked by CORS policy, click BACK button, select GOOGLE map instead.");
+              $("#info-window-div").html("<span>Error creating ESRI's feature layer, blocked by CORS policy, click BACK button, select GOOGLE map instead.</span>");
+              return;
+
+            }
+
+
+
+
           } 
 
 

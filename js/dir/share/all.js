@@ -2741,6 +2741,11 @@ function standard_json_to_html(_results) {
       var _org  = _results[i].org
       var _url = _results[i].url
 
+      var _version = _results[i].version
+      var _folder_count = _results[i].folder_count
+      var _service_count = _results[i].service_count
+
+
       html += '<li class="space">' 
 
       // demo without url, full access have url
@@ -2759,9 +2764,13 @@ function standard_json_to_html(_results) {
                   //  --- end  ---  ----- hover-span  ----- 
                 }
                 html +=  '</a>'
+
+
                 if (_org){
                   html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
                 }
+
+
                 
 
             }
@@ -2787,6 +2796,16 @@ function standard_json_to_html(_results) {
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
                           }
                          
+                          if (_version){
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">v' +   _version + '</sup>' 
+                          }
+                          if (_folder_count){   
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">f' +   _folder_count + '</sup>'
+                          }
+                          if (_service_count){
+
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">s' +   _service_count + '</sup>'
+                          }
 
                 } else {
 
@@ -2805,6 +2824,17 @@ function standard_json_to_html(_results) {
                           if (_org){
                               html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
                           }
+
+                          if (_version){
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">v' +   _version + '</sup>' 
+                          }
+                          if (_folder_count){   
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">f' +   _folder_count + '</sup>'
+                          }
+                          if (_service_count){
+
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">s'+   _service_count + '</sup>'
+                          }
                           
 
 
@@ -2822,7 +2852,7 @@ function standard_json_to_html(_results) {
               // not use,  with cross line
               //html += '<span class="context cross-line" style="font-weight: lighter;">' +  _name  +  '</span>' 
               // in use, no cross line
-              html += '<span class="context hover-span" style="font-weight: lighter;">' +  _name  +  '</span>'
+              html += '<span class="context" style="font-weight: lighter;">' +  _name  +  '</span>'
             }
             if (_org){
               html +=  ' <sup class="context" style="font-size:xx-small;">' +   _org + '</sup>' 
@@ -2854,8 +2884,9 @@ function standard_json_to_html(_results) {
 
 
             
-}  
+}   
  
+
 
 
 
@@ -2871,6 +2902,11 @@ function span_standard_json_to_html(_results) {
       var _name = _results[i].name
       var _org  = _results[i].org
       var _url = _results[i].url
+
+      var _version = _results[i].version
+      var _folder_count = _results[i].folder_count
+      var _service_count = _results[i].service_count
+
 
       html += '<li class="space">' 
 
@@ -2915,6 +2951,17 @@ function span_standard_json_to_html(_results) {
                           if (_org){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
                           }
+
+
+                           if (_version){
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">v' +   _version + '</sup>' 
+                          }
+                          if (_folder_count){
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">f' +   _folder_count + '</sup>' 
+                          }
+                          if (_service_count){
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">s' +   _service_count + '</sup>' 
+                          }
                           html +=  '</span>'
 
                 } else {
@@ -2932,6 +2979,15 @@ function span_standard_json_to_html(_results) {
                           }
                           if (_org){
                               html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
+                          }
+                           if (_version){
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">v' +   _version + '</sup>' 
+                          }
+                          if (_folder_count){
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">f' +   _folder_count + '</sup>' 
+                          }
+                          if (_service_count){
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">s' +   _service_count + '</sup>' 
                           }
                           html +=  '</span>'
 
@@ -2983,7 +3039,7 @@ function span_standard_json_to_html(_results) {
 
             
 }  
-        
+       
 
         
 

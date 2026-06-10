@@ -2767,7 +2767,12 @@ function standard_json_to_html(_results) {
 
 
                 if (_org){
-                  html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
+                  
+                            html +=  ' <sup class="context hover-span" style="cursor: pointer; font-size:xx-small;">' 
+                            html +=  '<a target="_self" href="' + _url + '">';     
+                            html +=      _org 
+                            html +=  '</a>' 
+                            html +=  '</sup>'
                 }
 
 
@@ -2788,17 +2793,27 @@ function standard_json_to_html(_results) {
                           html += '\')">' 
                           if (_name){
                              // ----- hover-span  -----
-                            html += '<span class="context hover-span" style="cursor: pointer;font-size:large;">' +  _name  +  '</span>' 
+                            html += '<span class="context hover-span" style="cursor: pointer; font-weight: 100; font-size:large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  -----                           
                           }
                            html += "</a>"
-                          if (_org){
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
-                          }
-                         
+
+
                           if (_version){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">v' +   _version + '</sup>' 
                           }
+
+                          if (_org){
+                            
+                            html +=  ' <sup class="context hover-span" style="cursor: pointer; font-size:xx-small;">' 
+                            html +=  '<a target="_self" href="' + _url + '">';     
+                            html +=      _org 
+                            html +=  '</a>' 
+                            html +=  '</sup>'
+                            
+                         }
+                         
+                          
                           if (_folder_count){   
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">f' +   _folder_count + '</sup>'
                           }
@@ -2817,17 +2832,26 @@ function standard_json_to_html(_results) {
                           html += '\')">' 
                           if (_name){
                             // ----- hover-span  -----
-                            html += '<span class="context hover-span" style="cursor: pointer; font-weight:bolder; font-size:large;">' +  _name  +  '</span>' 
+                            html += '<span class="context hover-span" style="cursor: pointer; font-weight: 900; font-size:large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  -----
                             html +=  '</a>' 
-                          }
-                          if (_org){
-                              html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
                           }
 
                           if (_version){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">v' +   _version + '</sup>' 
                           }
+
+
+                          if (_org){
+                               
+                            html +=  ' <sup class="context hover-span" style="cursor: pointer; font-size:xx-small;">'
+                            html +=  '<a target="_self" href="' + _url + '">';     
+                            html +=      _org 
+                            html +=  '</a>' 
+                            html +=  '</sup>'
+                          }
+
+                          
                           if (_folder_count){   
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">f' +   _folder_count + '</sup>'
                           }
@@ -2890,7 +2914,7 @@ function standard_json_to_html(_results) {
 
 
 
-// span version, 
+// a span version, 
 function span_standard_json_to_html(_results) {
       
   var html = '';
@@ -2925,10 +2949,17 @@ function span_standard_json_to_html(_results) {
                   html += '<span class="context hover-span" style="cursor: pointer;  font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
                   //  --- end  ---  ----- hover-span  ----- 
                 }
-                if (_org){
-                  html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
-                }
                 html +=  '</span>'
+
+                if (_org){
+                 
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' 
+                            html +=  '<span class="context hover-span" onclick="window.open(\'' + _url + '\', \'_self\');">' 
+                            html +=      _org 
+                            html +=  '</span>' 
+                            html +=  '</sup>' 
+                }
+                
 
             }
 
@@ -2948,21 +2979,29 @@ function span_standard_json_to_html(_results) {
                             html += '<span class="context hover-span" style="cursor: pointer;font-size:large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  ----- 
                           }
-                          if (_org){
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
-                          }
+                          html +=  '</span>'
 
-
-                           if (_version){
+                          
+                          if (_version){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">v' +   _version + '</sup>' 
                           }
+
+                          if (_org){
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' 
+                            html +=  '<span class="context hover-span" onclick="window.open(\'' + _url + '\', \'_self\');">'
+                            html +=      _org 
+                            html +=  '</span>' 
+                            html +=  '</sup>' 
+                          }
+
+
                           if (_folder_count){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">f' +   _folder_count + '</sup>' 
                           }
                           if (_service_count){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">s' +   _service_count + '</sup>' 
                           }
-                          html +=  '</span>'
+                          
 
                 } else {
 
@@ -2977,19 +3016,28 @@ function span_standard_json_to_html(_results) {
                             html += '<span class="context hover-span" style="cursor: pointer; font-weight:bolder; font-size:large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  ----- 
                           }
-                          if (_org){
-                              html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' +   _org + '</sup>' 
-                          }
-                           if (_version){
+                          html +=  '</span>'
+
+                          if (_version){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">v' +   _version + '</sup>' 
                           }
+
+
+                          if (_org){
+                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' 
+                            html +=  '<span class="context hover-span" onclick="window.open(\'' + _url + '\', \'_self\');">' 
+                            html +=      _org 
+                            html +=  '</span>' 
+                            html +=  '</sup>'   
+                          }
+                          
                           if (_folder_count){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">f' +   _folder_count + '</sup>' 
                           }
                           if (_service_count){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">s' +   _service_count + '</sup>' 
                           }
-                          html +=  '</span>'
+                          
 
 
                 }//if
@@ -3201,6 +3249,7 @@ function open_popup_online(_site_name, _site_url){
     console.log('_newTab_link', _newTab_link)
     //window.open(_newTab_link, "mozillaWindow", "popup");
     //window.open(_newTab_link, "_blank", "popup");
-            window.open(_newTab_link, "_self");
+    //window.open(_newTab_link, "_blank");
+    window.open(_newTab_link, "_self");
 
 }

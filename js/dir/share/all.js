@@ -2760,7 +2760,7 @@ function standard_json_to_html(_results) {
                 html += '\')">' 
                 if (_name){
                    // ----- hover-span  ----- 
-                  html += '<span class="context hover-span" style="cursor: pointer;  font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
+                  html += '<span class="context hover-span" style="font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
                   //  --- end  ---  ----- hover-span  ----- 
                 }
                 html +=  '</a>'
@@ -2768,7 +2768,7 @@ function standard_json_to_html(_results) {
 
                 if (_org){
                   
-                            html +=  ' <sup class="context hover-span" style="cursor: pointer; font-size:xx-small;">' 
+                            html +=  ' <sup class="context hover-span" style="font-size:xx-small;">' 
                             html +=  '<a target="_self" href="' + _url + '">';     
                             html +=      _org 
                             html +=  '</a>' 
@@ -2793,19 +2793,21 @@ function standard_json_to_html(_results) {
                           html += '\')">' 
                           if (_name){
                              // ----- hover-span  -----
-                            html += '<span class="context hover-span" style="cursor: pointer; font-weight: 100; font-size:large;">' +  _name  +  '</span>' 
+                            html += '<span class="context hover-span" style="font-weight: 100; font-size:x-large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  -----                           
                           }
                            html += "</a>"
 
 
                           if (_version){
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">v' +   _version + '</sup>' 
+                            html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
                           }
+
+                          html +=  ' <sup class="context" style="font-size:xx-small;">online</sup>'
 
                           if (_org){
                             
-                            html +=  ' <sup class="context hover-span" style="cursor: pointer; font-size:xx-small;">' 
+                            html +=  ' <sup class="context hover-span" style="font-size:xx-small;">' 
                             html +=  '<a target="_self" href="' + _url + '">';     
                             html +=      _org 
                             html +=  '</a>' 
@@ -2815,11 +2817,11 @@ function standard_json_to_html(_results) {
                          
                           
                           if (_folder_count){   
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">f' +   _folder_count + '</sup>'
+                            html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>'
                           }
                           if (_service_count){
 
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">s' +   _service_count + '</sup>'
+                            html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>'
                           }
 
                 } else {
@@ -2832,19 +2834,20 @@ function standard_json_to_html(_results) {
                           html += '\')">' 
                           if (_name){
                             // ----- hover-span  -----
-                            html += '<span class="context hover-span" style="cursor: pointer; font-weight: 900; font-size:large;">' +  _name  +  '</span>' 
+                            html += '<span class="context hover-span" style="font-weight: 900; font-size:xx-large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  -----
                             html +=  '</a>' 
                           }
 
                           if (_version){
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">v' +   _version + '</sup>' 
+                            html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
                           }
 
+                          html +=  ' <sup class="context" style="font-size:xx-small;">portal</sup>'
 
                           if (_org){
                                
-                            html +=  ' <sup class="context hover-span" style="cursor: pointer; font-size:xx-small;">'
+                            html +=  ' <sup class="context hover-span" style="font-size:xx-small;">'
                             html +=  '<a target="_self" href="' + _url + '">';     
                             html +=      _org 
                             html +=  '</a>' 
@@ -2853,11 +2856,11 @@ function standard_json_to_html(_results) {
 
                           
                           if (_folder_count){   
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">f' +   _folder_count + '</sup>'
+                            html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>'
                           }
                           if (_service_count){
 
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">s'+   _service_count + '</sup>'
+                            html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>'
                           }
                           
 
@@ -2976,15 +2979,17 @@ function span_standard_json_to_html(_results) {
                           html += '\')">' 
                           if (_name){
                             // ----- hover-span  -----
-                            html += '<span class="context hover-span" style="cursor: pointer;font-size:large;">' +  _name  +  '</span>' 
+                            html += '<span class="context hover-span" style="cursor: pointer;font-size:x-large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  ----- 
                           }
                           html +=  '</span>'
 
                           
                           if (_version){
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">v' +   _version + '</sup>' 
+                            html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
                           }
+
+                          html +=  ' <sup class="context" style="font-size:xx-small;">online</sup>' 
 
                           if (_org){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' 
@@ -2996,10 +3001,10 @@ function span_standard_json_to_html(_results) {
 
 
                           if (_folder_count){
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">f' +   _folder_count + '</sup>' 
+                            html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>' 
                           }
                           if (_service_count){
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">s' +   _service_count + '</sup>' 
+                            html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>' 
                           }
                           
 
@@ -3013,15 +3018,16 @@ function span_standard_json_to_html(_results) {
                           html += '\')">' 
                           if (_name){
                             // ----- hover-span  -----
-                            html += '<span class="context hover-span" style="cursor: pointer; font-weight:bolder; font-size:large;">' +  _name  +  '</span>' 
+                            html += '<span class="context hover-span" style="cursor: pointer; font-weight:bolder; font-size:xx-large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  ----- 
                           }
                           html +=  '</span>'
 
                           if (_version){
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">v' +   _version + '</sup>' 
+                            html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
                           }
 
+                          html +=  ' <sup class="context" style="font-size:xx-small;">portal</sup>'
 
                           if (_org){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' 
@@ -3032,10 +3038,10 @@ function span_standard_json_to_html(_results) {
                           }
                           
                           if (_folder_count){
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">f' +   _folder_count + '</sup>' 
+                            html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>' 
                           }
                           if (_service_count){
-                            html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">s' +   _service_count + '</sup>' 
+                            html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>' 
                           }
                           
 

@@ -62,7 +62,7 @@
     console.log('_filter_by  --->  ', _filter_by)
     update_url_parameter('filter_by', _filter_by);
     
-    if (_filter_by.length > 0) {  
+    if (_filter_by.length > 2) {  
                         
       // ............. filter results  ....................
       _filtered_results = [];
@@ -91,11 +91,20 @@
           } //for
 
           if (_valid) {
+
+            /*
+            // limit search result to 100, if found 100, than break for loop,
             if (_filtered_results.length >= 100){
              break; // for loop
             } else {
               _filtered_results.push(input_current[i]);
             }//if
+            */
+
+            // no limit, show all search result
+            _filtered_results.push(input_current[i]);
+
+            
           }//if
 
         }// for
@@ -104,10 +113,23 @@
       show_current(_filtered_results)     
       // ..........  End ... filter results base on _search_for  ....................          
 
-    } else {
-        // less than 
+    } 
+    
+    
+    
+    if (!_filter_by.length) {
+      
+        /**/
+        //  -  -  - fast render 100    -  -  - 
+        /**/
+       isScrolling = false;
+         /**/
+        //  -  -  - end  -  -  -  fast render 100   -  -  - 
+        /**/
         show_current(input_current)
-    }
+    }//if
+
+
   }
 
 
@@ -156,15 +178,17 @@ function show_current(_current_showing) {
         //  -  -  - fast render 100    -  -  - 
         /**/
          // only when human use wheel scroll, not code based scroll, windows.scrollTo
-        //window.addEventListener('wheel', (event) => {
+        window.addEventListener('wheel', (event) => {
+        
+          // not use, sometime, not work,  
           // both wheel scroll or click hold scroll bar scroll or code based scroll, windows.scrollTo
-        window.addEventListener('scroll', () => {
+        //window.addEventListener('scroll', () => {
           if (!isScrolling) {
             console.log('Scroll started!');
             isScrolling = true;
 
             // render full
-            standard_json_to_html(input_current) 
+            show_current(input_current)
 
           }
 

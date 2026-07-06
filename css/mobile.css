@@ -266,7 +266,7 @@ a {
 
 
 
-                /*  ----- hover-span  ----- */
+                /*  ----- hover-span for blue links  ----- */
 
                 /* when user hover */
                 .hover-span:hover {
@@ -294,7 +294,7 @@ a {
                    /* font-size: larger;  not working */
                    font-weight: bolder;
                 }
-            /*  -----  end ------ hover-span */
+            /*  -----  end ------ hover-span for blue links  ----- */
 
 
 

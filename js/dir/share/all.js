@@ -1296,67 +1296,16 @@ async function get_mapserver_info_html(mapserver_url){
                             }
 
 
-                            /**/     
-                            // # # # # # # geometry type - for icon # # # # # #
+                           $('#message_more_info_icon').html(_html_for_more_info_icon);
 
-                            if (_thisLayer_fullJSON.hasOwnProperty('geometryType')){
-                                _html_for_more_info_icon    += '<span>Geometry-Type(<mark>' +  _thisLayer_fullJSON.geometryType + '</mark>)</span>'
-                            } else {
-                                _html_for_more_info_icon    += '<span>Geometry-Type(<mark>Not Defined</mark>)</span>'  
-                            }
-
-
-
-                            if (_thisLayer_fullJSON.hasOwnProperty('displayField')){
-                                _html_for_more_info_icon    += ', ' + '<span>Display-Field(<mark>' +  _thisLayer_fullJSON.displayField + '</mark>)</span>'
-                            } else {
-                                _html_for_more_info_icon    += ', ' + '<span>Display-Field(<mark>Not Defined</mark>)</span>'  
-                            }
-
-                            // # # #  end  # # # geometry type - for icon # # # # # #
-                            /**/
-
-
-                                  
-                            /**/     
-                            // # # # # # # dynamic layer - for icon # # # # # #
-                            if (_support_dynamic_layers == true){
-                                _html_for_more_info_icon    += ', ' + yes_icon  + '<span>Dynamic-Layers(Yes)</span>'
-                            } else {
-                                _html_for_more_info_icon    += ', ' + no_icon + '<span>Dynamic-Layers(No)</span>'
-                            }
-                            // # # #  end  # # # dynamic layer - for icon # # # # # #
-                            /**/
-
-                            
-                                         
-                            /**/
-                            //  ... support dynamic legend or not   ... 
-                            if (_thisLayer_fullJSON.hasOwnProperty('supportsDynamicLegends')){
-                                _html_for_more_info_icon    += ', ' + yes_icon + '<span>Dynamic-Legend(Yes)</span>'
-                            } else {
-                                _html_for_more_info_icon    += ', ' + no_icon + '<span>Dynamic-Legend(No)</span>' 
-                            }
-                            //  ... end ... support dynamic legend or not   ... 
-                            /**/
-
-                            
-
-
-                                    /**/
-                                    //  ... ... .. ... subtype domain ... ... .. 
-                                    /**/
-                                        get_subtype_domain_info(_thisLayer_fullJSON)
-                                    /**/
-                                    //  ... end ... ... .. ... subtype domain ... ... ..
-                                    /**/
-
-
+                            //  ... ... .. ... subtype domain ... ... ..
+                                //get_subtype_domain_info(_thisLayer_fullJSON)
+                            //  ... end ... ... .. ... subtype domain ... ... ..
 
                                     
-    /**/
+ 
     //   = = = = =   f=json  = = = = =  = = = = =
-    /**/
+
     var _html_for_f_json = ''
     _html_for_f_json += '<br>'
     _html_for_f_json += '<a target="_blank" id="___thislayerurl____link2" href="'+  ___thislayerurl___ + '?f=json" style="font-size:xx-small; font-weight: lighter;">'  
@@ -1374,134 +1323,9 @@ async function get_mapserver_info_html(mapserver_url){
     }
 
     
-    /**/
+  
     //   = = = = =    end   = = = = =   f=json  = = = = =  = = = = =
-    /**/
-
-
-
-                            // ... ... ...  geodatabase ... yes ... no ...  ... ... ... 
-
-                              var _advancedQueryCapabilities = _thisLayer_fullJSON.advancedQueryCapabilities
-
-                              if (_advancedQueryCapabilities){
-
-                                console.log(' geodatabase,  Yes, or No, ', _thisLayer_fullJSON.supportsAdvancedQueries)
-                                if (_thisLayer_fullJSON.supportsAdvancedQueries){
-                                            // geodatabase, advanced query-> true
-                                            if (_thisLayer_fullJSON.supportsAdvancedQueries == true){
-                                                _html_for_more_info_icon    += ', ' + yes_icon + '<span>GeoDatabase(Yes)</span>'
-                                                
-                                            }   
-                                } else {
-                                            if (_thisLayer_fullJSON.supportsAdvancedQueries == false){
-                                                _html_for_more_info_icon    += ', ' + no_icon  + '<span>GeoDatabase(No)</span>'
-                                                
-                                            } else {
-                                                // advanced query, undefined,  not a feature layer ,  nothing display
-                                                console.log('advanced query, undefined,  not a feature layer ,  nothing display')
-                                            }
-                                }
-
-                            
-
-                                if (_advancedQueryCapabilities.supportsPagination){
-                                    
-                                    _html_for_more_info_icon    += ', ' +  yes_icon   + 'Pagination' 
-                                } else {
-                                    _html_for_more_info_icon    += ', ' +  no_icon    + 'Pagination' 
-                                }
-
-                               
-
-                                if (_advancedQueryCapabilities.supportsStatistics){
-                                    _html_for_more_info_icon    += ', ' +  yes_icon    + 'Statistics' 
-                                } else {
-                                    _html_for_more_info_icon    += ', ' +  no_icon    + 'Statistics' 
-                                }
-
-                              
-
-                                if (_advancedQueryCapabilities.supportsDistinct){
-                                    _html_for_more_info_icon    += ', ' +  yes_icon    + 'Distinct' 
-                                } else {
-                                    _html_for_more_info_icon    += ', ' +  no_icon    + 'Distinct' 
-                                }
-
-                             
-
-                                if (_advancedQueryCapabilities.supportsOrderBy){
-                                    _html_for_more_info_icon    += ', ' +  yes_icon    + 'OrderBy' 
-                                } else {
-                                    _html_for_more_info_icon    += ', ' +  no_icon    + 'OrderBy' 
-                                }
-
-                            
-
-                                if (_advancedQueryCapabilities.supportsHavingClause){
-                                    _html_for_more_info_icon    += ', ' +  yes_icon    + 'HavingClause' 
-                                } else {
-                                    _html_for_more_info_icon    += ', ' +  no_icon    + 'HavingClause' 
-                                }
-
-                             
-
-                                if (_advancedQueryCapabilities.supportsCountDistinct){
-                                    _html_for_more_info_icon    += ', ' +  yes_icon    + 'CountDistinct' 
-                                } else {
-                                    _html_for_more_info_icon    += ', ' +  no_icon    + 'CountDistinct' 
-                                }
-
-                        
-
-                                if (_advancedQueryCapabilities.supportsSqlExpression){
-                                    _html_for_more_info_icon    += ', ' +  yes_icon    + 'SqlExpression' 
-                                } else {
-                                    _html_for_more_info_icon    += ', ' +  no_icon    + 'SqlExpression' 
-                                }
-
-                            
-
-                                if (_advancedQueryCapabilities.supportsQueryWithDistance){
-                                    _html_for_more_info_icon    += ', ' +  yes_icon    + 'QueryWithDistance' 
-                                } else {
-                                    _html_for_more_info_icon    += ', ' +  no_icon    + 'QueryWithDistance' 
-                                }
-
-                             
-
-                                if (_advancedQueryCapabilities.supportsReturningQueryExtent){
-                                    _html_for_more_info_icon    += ', ' +  yes_icon    + 'ReturningQueryExtent' 
-                                } else {
-                                    _html_for_more_info_icon    += ', ' +  no_icon    + 'ReturningQueryExtent' 
-                                }
-
-                              
-
-                                if (_advancedQueryCapabilities.useStandardizedQueries){
-                                    _html_for_more_info_icon    += ', ' +  yes_icon    + 'StandardizedQueries' 
-                                } else {
-                                    _html_for_more_info_icon    += ', ' +  no_icon    + 'StandardizedQueries' 
-                                }
-
-                            
-
-                                if (_advancedQueryCapabilities.supportsTrueCurve){
-                                    _html_for_more_info_icon    += ', ' +  yes_icon    + 'TrueCurve' 
-                                } else {
-                                    _html_for_more_info_icon    += ', ' +  no_icon    + 'TrueCurve' 
-                                }
-                                $('#message_more_info_icon').html(_html_for_more_info_icon);
-
-                            }// if exist
-
-                     //  ... ... ...   end ... ... ...  geodatabase ... yes ... no ...  ... ... ...
-                     /**/
-
-
-
-
-
+   
 
 
                              

@@ -624,8 +624,12 @@ function init_global_var(){
 
 var esri_system_managed_field_array = [
                       // possible field name in arcgis 
-                     'id', 'oid','fid','objectid','globalid', 
-                      'shape', 'length', 'area', 'shape_length','shape_area',  
+                      'oid','fid','objectid','globalid', 
+                      'shape',   
+                      
+                      
+                      // more
+                      'length', 'area', 'shape_length','shape_area',  
                       'lat','long','latitude','longitude',
                       'coordinate_x','coordinate_y','x_coordinate','y_coordinate',
                       'coordinate',
@@ -634,7 +638,12 @@ var esri_system_managed_field_array = [
 
                       'created','modified', 'edited', 'updated',
 
+
+
+                      
+
      ]
+
 
 
 

@@ -3438,6 +3438,10 @@ view.goTo({
                     skip_yes_no = true
                   }//if
                 }
+
+                if ((value == null ) || (value == undefined) || (value == "") || (!(value)) ){
+                  skip_yes_no = true
+                }
                 
                   var fieldNameLowerCase = key.toLowerCase()
                   var _hasMatch = esri_system_managed_field_array.some(word => fieldNameLowerCase.includes(word));

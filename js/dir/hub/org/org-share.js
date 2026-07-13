@@ -56,7 +56,7 @@ var _search_content_split
                     console.log('_filter_by  --->  ', _filter_by)
                     update_url_parameter('filter_by', _filter_by);
                     
-                    if (_filter_by.length > 2) {  
+                    if (if (_filter_by.length >= 2) {) {  
                                         
                       // ............. filter results  ....................
                       _filtered_results = [];

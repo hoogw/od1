@@ -200,7 +200,7 @@ folder_structure_flatjson = [
              } else {
 
                 // only for map server, feature server
-                    _newTab_link = url_template_server
+                    _newTab_link = url_template_server.replace("server.html", "server-nav-bar.html")
                     _newTab_link += '?org=' + selected_relative_path  
                     _newTab_link += '&url=' + selected_node_path 
                     _newTab_link += '&type=' + selected_node_type
@@ -762,7 +762,7 @@ async function scan_root_folder(){
                         
                         
                         var _newTab_link
-                        _newTab_link = url_template_server
+                        _newTab_link = url_template_server.replace("server.html", "server-nav-bar.html")
                         _newTab_link += '?org=' + root_url  
                         _newTab_link += '&url=' + root_url 
                         _newTab_link += '&type=' + "MapServer"

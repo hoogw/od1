@@ -26,19 +26,6 @@
 
 
                   
-
-        /**/
-        //  -  -  - fast render 100    -  -  - 
-        /**/
-          // default show top 100 for fast rendering, when user click scroll button to render all
-            var fast_render_count = 100;
-            var isScrolling = false;
-        /**/
-        //  -  -  - end  -  -  -  fast render 100   -  -  - 
-        /**/
-
-
-                  
   
 
   
@@ -118,14 +105,6 @@
     
     
     if (!_filter_by.length) {
-      
-        /**/
-        //  -  -  - fast render 100    -  -  - 
-        /**/
-       isScrolling = false;
-         /**/
-        //  -  -  - end  -  -  -  fast render 100   -  -  - 
-        /**/
         show_current(input_current)
     }//if
 
@@ -137,28 +116,7 @@
 
 function show_current(_current_showing) {
     display_count_info('', _current_showing.length, __total_item_count, 'counter_label')
-
-    
-        /**/
-        //  -  -  - fast render 100    -  -  - 
-        /**/
-
-             if (isScrolling){
-
-              standard_json_to_html(_current_showing)
-
-             } else {
-              
-              standard_json_to_html(_current_showing.slice(0, fast_render_count))
-
-             }
-        /**/
-        //  -  -  - end  -  -  -  fast render 100   -  -  - 
-        /**/
-
-
-
-    
+    standard_json_to_html(_current_showing)
     highlight_keywords()
 }
 
@@ -168,38 +126,6 @@ function show_current(_current_showing) {
 
 
   function init_ui_event_handler(){
-
-
-
-
-
-
-        /**/
-        //  -  -  - fast render 100    -  -  - 
-        /**/
-         // only when human use wheel scroll, not code based scroll, windows.scrollTo
-        window.addEventListener('wheel', (event) => {
-        
-          // not use, sometime, not work,  
-          // both wheel scroll or click hold scroll bar scroll or code based scroll, windows.scrollTo
-        //window.addEventListener('scroll', () => {
-          if (!isScrolling) {
-            console.log('Scroll started!');
-            isScrolling = true;
-
-            // render full
-            show_current(input_current)
-
-          }
-
-        
-        });
-
-        /**/
-        //  -  -  - end  -  -  -  fast render 100   -  -  - 
-        /**/
-
-
 
 
 

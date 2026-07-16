@@ -1083,7 +1083,7 @@ async function scan_root_folder(){
 
              function go_all_list(){
 
-                var new_url = new URL("/open-data/dir/list/all-nav-bar.html", window.location.origin);
+                var new_url = new URL("/open-data/dir/list/all.html", window.location.origin);
 
                 window.location.href = new_url.href;
 

@@ -45,8 +45,8 @@ a {
   color:yellow;
 }
 .current_rest_api_endpoint {
-  font-size: small; 
-  font-weight: bolder; 
+  font-size: small;  
+  font-weight: 100; 
   font-family: monospace; 
   font-style: oblique;
   color:yellow;

@@ -99,12 +99,30 @@ folder_structure_flatjson = [
          _html_org += '<a target="_blank" id="_orgnization_link2" href="'+ root_url +'">' + root_url_hostname + '</a>'
         
     }
+
+
+        /**/
+        //  -  -  - nav bar   -  -  - 
+        /**/
+
+            // without version number for nav only
+            $('#nav-root').html(_html_org);
+        /**/
+        //  -  -  - end  -  -  -   nav bar   -  -  - 
+        /**/
+
+
     _html_org += "&nbsp;"
     _html_org += _html_version
 
    
 
     $('#message_root_folder').html(_html_org);
+
+
+
+    
+
 
 
 
@@ -1021,6 +1039,25 @@ async function scan_root_folder(){
                      
 
 
+
+        
+        /**/
+        //  -  -  - nav bar   -  -  - 
+        /**/
+
+             function go_all_list(){
+
+                var new_url = new URL("/open-data/dir/list/all.html", window.location.origin);
+
+                window.location.href = new_url.href;
+
+             }
+
+             
+
+        /**/
+        //  -  -  - end  -  -  -   nav bar   -  -  - 
+        /**/
 
 
 

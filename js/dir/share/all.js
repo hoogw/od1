@@ -1871,6 +1871,23 @@ async function get_mapserver_info_html(mapserver_url){
 
 
 
+        
+        /**/
+        //  -  -  - nav bar   -  -  - 
+        /**/
+
+             
+
+
+        /**/
+        //  -  -  - end  -  -  -   nav bar   -  -  - 
+        /**/
+
+
+
+
+
+
 
        $("#highlight_by").on('keyup', function(){
 
@@ -1884,6 +1901,11 @@ async function get_mapserver_info_html(mapserver_url){
 
 
     }
+
+
+
+
+    
 
 
     // -  end  - all init button, click event, including collapse expand button, // origianl from folder.js
@@ -2920,7 +2942,190 @@ function span_standard_json_to_html(_results) {
        
 
         
+// nav bar only, a link version
+function standard_json_to_html_nav_bar(_results) {
+      
+  var html = '';
+  html += '<div>';
+  if (_results.length > 0) {
+    html += '<ol>';
+    for (var i = 0; i < _results.length; ++i){
 
+      var _name = _results[i].name
+      var _org  = _results[i].org
+      var _url = _results[i].url
+
+      var _version = _results[i].version
+      var _folder_count = _results[i].folder_count
+      var _service_count = _results[i].service_count
+
+
+      html += '<li class="space">' 
+
+      // demo without url, full access have url
+      if (_url){
+     
+
+            if (_url.includes('.hub.arcgis.com')){
+
+                // .hub.arcgis.com means it is a site 
+                html += '<a href="javascript:void(0)" onclick="open_popup_online(\''                    
+                html +=  _name + '\', \'' +  _url 
+                html += '\')">' 
+                if (_name){
+                   // ----- hover-span  ----- 
+                  html += '<span class="context hover-span" style="font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
+                  //  --- end  ---  ----- hover-span  ----- 
+                }
+                html +=  '</a>'
+
+
+                if (_org){
+                  
+                            html +=  ' <sup class="context hover-span" style="font-size:xx-small;">' 
+                            html +=  '<a target="_self" href="' + _url + '">';     
+                            html +=      _org 
+                            html +=  '</a>' 
+                            html +=  '</sup>'
+                }
+
+
+                
+
+            }
+
+
+
+            if (_url.includes('/rest/services')){
+
+
+              if (get_serial_no_from_url(_url)){
+
+                          // for arcgis.com domain, with 16 serial number, use span tag
+                          html += '<a href="javascript:void(0)" onclick="open_popup_home_nav_bar(\''                    
+                          html +=  _name + '\', \'' +  _url 
+                          html += '\')">' 
+                          if (_name){
+                             // ----- hover-span  -----
+                            html += '<span class="context hover-span" style="font-weight: 100; font-size:x-large;">' +  _name  +  '</span>' 
+                            //  --- end  ---  ----- hover-span  -----                           
+                          }
+                           html += "</a>"
+
+
+                          if (_version){
+                            html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
+                          }
+
+                          html +=  ' <sup class="context" style="font-size:xx-small;">online</sup>'
+
+                          if (_org){
+                            
+                            html +=  ' <sup class="context hover-span" style="font-size:xx-small;">' 
+                            html +=  '<a target="_self" href="' + _url + '">';     
+                            html +=      _org 
+                            html +=  '</a>' 
+                            html +=  '</sup>'
+                            
+                         }
+                         
+                          
+                          if (_folder_count){   
+                            html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>'
+                          }
+                          if (_service_count){
+
+                            html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>'
+                          }
+
+                } else {
+
+                          // for custom domain, without 16 serial number, use a tag
+                          // link not work on iphone chrome
+                          //html += '<a target="_blank" href="#" onclick="open_popup_home(\''
+                          html += '<a href="javascript:void(0)" onclick="open_popup_home(\''                     
+                          html +=  _name + '\', \'' +  _url 
+                          html += '\')">' 
+                          if (_name){
+                            // ----- hover-span  -----
+                            html += '<span class="context hover-span" style="font-weight: 900; font-size:xx-large;">' +  _name  +  '</span>' 
+                            //  --- end  ---  ----- hover-span  -----
+                            html +=  '</a>' 
+                          }
+
+                          if (_version){
+                            html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
+                          }
+
+                          html +=  ' <sup class="context" style="font-size:xx-small;">portal</sup>'
+
+                          if (_org){
+                               
+                            html +=  ' <sup class="context hover-span" style="font-size:xx-small;">'
+                            html +=  '<a target="_self" href="' + _url + '">';     
+                            html +=      _org 
+                            html +=  '</a>' 
+                            html +=  '</sup>'
+                          }
+
+                          
+                          if (_folder_count){   
+                            html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>'
+                          }
+                          if (_service_count){
+
+                            html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>'
+                          }
+                          
+
+
+                }//if
+
+
+            }//if
+
+
+      } else {
+
+            // demo version, without org, url, only have name
+            html += '<span>' 
+            if (_name){
+              // not use,  with cross line
+              //html += '<span class="context cross-line" style="font-weight: lighter;">' +  _name  +  '</span>' 
+              // in use, no cross line
+              html += '<span class="context" style="font-weight: lighter;">' +  _name  +  '</span>'
+            }
+            if (_org){
+              html +=  ' <sup class="context" style="font-size:xx-small;">' +   _org + '</sup>' 
+            }
+            html +=  '</span>'  
+
+
+      }//if
+
+            
+      html += '</li>';  
+        
+    }// for
+    html += '</ol>';
+  } 
+  html +='</div>'
+   $('#json-renderer').html(html);
+
+
+   
+  // ----- hover-span  ----- 
+    $(".hover-span").on("click", function() {
+        // first clean all previously clicked effect on other item
+        $(".hover-span").removeClass("hover-span-clicked");
+        // apply clicked effect on this clicked item
+        $(this).addClass("hover-span-clicked");
+    });
+  //  --- end  ---  ----- hover-span  ----- 
+
+
+            
+}
 
 
 
@@ -3064,6 +3269,18 @@ function open_popup_home(_name, _url ){
             window.open(_newTab_link, "_self");
 }
 
+
+function open_popup_home_nav_bar(_name, _url ){
+
+    var _newTab_link = url_template_home.replace("/home.html", "/home-nav-bar.html") 
+    _newTab_link += '?org=' + _name  
+    _newTab_link += '&url=' + _url 
+    _newTab_link += '&model=' + model // will pass model number to server.js
+    console.log('_newTab_link', _newTab_link)
+    //window.open(_newTab_link, "mozillaWindow", "popup");
+    //window.open(_newTab_link, "_blank", "popup");
+            window.open(_newTab_link, "_self");
+}
 
 
 

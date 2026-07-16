@@ -569,6 +569,15 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
         _html_for_message_mapserver    += '</a>'
 
       
+        
+        /**/
+        //  -  -  - nav bar   -  -  - 
+        /**/
+            $('#nav-mapserver').html( _html_for_message_mapserver);
+        /**/
+        //  -  -  - end  -  -  -   nav bar   -  -  - 
+        /**/
+
 
         $('#message_mapserver').html( _html_for_message_mapserver);
 
@@ -959,8 +968,47 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
                         /**/
 
 
-                     
+            
+                        
 
+                        
+        
+        /**/
+        //  -  -  - nav bar   -  -  - 
+        /**/
+
+             function go_all_list(){
+
+                var new_url = new URL("/open-data/dir/list/all.html", window.location.origin);
+
+                window.location.href = new_url.href;
+
+             }
+
+
+              function go_root(){
+
+                
+
+                var marker = "/rest/services";
+                var root_url = ___url_string.substring(0, ___url_string.indexOf(marker) + marker.length);
+
+                console.log("root_url", root_url)
+
+                //var new_url = new URL("/open-data/dir/list/all.html", window.location.origin);
+
+                //window.location.href = new_url.href;
+
+             }
+
+             
+
+        /**/
+        //  -  -  - end  -  -  -   nav bar   -  -  - 
+        /**/
+
+
+           
 
 
 

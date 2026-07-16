@@ -570,6 +570,7 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
 
       
 
+
         $('#message_mapserver').html( _html_for_message_mapserver);
 
 

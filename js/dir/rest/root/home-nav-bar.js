@@ -218,11 +218,38 @@ folder_structure_flatjson = [
              } else {
 
                 // only for map server, feature server
+                
+        /**/
+        //  -  -  - nav bar   -  -  - 
+        /**/
+
                     _newTab_link = url_template_server.replace("server.html", "server-nav-bar.html")
+                    
+
+          /**/
+        //  -  -  - end  -  -  -   nav bar   -  -  - 
+        /**/
+
+
                     _newTab_link += '?org=' + selected_relative_path  
                     _newTab_link += '&url=' + selected_node_path 
                     _newTab_link += '&type=' + selected_node_type
                     _newTab_link += '&model=' + model // will pass model number to server.js
+
+
+                    
+        /**/
+        //  -  -  - nav bar   -  -  - 
+        /**/
+
+            _newTab_link += '&root-org=' + _organization // only for nav bar, pass root org to server page
+
+        /**/
+        //  -  -  - end  -  -  -   nav bar   -  -  - 
+        /**/
+
+        
+                
                    
              }
 
@@ -780,7 +807,16 @@ async function scan_root_folder(){
                         
                         
                         var _newTab_link
-                        _newTab_link = url_template_server.replace("server.html", "server-nav-bar.html")
+
+                        /**/
+                        //  -  -  - nav bar   -  -  - 
+                        /**/
+                            _newTab_link = url_template_server.replace("server.html", "server-nav-bar.html")
+                        /**/
+                        //  -  -  - end  -  -  -   nav bar   -  -  - 
+                        /**/
+
+
                         _newTab_link += '?org=' + root_url  
                         _newTab_link += '&url=' + root_url 
                         _newTab_link += '&type=' + "MapServer"
@@ -1047,7 +1083,7 @@ async function scan_root_folder(){
 
              function go_all_list(){
 
-                var new_url = new URL("/open-data/dir/list/all.html", window.location.origin);
+                var new_url = new URL("/open-data/dir/list/all-nav-bar.html", window.location.origin);
 
                 window.location.href = new_url.href;
 

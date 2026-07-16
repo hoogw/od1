@@ -1,4 +1,16 @@
 
+        /**/
+        //  -  -  - nav bar   -  -  - 
+        /**/
+
+            var marker = "/rest/services";
+            var _root_url
+            var _root_org
+
+
+        /**/
+        //  -  -  - end  -  -  -   nav bar   -  -  - 
+        /**/
 
 
 
@@ -574,6 +586,13 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
         //  -  -  - nav bar   -  -  - 
         /**/
             $('#nav-mapserver').html( _html_for_message_mapserver);
+
+
+            var _params = new URLSearchParams(window.location.search);
+            _root_org = _params.get("root-org");
+            $('#nav-root').html(_root_org);
+
+
         /**/
         //  -  -  - end  -  -  -   nav bar   -  -  - 
         /**/
@@ -979,7 +998,7 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
 
              function go_all_list(){
 
-                var new_url = new URL("/open-data/dir/list/all.html", window.location.origin);
+                var new_url = new URL("/open-data/dir/list/all-nav-bar.html", window.location.origin);
 
                 window.location.href = new_url.href;
 
@@ -991,13 +1010,16 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
                 
 
                 var marker = "/rest/services";
-                var root_url = ___url_string.substring(0, ___url_string.indexOf(marker) + marker.length);
+                _root_url = ___url_string.substring(0, ___url_string.indexOf(marker) + marker.length);
 
-                console.log("root_url", root_url)
+                console.log("root url", _root_url)
+                console.log("root org", _root_org)
 
-                //var new_url = new URL("/open-data/dir/list/all.html", window.location.origin);
+                var new_url_part = "/open-data/dir/rest/root/home-nav-bar.html?org=" + _root_org
+                new_url_part += "&url=" + _root_url
+                var new_url = new URL(new_url_part, window.location.origin);
 
-                //window.location.href = new_url.href;
+                window.location.href = new_url.href;
 
              }
 

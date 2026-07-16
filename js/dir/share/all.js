@@ -3042,8 +3042,8 @@ function standard_json_to_html_nav_bar(_results) {
 
                           // for custom domain, without 16 serial number, use a tag
                           // link not work on iphone chrome
-                          //html += '<a target="_blank" href="#" onclick="open_popup_home(\''
-                          html += '<a href="javascript:void(0)" onclick="open_popup_home(\''                     
+                          //html += '<a target="_blank" href="#" onclick="open_popup_home_nav_bar(\''
+                          html += '<a href="javascript:void(0)" onclick="open_popup_home_nav_bar(\''                     
                           html +=  _name + '\', \'' +  _url 
                           html += '\')">' 
                           if (_name){

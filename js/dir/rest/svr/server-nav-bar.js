@@ -6,6 +6,7 @@
             var marker = "/rest/services";
             var _root_url
             var _root_org
+            var _mapserver_name
 
 
         /**/
@@ -585,12 +586,17 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
         /**/
         //  -  -  - nav bar   -  -  - 
         /**/
-            $('#nav-mapserver').html( _html_for_message_mapserver);
-
 
             var _params = new URLSearchParams(window.location.search);
+
             _root_org = _params.get("root-org");
             $('#nav-root').html(_root_org);
+
+            _mapserver_name = _params.get("org");
+            $('#nav-mapserver').html(_mapserver_name);
+
+
+           
 
 
         /**/

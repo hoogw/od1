@@ -3417,10 +3417,7 @@ view.goTo({
         // -- -- -- vertial adjustment  -- -- -- 
         /**/
 
-
-
-
- // skip esri system managed fields
+            // skip esri system managed fields, skip number, integer, double, all numbers, only show string field
             function json_flex_tip_viewer(object1){
 
               var attribute_html = ''
@@ -3430,6 +3427,9 @@ view.goTo({
 
               for (const [key, value] of Object.entries(object1)) {
                 //console.log(`${key}: ${value}`);
+
+                // must reset skip status at every start of loop
+                skip_yes_no = false
 
                 if (typeof value == 'string') {
                   if (value.trim()){
@@ -3483,42 +3483,6 @@ view.goTo({
             }
 
 
-            function highlight_keywords_markjs(_multi_keyWords_){
-
-              console.log(' mark.js highlight keywords : ',   _multi_keyWords_)
-              // $("span.context").mark(_search_keyword); // will mark the keyword "test", requires an element with class "context" to exist
-
-              var __keywords_array = []
-              if (isNaN(_multi_keyWords_)) {
-                    // string, single word or multiple word
-                    __keywords_array = _multi_keyWords_.split(" ");
-                    // multiple string keywords
-                    for (var k = 0; k < __keywords_array.length; k++) {
-
-                      var _each_keyword_item = __keywords_array[k].trim()
-
-                      console.log(' mark.js highlight string each keywords : ', k, _each_keyword_item)
-                      $("span.context").mark(_each_keyword_item);
-                    }//for
-
-              } else {
-                console.log(' mark.js highlight 1 single number  : ', _multi_keyWords_)
-                $("span.context").mark(_multi_keyWords_.toString());
-              }//if
-
-            }
-
-
-            
-
-
-            //Check if a JavaScript string is a image URL, https://stackoverflow.com/questions/9714525/javascript-image-url-verify
-            function isValidImageURL(_test_value) {
-              var _test_string = String(_test_value)
-              var res = _test_string.match(/\.(jpeg|jpg|gif|png)$/)
-              return (res !== null)
-            }
-
             // convert a url link to iframe (website), img tag(image)
             function json_flex_tip_viewer_urlAsIframe(object1){
 
@@ -3560,29 +3524,54 @@ view.goTo({
               return attribute_html;
             }
 
-        
+
+            function highlight_keywords_markjs(_multi_keyWords_){
+
+              console.log(' mark.js highlight keywords : ',   _multi_keyWords_)
+              // $("span.context").mark(_search_keyword); // will mark the keyword "test", requires an element with class "context" to exist
+
+              var __keywords_array = []
+              if (isNaN(_multi_keyWords_)) {
+                    // string, single word or multiple word
+                    __keywords_array = _multi_keyWords_.split(" ");
+                    // multiple string keywords
+                    for (var k = 0; k < __keywords_array.length; k++) {
+
+                      var _each_keyword_item = __keywords_array[k].trim()
+
+                      console.log(' mark.js highlight string each keywords : ', k, _each_keyword_item)
+                      $("span.context").mark(_each_keyword_item);
+                    }//for
+
+              } else {
+                console.log(' mark.js highlight 1 single number  : ', _multi_keyWords_)
+                $("span.context").mark(_multi_keyWords_.toString());
+              }//if
+
+            }
 
 
+            //Check if a JavaScript string is a image URL, https://stackoverflow.com/questions/9714525/javascript-image-url-verify
+            function isValidImageURL(_test_value) {
+              var _test_string = String(_test_value)
+              var res = _test_string.match(/\.(jpeg|jpg|gif|png)$/)
+              return (res !== null)
+            }
 
 
-        
+            function isValidUrl(urlString) {
 
-        function isValidUrl(urlString) {
+              // https://www.freecodecamp.org/news/check-if-a-javascript-string-is-a-url/
+              var urlPattern = new RegExp('^(https?:\\/\\/)?' // validate protocol
+                + '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' // validate domain name
+                +  '((\\d{1,3}\\.){3}\\d{1,3}))' // validate OR ip (v4) address
+                // +  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' // validate port and path
+                // + '(\\?[;&a-z\\d%_.~+=-]*)?' // validate query string
+                // + '(\\#[-a-z\\d_]*)?$' // validate fragment locator
+                ,'i');
+                return urlPattern.test(urlString)
+            }
 
-          // https://www.freecodecamp.org/news/check-if-a-javascript-string-is-a-url/
-           var urlPattern = new RegExp('^(https?:\\/\\/)?' // validate protocol
-            + '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' // validate domain name
-            +  '((\\d{1,3}\\.){3}\\d{1,3}))' // validate OR ip (v4) address
-            // +  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' // validate port and path
-             // + '(\\?[;&a-z\\d%_.~+=-]*)?' // validate query string
-             // + '(\\#[-a-z\\d_]*)?$' // validate fragment locator
-             ,'i');
-             return urlPattern.test(urlString)
-        }
-
-
-
-      
 
           /**/
         // -- -- -- vertial adjustment  -- -- -- 

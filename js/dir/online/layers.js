@@ -92,10 +92,16 @@ function render_json_as_orderListORtreeORwhatEver(_results){ // for layers only
    
   // ----- hover-span  ----- 
     $(".active-span").on("click", function() {
+
+        //remove all previous geojson
+        $(".active-span").removeClass("hover-span-clicked");
+        $(".active-span").addClass("hover-span"); 
         // first clean all previously clicked effect on other item
-        $(".hover-span").removeClass("hover-span-clicked");
+        
+    
         // apply clicked effect on this clicked item
         $(this).addClass("hover-span-clicked");
+        $(this).removeClass("hover-span");
     });
   //  --- end  ---  ----- hover-span  ----- 
 

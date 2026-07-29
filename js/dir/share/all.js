@@ -2614,7 +2614,7 @@ function standard_json_to_html(_results) {
 
                 if (_org){
                   
-                            html +=  ' <sup class="context hover-span" style="font-size:xx-small;">' 
+                            html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
                             html +=  '<a target="_self" href="' + _url + '">';     
                             html +=      _org 
                             html +=  '</a>' 
@@ -2653,7 +2653,7 @@ function standard_json_to_html(_results) {
 
                           if (_org){
                             
-                            html +=  ' <sup class="context hover-span" style="font-size:xx-small;">' 
+                            html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
                             html +=  '<a target="_self" href="' + _url + '">';     
                             html +=      _org 
                             html +=  '</a>' 
@@ -2693,7 +2693,7 @@ function standard_json_to_html(_results) {
 
                           if (_org){
                                
-                            html +=  ' <sup class="context hover-span" style="font-size:xx-small;">'
+                            html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">'
                             html +=  '<a target="_self" href="' + _url + '">';     
                             html +=      _org 
                             html +=  '</a>' 
@@ -2748,10 +2748,16 @@ function standard_json_to_html(_results) {
    
   // ----- hover-span  ----- 
     $(".active-span").on("click", function() {
+
+        //remove all previous geojson
+        $(".active-span").removeClass("hover-span-clicked");
+        $(".active-span").addClass("hover-span"); 
         // first clean all previously clicked effect on other item
-        $(".hover-span").removeClass("hover-span-clicked");
+        
+    
         // apply clicked effect on this clicked item
         $(this).addClass("hover-span-clicked");
+        $(this).removeClass("hover-span");
     });
   //  --- end  ---  ----- hover-span  ----- 
 
@@ -2929,10 +2935,16 @@ function span_standard_json_to_html(_results) {
    
   // ----- hover-span  ----- 
     $(".active-span").on("click", function() {
+
+        //remove all previous geojson
+        $(".active-span").removeClass("hover-span-clicked");
+        $(".active-span").addClass("hover-span"); 
         // first clean all previously clicked effect on other item
-        $(".hover-span").removeClass("hover-span-clicked");
+        
+    
         // apply clicked effect on this clicked item
         $(this).addClass("hover-span-clicked");
+        $(this).removeClass("hover-span");
     });
   //  --- end  ---  ----- hover-span  ----- 
 
@@ -2982,7 +2994,7 @@ function standard_json_to_html_nav_bar(_results) {
 
                 if (_org){
                   
-                            html +=  ' <sup class="context hover-span" style="font-size:xx-small;">' 
+                            html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
                             html +=  '<a target="_self" href="' + _url + '">';     
                             html +=      _org 
                             html +=  '</a>' 
@@ -3021,7 +3033,7 @@ function standard_json_to_html_nav_bar(_results) {
 
                           if (_org){
                             
-                            html +=  ' <sup class="context hover-span" style="font-size:xx-small;">' 
+                            html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
                             html +=  '<a target="_self" href="' + _url + '">';     
                             html +=      _org 
                             html +=  '</a>' 
@@ -3061,7 +3073,7 @@ function standard_json_to_html_nav_bar(_results) {
 
                           if (_org){
                                
-                            html +=  ' <sup class="context hover-span" style="font-size:xx-small;">'
+                            html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">'
                             html +=  '<a target="_self" href="' + _url + '">';     
                             html +=      _org 
                             html +=  '</a>' 
@@ -3116,13 +3128,18 @@ function standard_json_to_html_nav_bar(_results) {
    
   // ----- hover-span  ----- 
     $(".active-span").on("click", function() {
+
+        //remove all previous geojson
+        $(".active-span").removeClass("hover-span-clicked");
+        $(".active-span").addClass("hover-span"); 
         // first clean all previously clicked effect on other item
-        $(".hover-span").removeClass("hover-span-clicked");
+        
+    
         // apply clicked effect on this clicked item
         $(this).addClass("hover-span-clicked");
+        $(this).removeClass("hover-span");
     });
   //  --- end  ---  ----- hover-span  ----- 
-
 
             
 }

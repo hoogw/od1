@@ -2606,7 +2606,7 @@ function standard_json_to_html(_results) {
                 html += '\')">' 
                 if (_name){
                    // ----- hover-span  ----- 
-                  html += '<span class="context hover-span" style="font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
+                  html += '<span class="context active-span hover-span" style="font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
                   //  --- end  ---  ----- hover-span  ----- 
                 }
                 html +=  '</a>'
@@ -2639,7 +2639,7 @@ function standard_json_to_html(_results) {
                           html += '\')">' 
                           if (_name){
                              // ----- hover-span  -----
-                            html += '<span class="context hover-span" style="font-weight: 100; font-size:x-large;">' +  _name  +  '</span>' 
+                            html += '<span class="context active-span hover-span" style="font-weight: 100; font-size:x-large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  -----                           
                           }
                            html += "</a>"
@@ -2680,7 +2680,7 @@ function standard_json_to_html(_results) {
                           html += '\')">' 
                           if (_name){
                             // ----- hover-span  -----
-                            html += '<span class="context hover-span" style="font-weight: 900; font-size:xx-large;">' +  _name  +  '</span>' 
+                            html += '<span class="context active-span hover-span" style="font-weight: 900; font-size:xx-large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  -----
                             html +=  '</a>' 
                           }
@@ -2747,7 +2747,7 @@ function standard_json_to_html(_results) {
 
    
   // ----- hover-span  ----- 
-    $(".hover-span").on("click", function() {
+    $(".active-span").on("click", function() {
         // first clean all previously clicked effect on other item
         $(".hover-span").removeClass("hover-span-clicked");
         // apply clicked effect on this clicked item
@@ -2795,7 +2795,7 @@ function span_standard_json_to_html(_results) {
                 html += '\')">' 
                 if (_name){
                   // ----- hover-span  ----- 
-                  html += '<span class="context hover-span" style="cursor: pointer;  font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
+                  html += '<span class="context active-span hover-span" style="cursor: pointer;  font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
                   //  --- end  ---  ----- hover-span  ----- 
                 }
                 html +=  '</span>'
@@ -2803,7 +2803,7 @@ function span_standard_json_to_html(_results) {
                 if (_org){
                  
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' 
-                            html +=  '<span class="context hover-span" onclick="window.open(\'' + _url + '\', \'_self\');">' 
+                            html +=  '<span class="context active-span hover-span" onclick="window.open(\'' + _url + '\', \'_self\');">' 
                             html +=      _org 
                             html +=  '</span>' 
                             html +=  '</sup>' 
@@ -2825,7 +2825,7 @@ function span_standard_json_to_html(_results) {
                           html += '\')">' 
                           if (_name){
                             // ----- hover-span  -----
-                            html += '<span class="context hover-span" style="cursor: pointer;font-size:x-large;">' +  _name  +  '</span>' 
+                            html += '<span class="context active-span hover-span" style="cursor: pointer;font-size:x-large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  ----- 
                           }
                           html +=  '</span>'
@@ -2839,7 +2839,7 @@ function span_standard_json_to_html(_results) {
 
                           if (_org){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' 
-                            html +=  '<span class="context hover-span" onclick="window.open(\'' + _url + '\', \'_self\');">'
+                            html +=  '<span class="context active-span hover-span" onclick="window.open(\'' + _url + '\', \'_self\');">'
                             html +=      _org 
                             html +=  '</span>' 
                             html +=  '</sup>' 
@@ -2864,7 +2864,7 @@ function span_standard_json_to_html(_results) {
                           html += '\')">' 
                           if (_name){
                             // ----- hover-span  -----
-                            html += '<span class="context hover-span" style="cursor: pointer; font-weight:bolder; font-size:xx-large;">' +  _name  +  '</span>' 
+                            html += '<span class="context active-span hover-span" style="cursor: pointer; font-weight:bolder; font-size:xx-large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  ----- 
                           }
                           html +=  '</span>'
@@ -2877,7 +2877,7 @@ function span_standard_json_to_html(_results) {
 
                           if (_org){
                             html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' 
-                            html +=  '<span class="context hover-span" onclick="window.open(\'' + _url + '\', \'_self\');">' 
+                            html +=  '<span class="context active-span hover-span" onclick="window.open(\'' + _url + '\', \'_self\');">' 
                             html +=      _org 
                             html +=  '</span>' 
                             html +=  '</sup>'   
@@ -2928,7 +2928,7 @@ function span_standard_json_to_html(_results) {
 
    
   // ----- hover-span  ----- 
-    $(".hover-span").on("click", function() {
+    $(".active-span").on("click", function() {
         // first clean all previously clicked effect on other item
         $(".hover-span").removeClass("hover-span-clicked");
         // apply clicked effect on this clicked item
@@ -2974,7 +2974,7 @@ function standard_json_to_html_nav_bar(_results) {
                 html += '\')">' 
                 if (_name){
                    // ----- hover-span  ----- 
-                  html += '<span class="context hover-span" style="font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
+                  html += '<span class="context active-span hover-span" style="font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
                   //  --- end  ---  ----- hover-span  ----- 
                 }
                 html +=  '</a>'
@@ -3007,7 +3007,7 @@ function standard_json_to_html_nav_bar(_results) {
                           html += '\')">' 
                           if (_name){
                              // ----- hover-span  -----
-                            html += '<span class="context hover-span" style="font-weight: 100; font-size:x-large;">' +  _name  +  '</span>' 
+                            html += '<span class="context active-span hover-span" style="font-weight: 100; font-size:x-large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  -----                           
                           }
                            html += "</a>"
@@ -3048,7 +3048,7 @@ function standard_json_to_html_nav_bar(_results) {
                           html += '\')">' 
                           if (_name){
                             // ----- hover-span  -----
-                            html += '<span class="context hover-span" style="font-weight: 900; font-size:xx-large;">' +  _name  +  '</span>' 
+                            html += '<span class="context active-span hover-span" style="font-weight: 900; font-size:xx-large;">' +  _name  +  '</span>' 
                             //  --- end  ---  ----- hover-span  -----
                             html +=  '</a>' 
                           }
@@ -3115,7 +3115,7 @@ function standard_json_to_html_nav_bar(_results) {
 
    
   // ----- hover-span  ----- 
-    $(".hover-span").on("click", function() {
+    $(".active-span").on("click", function() {
         // first clean all previously clicked effect on other item
         $(".hover-span").removeClass("hover-span-clicked");
         // apply clicked effect on this clicked item

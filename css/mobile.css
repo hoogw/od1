@@ -268,6 +268,11 @@ a {
 
                 /*  ----- hover-span for blue links  ----- */
 
+
+                 .active-span {
+                  /* for place holder , hover span or clicked */
+                }
+
                 /* when user hover */
                 .hover-span:hover {
 

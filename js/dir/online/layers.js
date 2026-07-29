@@ -58,7 +58,7 @@ function render_json_as_orderListORtreeORwhatEver(_results){ // for layers only
                     //    ++++++++++++++++    open popup when click layer name     ++++++++++++++++ 
                     html += '<li class="space">' 
                             // ----- hover-span  ----- 
-                            html += '<span class="context hover-span" style="cursor: pointer;font-size:medium;"  onclick="open_popup(\''                    
+                            html += '<span class="context active-span hover-span" style="cursor: pointer;font-size:medium;"  onclick="open_popup(\''                    
                             html +=  this_layer_id + '\', \'' + _current_layer_name + '\', \'' + "feature layer" + '\', \'' +  _____layer_url
                             html += '\')">'
                             
@@ -91,7 +91,7 @@ function render_json_as_orderListORtreeORwhatEver(_results){ // for layers only
     
    
   // ----- hover-span  ----- 
-    $(".hover-span").on("click", function() {
+    $(".active-span").on("click", function() {
         // first clean all previously clicked effect on other item
         $(".hover-span").removeClass("hover-span-clicked");
         // apply clicked effect on this clicked item

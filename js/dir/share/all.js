@@ -2681,7 +2681,7 @@ function standard_json_to_html(_results) {
                                     html += '\')">' 
                                     if (_name){
                                         // ----- hover-span  -----
-                                        html += '<span class="context active-span hover-span" style="font-weight: 900; font-size:xx-large;">' +  _name  +  '</span>' 
+                                        html += '<span class="context active-span hover-span" style="font-weight: 900; font-size:xx-large; color: #C71585;">' +  _name  +  '</span>' 
                                         //  --- end  ---  ----- hover-span  -----
                                         html +=  '</a>' 
                                     }
@@ -2690,7 +2690,7 @@ function standard_json_to_html(_results) {
                                         html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
                                     }
 
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">portal</sup>'
+                                    html +=  ' <sup class="context" style="font-size:xx-small; color: #C71585;">portal</sup>'
 
                                     if (_org){
                                         
@@ -2874,7 +2874,7 @@ function span_standard_json_to_html(_results) {
                                 html += '\')">' 
                                 if (_name){
                                     // ----- hover-span  -----
-                                    html += '<span class="context active-span hover-span" style="cursor: pointer; font-weight:bolder; font-size:xx-large;">' +  _name  +  '</span>' 
+                                    html += '<span class="context active-span hover-span" style="cursor: pointer; font-weight:bolder; font-size:xx-large; color: #C71585;">' +  _name  +  '</span>' 
                                     //  --- end  ---  ----- hover-span  ----- 
                                 }
                                 html +=  '</span>'
@@ -2883,7 +2883,7 @@ function span_standard_json_to_html(_results) {
                                     html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
                                 }
 
-                                html +=  ' <sup class="context" style="font-size:xx-small;">portal</sup>'
+                                html +=  ' <sup class="context" style="font-size:xx-small; color: #C71585;">portal</sup>'
 
                                 if (_org){
                                     html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' 
@@ -3067,7 +3067,7 @@ function standard_json_to_html_nav_bar(_results) {
                                 html += '\')">' 
                                 if (_name){
                                     // ----- hover-span  -----
-                                    html += '<span class="context active-span hover-span" style="font-weight: 900; font-size:xx-large;">' +  _name  +  '</span>' 
+                                    html += '<span class="context active-span hover-span" style="font-weight: 900; font-size:xx-large; color: #C71585;">' +  _name  +  '</span>' 
                                     //  --- end  ---  ----- hover-span  -----
                                     html +=  '</a>' 
                                 }
@@ -3076,7 +3076,7 @@ function standard_json_to_html_nav_bar(_results) {
                                     html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
                                 }
 
-                                html +=  ' <sup class="context" style="font-size:xx-small;">portal</sup>'
+                                html +=  ' <sup class="context" style="font-size:xx-small; color: #C71585;">portal</sup>'
 
                                 if (_org){
                                     

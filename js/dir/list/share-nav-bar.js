@@ -224,7 +224,7 @@ function show_current(_current_showing) {
                 // only for REST api URL
                 if (url.includes("/rest/services")){
 
-                    var dead_response = await ajax_getjson_common(url + "?f=json");
+                    var dead_response = await ajax_getjson_common_custom_timeout(url + "?f=json", 99999);
 
                     /**/
                     //  - - -  ---  try more times   ---  - - -
@@ -251,7 +251,7 @@ function show_current(_current_showing) {
                             console.log("try - ROOT - again with more waiting time, No of try, wait time in sec", tryMoreTimes, _timeout )
                             console.log("try - ROOT - again with more waiting time,url", url + "?f=json")
                             //letsgo_handler()
-                            dead_response = await ajax_getjson_common(url + "?f=json");
+                            dead_response = await ajax_getjson_common_custom_timeout(url + "?f=json", 99999);
 
                             if ((dead_response) && (dead_response.currentVersion)){
                                 break; // while loop
@@ -287,7 +287,7 @@ function show_current(_current_showing) {
                 // only for hub site URL
                 if (url.includes(".hub.arcgis.com")){
 
-                    var dead_response = await ajax_getjson_common(url + '/data.json');
+                    var dead_response = await ajax_getjson_common_custom_timeout(url + '/data.json', 99999);
 
                     /**/
                     //  - - -  ---  try more times   ---  - - -
@@ -314,7 +314,7 @@ function show_current(_current_showing) {
                             console.log("try - ROOT - again with more waiting time, No of try, wait time in sec", tryMoreTimes, _timeout )
                             console.log("try - ROOT - again with more waiting time,url", url + '/data.json')
                             //letsgo_handler()
-                            dead_response = await ajax_getjson_common(url + '/data.json');
+                            dead_response = await ajax_getjson_common_custom_timeout(url + '/data.json', 99999);
 
                             if ((dead_response) && (dead_response.dataset)){
                                 break; // while loop
@@ -801,7 +801,7 @@ function show_current(_current_showing) {
 
 
        
-       input_current = await ajax_getjson_common(_jsonArrayURL);
+       input_current = await ajax_getjson_common_custom_timeout(_jsonArrayURL, 99999);
 
        __total_item_count = input_current.length
 

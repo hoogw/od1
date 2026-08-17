@@ -289,50 +289,33 @@ var this_element
               _domain_candidate = get_domain_name_from_url(_url_candidate)
               _any_instance = get_instance_name_from_url(_url_candidate)
 
-              // if there is serical number, then do not need instance name
+               // online
               if (_serial_number){
+               // online
+
                         // 1st priority serial number
                         org = _serial_number
 
+                        // 2nd priority, services is not default
+                        if (_service_number !== "services"){
+                          org = _serial_number + "/" + _service_number
+                        }
+                  
 
-                        
-                              
-                              // same serial number but could have different host name, instance name
-                              // UnTXoPXBYERF0OH6
-                              // https://services.arcgis.com/UnTXoPXBYERF0OH6/arcgis/rest/services
-                              // https://tiledimageservices.arcgis.com/UnTXoPXBYERF0OH6/arcgis/rest/services
-                              // https://tiles.arcgis.com/tiles/UnTXoPXBYERF0OH6/arcgis/rest/services
 
-                              // add domain after serial number
-                              try {
-                                urlObject = new URL(_accessURL);
-                                _domain_candidate = urlObject.hostname;
-                                org += " " +  _domain_candidate
-                              } catch{
-
-                              }
-
+                // portal
               } else {
+                // portal
 
-
-                        // 3rd priority, without special instance name, then use domain
-                        try {
-                          urlObject = new URL(_url_candidate);
-                          _domain_candidate = urlObject.hostname;
-                          org = _domain_candidate
-                        } catch{
-
+                        org = _domain_candidate
+                      
+                        if (_any_instance !== "arcgis"){
+                          org = _domain_candidate + "/" + _any_instance
                         }
 
-
-
-                        // 2st priority, without serial number, then use instance name
-                        _any_instance = get_instance_name_from_url(_url_candidate)
-                        if (_any_instance){
-                                org = _domain_candidate + "   " +_any_instance
-                        } else{
-                        }
+                       
               }
+              
               
 
 

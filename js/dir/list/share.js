@@ -525,53 +525,35 @@ function show_current(_current_showing) {
 
     }
                       
-     
+   
    // return empty string or serial number 
    function get_serial_no_from_url(_sample_url){
-
-    // for https://utility.arcgis.com/usrsvcs/servers/b5a55d5911b246e2ab88fcc14d304f1f/rest/services
-    var re_32 = /\/[a-zA-Z0-9]{32}\/rest\/services/i
-
-
-    // for W7M7ugHEl8tg1wcM/ArcGIS/rest/services, "W7M7ugHEl8tg1wcM" will be used, 16 dig length
-    // ArcGIS/rest or arcgis/rest, use i for case-insensitive
-    var re_16 = /\/[a-zA-Z0-9]{16}\/arcgis\/rest\/services/i
-    
-    var _serial_16_start_position = _sample_url.search(re_16) + 1
-    var _serial_16_end_position = _serial_16_start_position + 16
-    var _serial_32_start_position = _sample_url.search(re_32) + 1
-    var _serial_32_end_position = _serial_32_start_position + 32
-    
-    
-    var _serial_number = ""
-    if (_serial_16_start_position > 1){
-      _serial_number = _sample_url.substring(_serial_16_start_position, _serial_16_end_position)
-    } else if (_serial_32_start_position > 1){
-      _serial_number = _sample_url.substring(_serial_32_start_position, _serial_32_end_position)
+    if (_sample_url.includes(".arcgis.com/")){
+      return  _sample_url.split(".arcgis.com/")[1].split("/")[0];
+    } else {
+      return ""
     }
+   }
 
-    return _serial_number
-    
+   function get_service_no_from_url(_sample_url){
+    if (_sample_url.includes(".arcgis.com/")){
+      return  _sample_url.match(/:\/\/(.*?)\.arcgis\.com/)[1];
+    } else {
+      return ""
+    }
    }
 
 
-   // return empty string if instance is arcgis, otherwise, return non-arcgis custom instance name
-   function get_instance_from_url(_sample_url){
+   function get_domain_name_from_url(_sample_url){
+    return new URL(_sample_url).hostname;
+   }
 
-    // for /wetlandsmapservice/rest/services, "wetlandsmapservice" will be used, 
-          var re_any = /\/[^\/]*\/rest\/services/
-          var _any_start_position = _sample_url.search(re_any) + 1
-          var _any_end_position = _sample_url.indexOf("/rest/services")
-          var _any_instance = ""
-          if ((_any_start_position > 1) && (_any_end_position > 1)){
-             _any_instance = _sample_url.substring(_any_start_position, _any_end_position)
-             // ignore arcgis
-             if (_any_instance.toLowerCase() == 'arcgis'){
-              _any_instance = ""
-             }
-          }
 
-          return _any_instance
+   function get_instance_name_from_url(_sample_url){
+    // both work
+    return _sample_url.split("/rest/services")[0].split("/").pop();
+    // both work
+    //return _sample_url.match(/\/([^\/]+)\/rest\/services/)[1];
    }
 
 

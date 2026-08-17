@@ -2592,86 +2592,109 @@ function standard_json_to_html(_results) {
                 var _folder_count = _results[i].folder_count
                 var _service_count = _results[i].service_count
 
+                var _serialNumber
+                var _serviceNumber 
+
+                var _domainName
+                var _instanceName
+
 
                 html += '<li class="space">' 
 
                 // demo without url, full access have url
                 if (_url){
                 
+                  // not use, I don't display hub site, but keep here
+                  if (_url.includes('.hub.arcgis.com')){
 
-                        if (_url.includes('.hub.arcgis.com')){
+                      // .hub.arcgis.com means it is a site 
+                      html += '<a href="javascript:void(0)" onclick="open_popup_online(\''                    
+                      html +=  _name + '\', \'' +  _url 
+                      html += '\')">' 
+                      if (_name){
+                      // ----- hover-span  ----- 
+                      html += '<span class="context active-span hover-span" style="font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
+                      //  --- end  ---  ----- hover-span  ----- 
+                      }
+                      html +=  '</a>'
 
-                            // .hub.arcgis.com means it is a site 
-                            html += '<a href="javascript:void(0)" onclick="open_popup_online(\''                    
+
+                      if (_org){
+                      
+                                  html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
+                                  html +=  '<a target="_self" href="' + _url + '">';     
+                                  html +=      _org 
+                                  html +=  '</a>' 
+                                  html +=  '</sup>'
+                      }
+
+
+                      
+
+                  }
+
+
+                  // portal or online 
+                  if (_url.includes('/rest/services')){
+
+
+                      _serialNumber = get_serial_no_from_url(_url)
+                      _serviceNumber = get_service_no_from_url(_url)
+
+                      _domainName = get_domain_name_from_url(_url)
+                      _instanceName = get_instance_name_from_url(_url)
+
+
+
+                      // online only
+                      if (_serialNumber){
+
+                            // for arcgis.com domain, with 16 serial number, use span tag
+                            html += '<a href="javascript:void(0)" onclick="open_popup_home(\''                    
                             html +=  _name + '\', \'' +  _url 
                             html += '\')">' 
                             if (_name){
-                            // ----- hover-span  ----- 
-                            html += '<span class="context active-span hover-span" style="font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
-                            //  --- end  ---  ----- hover-span  ----- 
+                                // ----- hover-span  -----
+                                html += '<span class="context active-span hover-span" style="font-weight: 100; font-size:x-large;">' +  _name  +  '</span>' 
+                                //  --- end  ---  ----- hover-span  -----                           
                             }
-                            html +=  '</a>'
+                            html += "</a>"
 
 
-                            if (_org){
-                            
-                                        html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
-                                        html +=  '<a target="_self" href="' + _url + '">';     
-                                        html +=      _org 
-                                        html +=  '</a>' 
-                                        html +=  '</sup>'
+                            if (_version){
+                                html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
                             }
 
+                            html +=  ' <sup class="context" style="font-size:xx-small;">online</sup>'
 
+                          
+                                
+                            html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
+                            html +=  '<a target="_self" href="' + _url + '">';     
+                            html +=      _serialNumber
+
+                                  if (_serviceNumber !== "services"){
+                                    html += "/" + _serviceNumber
+                                  }
+
+
+                            html +=  '</a>' 
+                            html +=  '</sup>'
+
+                           
                             
+                                
+                            if (Number(_folder_count) > 0){   
+                                html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>'
+                            }
+                            if (Number(_service_count) > 0){
 
-                        }
-
-
-
-                        if (_url.includes('/rest/services')){
-
-
-                        if (get_serial_no_from_url(_url)){
-
-                                    // for arcgis.com domain, with 16 serial number, use span tag
-                                    html += '<a href="javascript:void(0)" onclick="open_popup_home(\''                    
-                                    html +=  _name + '\', \'' +  _url 
-                                    html += '\')">' 
-                                    if (_name){
-                                        // ----- hover-span  -----
-                                        html += '<span class="context active-span hover-span" style="font-weight: 100; font-size:x-large;">' +  _name  +  '</span>' 
-                                        //  --- end  ---  ----- hover-span  -----                           
-                                    }
-                                    html += "</a>"
+                                html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>'
+                            }
 
 
-                                    if (_version){
-                                        html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
-                                    }
-
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">online</sup>'
-
-                                    if (_org){
-                                        
-                                        html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
-                                        html +=  '<a target="_self" href="' + _url + '">';     
-                                        html +=      _org 
-                                        html +=  '</a>' 
-                                        html +=  '</sup>'
-                                        
-                                    }
-                                    
-                                    
-                                    if (_folder_count){   
-                                        html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>'
-                                    }
-                                    if (_service_count){
-
-                                        html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>'
-                                    }
-
-                            } else {
+                       // portal only              
+                      } else {
 
                                     // for custom domain, without 16 serial number, use a tag
                                     // link not work on iphone chrome
@@ -2692,20 +2715,26 @@ function standard_json_to_html(_results) {
 
                                     html +=  ' <sup class="context" style="font-size:xx-small; color: #C71585;">portal</sup>'
 
-                                    if (_org){
+                                  
                                         
-                                        html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">'
-                                        html +=  '<a target="_self" href="' + _url + '">';     
-                                        html +=      _org 
-                                        html +=  '</a>' 
-                                        html +=  '</sup>'
-                                    }
+                                    html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">'
+                                    html +=  '<a target="_self" href="' + _url + '">';     
+                                    html +=      _domainName 
+
+                                     if (_instanceName !== "arcgis"){
+                                      html += "/" + _instanceName
+                                     }
+
+                                    html +=  '</a>' 
+                                    html +=  '</sup>'
+                                   
+                                   
 
                                     
-                                    if (_folder_count){   
+                                    if (Number(_folder_count) > 0){   
                                         html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>'
                                     }
-                                    if (_service_count){
+                                    if (Number(_service_count) > 0){
 
                                         html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>'
                                     }
@@ -2771,192 +2800,6 @@ function standard_json_to_html(_results) {
 
 
 
-// a span version, 
-function span_standard_json_to_html(_results) {
-      
-  var html = '';
-  html += '<div>';
-  if (_results.length > 0) {
-    html += '<ol>';
-    for (var i = 0; i < _results.length; ++i){
-
-         if (_results[i]){
-
-            var _name = _results[i].name
-            var _org  = _results[i].org
-            var _url = _results[i].url
-
-            var _version = _results[i].version
-            var _folder_count = _results[i].folder_count
-            var _service_count = _results[i].service_count
-
-
-            html += '<li class="space">' 
-
-            // demo without url, full access have url
-            if (_url){
-            
-
-                    if (_url.includes('.hub.arcgis.com')){
-
-                        // .hub.arcgis.com means it is a site 
-                        html += '<span onclick="open_popup_online(\''                    
-                        html +=  _name + '\', \'' +  _url 
-                        html += '\')">' 
-                        if (_name){
-                        // ----- hover-span  ----- 
-                        html += '<span class="context active-span hover-span" style="cursor: pointer;  font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
-                        //  --- end  ---  ----- hover-span  ----- 
-                        }
-                        html +=  '</span>'
-
-                        if (_org){
-                        
-                                    html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' 
-                                    html +=  '<span class="context active-span hover-span" onclick="window.open(\'' + _url + '\', \'_self\');">' 
-                                    html +=      _org 
-                                    html +=  '</span>' 
-                                    html +=  '</sup>' 
-                        }
-                        
-
-                    }
-
-
-
-                    if (_url.includes('/rest/services')){
-
-
-                    if (get_serial_no_from_url(_url)){
-
-                                // for arcgis.com domain, with 16 serial number, use span tag
-                                html += '<span onclick="open_popup_home(\''                    
-                                html +=  _name + '\', \'' +  _url 
-                                html += '\')">' 
-                                if (_name){
-                                    // ----- hover-span  -----
-                                    html += '<span class="context active-span hover-span" style="cursor: pointer;font-size:x-large;">' +  _name  +  '</span>' 
-                                    //  --- end  ---  ----- hover-span  ----- 
-                                }
-                                html +=  '</span>'
-
-                                
-                                if (_version){
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
-                                }
-
-                                html +=  ' <sup class="context" style="font-size:xx-small;">online</sup>' 
-
-                                if (_org){
-                                    html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' 
-                                    html +=  '<span class="context active-span hover-span" onclick="window.open(\'' + _url + '\', \'_self\');">'
-                                    html +=      _org 
-                                    html +=  '</span>' 
-                                    html +=  '</sup>' 
-                                }
-
-
-                                if (_folder_count){
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>' 
-                                }
-                                if (_service_count){
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>' 
-                                }
-                                
-
-                        } else {
-
-                                // for custom domain, without 16 serial number, use a tag
-                                // link not work on iphone chrome
-                                //html += '<a target="_blank" href="#" onclick="open_popup_home(\''
-                                html += '<span onclick="open_popup_home(\''                     
-                                html +=  _name + '\', \'' +  _url 
-                                html += '\')">' 
-                                if (_name){
-                                    // ----- hover-span  -----
-                                    html += '<span class="context active-span hover-span" style="cursor: pointer; font-weight:bolder; font-size:xx-large; color: #C71585;">' +  _name  +  '</span>' 
-                                    //  --- end  ---  ----- hover-span  ----- 
-                                }
-                                html +=  '</span>'
-
-                                if (_version){
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
-                                }
-
-                                html +=  ' <sup class="context" style="font-size:xx-small; color: #C71585;">portal</sup>'
-
-                                if (_org){
-                                    html +=  ' <sup class="context" style="cursor: pointer; font-size:xx-small;">' 
-                                    html +=  '<span class="context active-span hover-span" onclick="window.open(\'' + _url + '\', \'_self\');">' 
-                                    html +=      _org 
-                                    html +=  '</span>' 
-                                    html +=  '</sup>'   
-                                }
-                                
-                                if (_folder_count){
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>' 
-                                }
-                                if (_service_count){
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>' 
-                                }
-                                
-
-
-                        }//if
-
-
-                    }//if
-
-
-            } else {
-
-                    // demo version, without org, url, only have name
-                    html += '<span>' 
-                    if (_name){
-                    // not use,  with cross line
-                    //html += '<span class="context cross-line" style="font-weight: lighter;">' +  _name  +  '</span>' 
-                    // in use, no cross line
-                    html += '<span class="context" style="font-weight: lighter;">' +  _name  +  '</span>'
-                    }
-                    if (_org){
-                    html +=  ' <sup class="context" style="font-size:xx-small;">' +   _org + '</sup>' 
-                    }
-                    html +=  '</span>'  
-
-
-            }//if
-
-                    
-            html += '</li>';  
-        }
-        
-    }// for
-    html += '</ol>';
-  } 
-  html +='</div>'
-   $('#json-renderer').html(html);
-
-
-   
-  // ----- hover-span  ----- 
-    $(".active-span").on("click", function() {
-
-        //remove all previous geojson
-        $(".active-span").removeClass("hover-span-clicked");
-        $(".active-span").addClass("hover-span"); 
-        // first clean all previously clicked effect on other item
-        
-    
-        // apply clicked effect on this clicked item
-        $(this).addClass("hover-span-clicked");
-        $(this).removeClass("hover-span");
-    });
-  //  --- end  ---  ----- hover-span  ----- 
-
-
-            
-}  
-       
 
         
 // nav bar only, a link version
@@ -2978,6 +2821,11 @@ function standard_json_to_html_nav_bar(_results) {
             var _folder_count = _results[i].folder_count
             var _service_count = _results[i].service_count
 
+            var _serialNumber
+            var _serviceNumber 
+
+            var _domainName
+            var _instanceName
 
             html += '<li class="space">' 
 
@@ -2985,123 +2833,145 @@ function standard_json_to_html_nav_bar(_results) {
             if (_url){
             
 
-                    if (_url.includes('.hub.arcgis.com')){
+                // not use, I don't display hub site, but keep here
+                if (_url.includes('.hub.arcgis.com')){
 
-                        // .hub.arcgis.com means it is a site 
-                        html += '<a href="javascript:void(0)" onclick="open_popup_online(\''                    
-                        html +=  _name + '\', \'' +  _url 
-                        html += '\')">' 
-                        if (_name){
-                        // ----- hover-span  ----- 
-                        html += '<span class="context active-span hover-span" style="font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
-                        //  --- end  ---  ----- hover-span  ----- 
-                        }
-                        html +=  '</a>'
-
-
-                        if (_org){
-                        
-                                    html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
-                                    html +=  '<a target="_self" href="' + _url + '">';     
-                                    html +=      _org 
-                                    html +=  '</a>' 
-                                    html +=  '</sup>'
-                        }
+                    // .hub.arcgis.com means it is a site 
+                    html += '<a href="javascript:void(0)" onclick="open_popup_online(\''                    
+                    html +=  _name + '\', \'' +  _url 
+                    html += '\')">' 
+                    if (_name){
+                    // ----- hover-span  ----- 
+                    html += '<span class="context active-span hover-span" style="font-style: italic;  font-size:medium;">' +  _name  +  '</span>' 
+                    //  --- end  ---  ----- hover-span  ----- 
+                    }
+                    html +=  '</a>'
 
 
-                        
-
+                    if (_org){
+                    
+                                html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
+                                html +=  '<a target="_self" href="' + _url + '">';     
+                                html +=      _org 
+                                html +=  '</a>' 
+                                html +=  '</sup>'
                     }
 
 
+                    
 
-                    if (_url.includes('/rest/services')){
-
-
-                    if (get_serial_no_from_url(_url)){
-
-                                // for arcgis.com domain, with 16 serial number, use span tag
-                                html += '<a href="javascript:void(0)" onclick="open_popup_home_nav_bar(\''                    
-                                html +=  _name + '\', \'' +  _url 
-                                html += '\')">' 
-                                if (_name){
-                                    // ----- hover-span  -----
-                                    html += '<span class="context active-span hover-span" style="font-weight: 100; font-size:x-large;">' +  _name  +  '</span>' 
-                                    //  --- end  ---  ----- hover-span  -----                           
-                                }
-                                html += "</a>"
+                }
 
 
-                                if (_version){
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
-                                }
+                // portal or online 
+                if (_url.includes('/rest/services')){
 
-                                html +=  ' <sup class="context" style="font-size:xx-small;">online</sup>'
+                      _serialNumber = get_serial_no_from_url(_url)
+                      _serviceNumber = get_service_no_from_url(_url)
 
-                                if (_org){
-                                    
-                                    html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
-                                    html +=  '<a target="_self" href="' + _url + '">';     
-                                    html +=      _org 
-                                    html +=  '</a>' 
-                                    html +=  '</sup>'
-                                    
-                                }
+                      _domainName = get_domain_name_from_url(_url)
+                      _instanceName = get_instance_name_from_url(_url)
+
+
+
+                      // online only
+                      if (_serialNumber){
+
+                            // for arcgis.com domain, with 16 serial number, use span tag
+                            html += '<a href="javascript:void(0)" onclick="open_popup_home_nav_bar(\''                    
+                            html +=  _name + '\', \'' +  _url 
+                            html += '\')">' 
+                            if (_name){
+                                // ----- hover-span  -----
+                                html += '<span class="context active-span hover-span" style="font-weight: 100; font-size:x-large;">' +  _name  +  '</span>' 
+                                //  --- end  ---  ----- hover-span  -----                           
+                            }
+                            html += "</a>"
+
+
+                            if (_version){
+                                html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
+                            }
+
+                            html +=  ' <sup class="context" style="font-size:xx-small;">online</sup>'
+
+                           
                                 
+                            html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
+                            html +=  '<a target="_self" href="' + _url + '">';     
+                            html +=      _serialNumber
+
+                                  if (_serviceNumber !== "services"){
+                                    html += "/" + _serviceNumber
+                                  }
+
+
+                            html +=  '</a>' 
+                            html +=  '</sup>'
+
+                           
+                            
                                 
-                                if (_folder_count){   
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>'
+                            if (Number(_folder_count) > 0){   
+                                html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>'
+                            }
+                            if (Number(_service_count) > 0){
+
+                                html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>'
+                            }
+
+
+
+                    // portal only  
+                    } else {
+
+                            // for custom domain, without 16 serial number, use a tag
+                            // link not work on iphone chrome
+                            //html += '<a target="_blank" href="#" onclick="open_popup_home_nav_bar(\''
+                            html += '<a href="javascript:void(0)" onclick="open_popup_home_nav_bar(\''                     
+                            html +=  _name + '\', \'' +  _url 
+                            html += '\')">' 
+                            if (_name){
+                                // ----- hover-span  -----
+                                html += '<span class="context active-span hover-span" style="font-weight: 900; font-size:xx-large; color: #C71585;">' +  _name  +  '</span>' 
+                                //  --- end  ---  ----- hover-span  -----
+                                html +=  '</a>' 
+                            }
+
+                            if (_version){
+                                html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
+                            }
+
+                            html +=  ' <sup class="context" style="font-size:xx-small; color: #C71585;">portal</sup>'
+
+                            html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">'
+                            html +=  '<a target="_self" href="' + _url + '">';     
+                            html +=      _domainName 
+
+                                if (_instanceName !== "arcgis"){
+                                html += "/" + _instanceName
                                 }
-                                if (_service_count){
 
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>'
-                                }
+                            html +=  '</a>' 
+                            html +=  '</sup>'
+                            
+                            
 
-                        } else {
+                            
+                            if (Number(_folder_count) > 0){   
+                                html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>'
+                            }
+                            if (Number(_service_count) > 0){
 
-                                // for custom domain, without 16 serial number, use a tag
-                                // link not work on iphone chrome
-                                //html += '<a target="_blank" href="#" onclick="open_popup_home_nav_bar(\''
-                                html += '<a href="javascript:void(0)" onclick="open_popup_home_nav_bar(\''                     
-                                html +=  _name + '\', \'' +  _url 
-                                html += '\')">' 
-                                if (_name){
-                                    // ----- hover-span  -----
-                                    html += '<span class="context active-span hover-span" style="font-weight: 900; font-size:xx-large; color: #C71585;">' +  _name  +  '</span>' 
-                                    //  --- end  ---  ----- hover-span  -----
-                                    html +=  '</a>' 
-                                }
-
-                                if (_version){
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
-                                }
-
-                                html +=  ' <sup class="context" style="font-size:xx-small; color: #C71585;">portal</sup>'
-
-                                if (_org){
-                                    
-                                    html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">'
-                                    html +=  '<a target="_self" href="' + _url + '">';     
-                                    html +=      _org 
-                                    html +=  '</a>' 
-                                    html +=  '</sup>'
-                                }
-
-                                
-                                if (_folder_count){   
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>'
-                                }
-                                if (_service_count){
-
-                                    html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>'
-                                }
-                                
-
-
-                        }//if
+                                html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>'
+                            }
+                            
 
 
                     }//if
+
+
+                }//if
 
 
             } else {

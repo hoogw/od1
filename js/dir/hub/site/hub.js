@@ -167,6 +167,7 @@ var _orgName_candidate
 var _title_candidate
 
 var _serial_number
+var _service_number
 var _any_instance
 var _domain_candidate
 
@@ -202,6 +203,7 @@ var this_element
           _title_candidate = ""
 
           _serial_number = ""
+          _service_number = ""
           _any_instance = ""
           _domain_candidate = ""
 

@@ -11,6 +11,7 @@ var _name_candidate
 var _org_candidate
 
 var _serial_number
+var _service_number
 var _any_instance
 var _domain_candidate
 
@@ -34,6 +35,7 @@ var this_element
         _org_candidate = ""
       
         _serial_number = ""
+          _service_number = ""
         _any_instance = ""
         _domain_candidate = ""
         urlObject = ""
@@ -78,6 +80,10 @@ var this_element
                     
                     // get arcgis rest serverice instance name, 
                     _serial_number = get_serial_no_from_url(_url_candidate)
+                    _service_number = get_service_no_from_url(_url_candidate)
+                    _domain_candidate = get_domain_name_from_url(_url_candidate)
+                    _any_instance = get_instance_name_from_url(_url_candidate)
+
                     // if there is serical number, then do not need instance name
                     if (_serial_number){
                               // 1st priority serial number

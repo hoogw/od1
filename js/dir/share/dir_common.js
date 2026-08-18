@@ -216,8 +216,6 @@ var layers_flat;
 var  base_url = '';
 
 
-
-
 // for open-data only
 
 var url_template_home
@@ -233,7 +231,31 @@ var url_template_apple
 
 function build_url_base_template(){
 
-  url_template_home = window.location.origin + "/open-data/dir/rest/root/home.html"
+  
+
+   // http://localhost:10/open-data/dir/list/all.html?style=desktop
+  if (urlParams.get('style') == 'desktop') {
+
+        if (window.location.hostname == 'localhost') {
+          // only for local, not work on production, because production domain isnt same.
+          url_template_home = window.location.origin + "/json2tree/esri/server/folder.html"
+        } else {
+          // production
+          url_template_home = "https://transparentgov.net" + "/json2tree/esri/server/folder.html"
+        }
+    
+
+  } else {
+
+    // default  for mobile
+    url_template_home = window.location.origin + "/open-data/dir/rest/root/home.html"
+  }
+
+
+  
+
+
+
   url_template_server = window.location.origin + "/open-data/dir/rest/svr/server.html"
   url_template_online = window.location.origin + "/open-data/dir/online/layers.html"
 
@@ -332,6 +354,7 @@ function init_global_var(){
             model = urlParams.get('model'); 
            
 
+          
      
     file = urlParams.get('file');   // hub.site.static file=xxx.zip
                                       

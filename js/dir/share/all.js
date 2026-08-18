@@ -2749,19 +2749,26 @@ function standard_json_to_html(_results) {
 
                 } else {
 
-                        // demo version, without org, url, only have name
-                        html += '<span>' 
-                        if (_name){
-                        // not use,  with cross line
-                        //html += '<span class="context cross-line" style="font-weight: lighter;">' +  _name  +  '</span>' 
-                        // in use, no cross line
-                        html += '<span class="context" style="font-weight: lighter;">' +  _name  +  '</span>'
-                        }
-                        if (_org){
-                        html +=  ' <sup class="context" style="font-size:xx-small;">' +   _org + '</sup>' 
-                        }
-                        html +=  '</span>'  
+                    // demo version, without org, url, only have name
+                    html += '<span>' 
 
+                        if (_name){
+                          html += '<span class="context" style="font-weight: lighter;">' +  _name  +  '</span>'
+                        }
+
+                        if (_version){
+                            html +=  ' <sup class="context" style="font-size:xx-small;">v' +   _version + '</sup>' 
+                        }
+
+                        if (Number(_folder_count) > 0){   
+                          html +=  ' <sup class="context" style="font-size:xx-small;">folders(' +   _folder_count + ')</sup>'
+                        }
+                        if (Number(_service_count) > 0){
+                            html +=  ' <sup class="context" style="font-size:xx-small;">services(' +   _service_count + ')</sup>'
+                        }
+
+
+                    html +=  '</span>'  
 
                 }//if
 

@@ -3443,12 +3443,17 @@ view.goTo({
                   skip_yes_no = true
                 }
                 
+                 // skip esri system managed fields, skip number, integer, double, all numbers, only show string field
+
                   var fieldNameLowerCase = key.toLowerCase()
                   var _hasMatch = esri_system_managed_field_array.some(word => fieldNameLowerCase.includes(word));
                   if (_hasMatch){
                       // skip esri system managed fields
                       skip_yes_no = true
                   } 
+
+                  // --  end  -- skip esri system managed fields, skip number, integer, double, all numbers, only show string field
+
                   
                   
                  if (skip_yes_no){

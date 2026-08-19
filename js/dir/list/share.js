@@ -158,6 +158,8 @@ function show_current(_current_showing) {
                 url___.searchParams.set('style', this.value);
                 history.pushState({}, '', url___);
 
+                console.log('style changed to', style)
+
                  
               });
           });

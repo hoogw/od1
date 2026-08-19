@@ -2941,7 +2941,7 @@ function open_popup_home(_name, _url ){
 
     var _newTab_link = url_template_home 
 
-    console.log('open popup home style', _style)
+    console.log('open popup home style', style)
 
    // http://localhost:10/open-data/dir/list/all.html?style=desktop
   if (style == 'desktop') {

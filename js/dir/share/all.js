@@ -2939,7 +2939,7 @@ function open_popup_server(_name, _url ){
 
 function open_popup_home(_name, _url ){
 
-    var _newTab_link = url_template_home 
+    
 
     console.log('open popup home style', style)
 
@@ -2963,7 +2963,7 @@ function open_popup_home(_name, _url ){
 
 
 
-
+   var _newTab_link = url_template_home 
     
     _newTab_link += '?org=' + _name  
     _newTab_link += '&url=' + _url 

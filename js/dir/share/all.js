@@ -2940,6 +2940,29 @@ function open_popup_server(_name, _url ){
 function open_popup_home(_name, _url ){
 
     var _newTab_link = url_template_home 
+
+   // http://localhost:10/open-data/dir/list/all.html?style=desktop
+  if (style == 'desktop') {
+
+        if (window.location.hostname == 'localhost') {
+          // only for local, not work on production, because production domain isnt same.
+          url_template_home = window.location.origin + "/json2tree/esri/server/folder.html"
+        } else {
+          // production
+          url_template_home = "https://transparentgov.net" + "/json2tree/esri/server/folder.html"
+        }
+    
+
+  } else {
+
+    
+  }
+
+
+
+
+
+    
     _newTab_link += '?org=' + _name  
     _newTab_link += '&url=' + _url 
     _newTab_link += '&model=' + model // will pass model number to server.js

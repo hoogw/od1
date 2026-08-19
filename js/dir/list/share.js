@@ -123,9 +123,45 @@ function show_current(_current_showing) {
  
 
 
-
-
+ var style = "mobile" //'desktop'  // default is desktop, if URL param style=mobile, will change to mobile
+            
   function init_ui_event_handler(){
+
+
+
+    //  -  -  -  style change  -  -  - 
+
+        // first time , one time only, when page load, get url parameter, and set radio button checked
+          style = urlParams.get('style') || 'mobile';
+          if (style){
+            var radio = document.querySelector(
+                `input[name="panel-style"][value="${style}"]`
+            );
+            if (radio) {
+                radio.checked = true;
+            }
+          }
+
+          // when user click radio button, change style, and update url parameter, but not refresh page
+          document.querySelectorAll('input[name="panel-style"]').forEach(function(radio) {
+              radio.addEventListener('change', function(event) {
+
+                // will refresh page, not good, 
+                // window.location.href = '?style=' + encodeURIComponent(this.value);
+                 
+                style = this.value;
+                event.preventDefault();
+                var url___ = new URL(window.location.href);
+                url___.searchParams.set('style', this.value);
+                history.pushState({}, '', url___);
+
+                 
+              });
+          });
+          
+        //  -  -  - end  -  -  -  style change   -  -  - 
+
+
 
 
 

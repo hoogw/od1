@@ -229,34 +229,14 @@ var url_template_google
 var url_template_google_mapimagelayer
 var url_template_apple
 
-var style = "mobile" //'desktop'  // default is desktop, if URL param style=mobile, will change to mobile
 
 function build_url_base_template(){
 
   
-
-   // http://localhost:10/open-data/dir/list/all.html?style=desktop
-  if (style == 'desktop') {
-
-        if (window.location.hostname == 'localhost') {
-          // only for local, not work on production, because production domain isnt same.
-          url_template_home = window.location.origin + "/json2tree/esri/server/folder.html"
-        } else {
-          // production
-          url_template_home = "https://transparentgov.net" + "/json2tree/esri/server/folder.html"
-        }
-    
-
-  } else {
-
-    // default  for mobile
-    url_template_home = window.location.origin + "/open-data/dir/rest/root/home.html"
-  }
-
-
   
 
-
+  // default  for mobile
+  url_template_home = window.location.origin + "/open-data/dir/rest/root/home.html"
 
   url_template_server = window.location.origin + "/open-data/dir/rest/svr/server.html"
   url_template_online = window.location.origin + "/open-data/dir/online/layers.html"

@@ -229,12 +229,14 @@ var url_template_google
 var url_template_google_mapimagelayer
 var url_template_apple
 
+var style = "mobile" //'desktop'  // default is desktop, if URL param style=mobile, will change to mobile
+
 function build_url_base_template(){
 
   
 
    // http://localhost:10/open-data/dir/list/all.html?style=desktop
-  if (urlParams.get('style') == 'desktop') {
+  if (style == 'desktop') {
 
         if (window.location.hostname == 'localhost') {
           // only for local, not work on production, because production domain isnt same.

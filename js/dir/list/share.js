@@ -133,6 +133,9 @@ function show_current(_current_showing) {
 
         // first time , one time only, when page load, get url parameter, and set radio button checked
           style = urlParams.get('style') || 'mobile';
+
+          console.log('style from url parameter', style)
+
           if (style){
             var radio = document.querySelector(
                 `input[name="panel-style"][value="${style}"]`

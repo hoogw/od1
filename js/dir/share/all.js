@@ -2957,7 +2957,9 @@ function open_popup_home(_name, _url ){
 
   } else {
 
-    
+    // default  for mobile
+    url_template_home = window.location.origin + "/open-data/dir/rest/root/home.html"
+
   }
 
 

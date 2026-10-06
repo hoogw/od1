@@ -17,7 +17,8 @@ body, html {width: 100%; height: 100%; margin: 0; padding: 0}
 }
 
 input,button {
-  font-size: xx-small;
+  font-size: /* xx-small; */ large;
+  font-family: monospace,sans-serif;
 }
 
 /* dark theme set link color white, for blue color use this line*/
@@ -268,10 +269,16 @@ a {
 
                 /*  ----- hover-span for blue links  ----- */
 
+                /* for place holder , hover span or clicked
 
-                 .active-span {
-                  /* for place holder , hover span or clicked */
-                }
+                      .active-span {
+                        
+                        }
+                      
+                */
+
+
+
 
                 /* when user hover */
                 .hover-span:hover {

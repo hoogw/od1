@@ -86,41 +86,83 @@ folder_structure_flatjson = [
     function jstree_root_folder(root_allfolders_flatjson, root_url, root_url_organization, root_url_hostname){
 
     
-    // arcgis version number
-    var _html_version = '<span style="font-size:xx-small;">ArcGIS Enterprise v</span>'
-    _html_version += '<span style="font-size:small; font-weight: bolder;">' + currentVersion + '</span>'
 
-    var _html_org = ""
-    if (root_url_organization){
-        // org name, 
-        _html_org += '<a target="_blank" id="_orgnization_link" href="'+ root_url + '">' + root_url_organization + '</a>'
-    } else {
-         // use domain name ( without org name) 
-         _html_org += '<a target="_blank" id="_orgnization_link2" href="'+ root_url +'">' + root_url_hostname + '</a>'
-        
-    }
+                                            var _html_org = ""
+                                            var _html_version = ""
 
+                                            
+                                                  
+                                            // arcgis version number
+                                            if (currentVersion == '0.0'){
+                                                 // only for fast access with xxx.json 
+                                                _html_org = '<span style="font-size:xx-small;">Static version for fast access</span>'
 
-        /**/
-        //  -  -  - nav bar   -  -  - 
-        /**/
-
-            // without version number for nav only
-            $('#nav-root').html(_html_org);
-        /**/
-        //  -  -  - end  -  -  -   nav bar   -  -  - 
-        /**/
+                                            } else {
 
 
-    _html_org += "&nbsp;"
-    _html_org += _html_version
+                                                _serial_number = get_serial_no_from_url(root_url)
+                                                _service_number = get_service_no_from_url(root_url)
+                                                _domain_candidate = get_domain_name_from_url(root_url)
+                                                _any_instance = get_instance_name_from_url(root_url)
 
-   
-
-    $('#message_root_folder').html(_html_org);
+                                                if (root_url_organization){
+                                                // org name, 
+                                                _html_org += '<a target="_blank" id="_orgnization_link" href="'+ root_url + '">' + root_url_organization + '</a>'
+                                                } else {
+                                                    // use domain name ( without org name) 
+                                                    _html_org += '<a target="_blank" id="_orgnization_link2" href="'+ root_url +'">' + root_url_hostname + '</a>'
+                                                    
+                                                }
 
 
 
+                                                 /**/
+                                                //  -  -  - nav bar   -  -  - 
+                                                /**/
+
+                                                    // without version number for nav only
+                                                    $('#nav-root').html(_html_org);
+                                                /**/
+                                                //  -  -  - end  -  -  -   nav bar   -  -  - 
+                                                /**/
+
+
+
+                                                _html_org += "&nbsp;"
+
+
+
+                                                
+                                                
+                                                if (_serial_number){
+
+                                                    _html_version += '<span style="font-size:xx-small;">ArcGIS-</span>'
+                                                    _html_version += '<mark style="font-size:xx-small; font-weight: bolder;">Online</mark>'
+                                                    _html_version += '<span style="font-size:xx-small;"> Version ' + currentVersion + ' </span>'
+                                                    _html_version += '<span style="font-size:xx-small;"> Serial# </span>'
+                                                    _html_version += '<mark style="font-size:xx-small; font-weight: bolder;">' + _serial_number + '</mark>'
+
+                                                } else {
+                                                    _html_version += '<span style="font-size:xx-small;"> Version ' + currentVersion + ' </span>'
+                                                    _html_version += '<mark style="font-size:xx-small; font-weight: bolder;">Enterprise-Portal</mark>'
+                                                    
+                                                    _html_version += '<span style="font-size:xx-small;"> Domain </span>'
+                                                    _html_version += '<mark style="font-size:xx-small; font-weight: bolder;">' + _domain_candidate + '</mark>'
+
+                                                }
+
+
+
+
+                                                 _html_org += _html_version 
+                                             }
+
+                                            
+                                            
+                                           
+
+
+                                            $('#message_root_folder').html(_html_org);
     
 
 

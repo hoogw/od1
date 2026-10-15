@@ -39,11 +39,13 @@ a {
 }
 
 .letsgo {
-  font-size: small; 
-  font-weight: bolder; 
+  font-size: large;  
+  font-weight: 900; 
   font-family: monospace; 
   font-style: oblique; 
   color:yellow;
+  margin-bottom: 4px; /* sometime, it too close to next line button, add margin to seperate it*/
+  vertical-align: top; /* start button not aligned with textarea, add this align-top fixed problem*/
 }
 .current_rest_api_endpoint {
   font-size: small;  

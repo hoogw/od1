@@ -90,11 +90,12 @@ folder_structure_flatjson = [
     // only for layers.js
     function jstree_root_folder(root_allfolders_flatjson, root_url, root_url_organization, root_url_hostname){
 
-                                            var _html_org = ""
+                                             var _html_org = ""
                                             var _html_version = ""
 
                                             
                                                   
+                                              
                                             // arcgis version number
                                             if (currentVersion == '0.0'){
                                                  // only for fast access with xxx.json 
@@ -116,7 +117,7 @@ folder_structure_flatjson = [
                                                     _html_org += '<a target="_blank" id="_orgnization_link2" href="'+ root_url +'">' + root_url_hostname + '</a>'
                                                     
                                                 }
-                                                _html_org += "&nbsp;"
+                                                _html_org += "&nbsp;|&nbsp;"
 
 
 
@@ -124,24 +125,56 @@ folder_structure_flatjson = [
                                                 
                                                 if (_serial_number){
 
-                                                    _html_version += '<span style="font-size:xx-small;">ArcGIS-</span>'
-                                                    _html_version += '<mark style="font-size:xx-small; font-weight: bolder;">Online</mark>'
-                                                    _html_version += '<span style="font-size:xx-small;"> Version ' + currentVersion + ' </span>'
-                                                    _html_version += '<span style="font-size:xx-small;"> Customer-ID </span>'
-                                                    _html_version += '<mark style="font-size:xx-small; font-weight: bolder;"> ' + _serial_number + ' </mark>'
+                                                    _html_version += '<strong style="font-size:xx-small;">ArcGIS-Online</strong>'
+                                                    _html_version += "&nbsp;|&nbsp;"
+                                                    _html_version += '<span style="font-size:xx-small;">Version: </span>'
+                                                    _html_version += '<strong style="font-size:xx-small;">' + currentVersion + '</strong>'
+                                                    _html_version += "&nbsp;|&nbsp;"
+                                                    _html_version += '<span style="font-size:xx-small;">Customer-ID: </span>'
+                                                    _html_version += '<strong style="font-size:xx-small;">' + _serial_number + '</strong>'
 
                                                 } else {
-                                                    _html_version += '<span style="font-size:xx-small;"> Version ' + currentVersion + ' </span>'
-                                                    _html_version += '<mark style="font-size:xx-small; font-weight: bolder;"> Enterprise-Portal </mark>'
-                                                    
-                                                    _html_version += '<span style="font-size:xx-small;"> Domain </span>'
-                                                    _html_version += '<mark style="font-size:xx-small; font-weight: bolder;"> ' + _domain_candidate + ' </mark>'
+                                                    _html_version += '<strong style="font-size:xx-small;">Enterprise-Portal</strong>'
+                                                    _html_version += "&nbsp;|&nbsp;"
+                                                    _html_version += '<span style="font-size:xx-small;">Version: </span>'
+                                                    _html_version += '<strong style="font-size:xx-small;">' + currentVersion + '</strong>'
+                                                    _html_version += "&nbsp;|&nbsp;"
+                                                    _html_version += '<span style="font-size:xx-small;">Domain: </span>'
+                                                    _html_version += '<strong style="font-size:xx-small;">' + _domain_candidate + '</strong>'
 
                                                 }
 
                                                  _html_org += _html_version 
-                                             }
+                                            }
 
+
+                                       
+                                        var real_folder_count = get_folder_count(root_allfolders_flatjson);
+                                        // including service under root and service under folder                                              
+                                        var real_service_count = get_service_count(root_allfolders_flatjson);
+                                        var real_layer_count = get_layer_count(root_allfolders_flatjson); 
+                                        
+                                         var _html_service_count = ""
+
+                                        
+                                            _html_service_count += "&nbsp;|&nbsp;"
+                                            _html_service_count += "<span style='font-size:xx-small;'>Folders: </span>"
+                                            _html_service_count += '<strong style="font-size:xx-small;">' + real_folder_count + '</strong>'
+                                         
+
+                                        _html_service_count += "&nbsp;|&nbsp;"
+                                        _html_service_count += "<span style='font-size:xx-small;'>Services: </span>" 
+                                        _html_service_count += '<strong style="font-size:xx-small;">' + real_service_count + '</strong>'
+
+                                         if (real_layer_count >0){
+                                            _html_service_count += "&nbsp;|&nbsp;"
+                                            _html_service_count += "<span style='font-size:xx-small;'>Layers: </span>"
+                                            _html_service_count += '<strong style="font-size:xx-small;">' + real_layer_count + '</strong>'
+                                         }
+                                        
+                                        _html_org += _html_service_count 
+                                            
+                                            
                                             
                                             
                                            

@@ -2574,6 +2574,52 @@ async function get_mapserver_info_html(mapserver_url){
 
 
 
+
+                                                        
+            function get_layer_count(node_array){
+                var count = 0;
+                for (var i = 0; i < node_array.length; i++) {
+                    if (node_array[i].type.includes("Layer"))
+                    {
+                        count++;
+                    }
+                }
+                return count;
+            }
+            function get_service_count(node_array){
+                var count = 0;
+                for (var i = 0; i < node_array.length; i++) {
+                    if ((node_array[i].type !== "folder")
+                        // type not include keyword "Layer"
+                        && (node_array[i].type.includes("Layer") == false))
+                    {
+                        count++;
+                    }
+                }
+                return count;
+            }
+            function get_folder_count(node_array) {
+                var count = 0;
+                for (var i = 0; i < node_array.length; i++) {
+                    if (node_array[i].type === "folder") {
+                        count++;
+                    }
+                }
+
+                // do not count root folder, so minus 1
+                return count-1;
+            }
+
+
+
+
+
+
+
+
+
+
+
 // a link version
 function standard_json_to_html(_results) {
       

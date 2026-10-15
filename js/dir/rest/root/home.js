@@ -123,7 +123,7 @@ folder_structure_flatjson = [
                                                     _html_version += '<span style="font-size:xx-small;">ArcGIS-</span>'
                                                     _html_version += '<mark style="font-size:xx-small; font-weight: bolder;">Online</mark>'
                                                     _html_version += '<span style="font-size:xx-small;"> Version ' + currentVersion + ' </span>'
-                                                    _html_version += '<span style="font-size:xx-small;"> Serial# </span>'
+                                                    _html_version += '<span style="font-size:xx-small;"> User-ID </span>'
                                                     _html_version += '<mark style="font-size:xx-small; font-weight: bolder;"> ' + _serial_number + ' </mark>'
 
                                                 } else {

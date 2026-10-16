@@ -2576,16 +2576,18 @@ async function get_mapserver_info_html(mapserver_url){
 
 
                                                         
-            function get_layer_count(node_array){
+             function get_folder_count(node_array) {
                 var count = 0;
                 for (var i = 0; i < node_array.length; i++) {
-                    if (node_array[i].type.includes("Layer"))
-                    {
+                    if (node_array[i].type === "folder") {
                         count++;
                     }
                 }
-                return count;
-            }
+
+                // do not count root folder, so minus 1
+                return count-1;
+            }                                          
+            
             function get_service_count(node_array){
                 var count = 0;
                 for (var i = 0; i < node_array.length; i++) {
@@ -2598,16 +2600,30 @@ async function get_mapserver_info_html(mapserver_url){
                 }
                 return count;
             }
-            function get_folder_count(node_array) {
+
+            function get_layer_count(node_array){
                 var count = 0;
                 for (var i = 0; i < node_array.length; i++) {
-                    if (node_array[i].type === "folder") {
+                    if ((node_array[i].type.includes("Layer"))
+                        // Group layer regards as folder, only happen under mapserver,
+                        && (node_array[i].type.includes("Group Layer") == false)) { 
+                    
                         count++;
                     }
                 }
+                return count;
+            }
 
-                // do not count root folder, so minus 1
-                return count-1;
+
+            function get_group_layer_count(node_array){
+                var count = 0;
+                for (var i = 0; i < node_array.length; i++) {
+                    if (node_array[i].type.includes("Group Layer"))
+                    {
+                        count++;
+                    }
+                }
+                return count;
             }
 
 

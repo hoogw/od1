@@ -200,7 +200,7 @@ folder_structure_flatjson = [
 
 
 
-        console.log(' click select folder node, event ', data)
+        console.log(' click select folder node, event ', e)
 
         var selected_node_id = data.node.original.id
         var selected_node_path = data.node.original.absolute_path

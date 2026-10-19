@@ -110,12 +110,12 @@ var mapserver_legend
 var folder_structure_flatjson= [];
 
 // 2nd level service (mapserver) jstree
-var mapserver_flatjson = [];
+// not use, let it be local variable, because 2 event fire 2 times can double the data, 
+//var mapserver_flatjson = [];
 
 
 // 3nd level icon jstree
-var icon_flatjson = [];
-
+//var icon_flatjson = [];
 
 
 var iconJstreeNodeOpened =  false; // true is expanded all,  false is collapse all 

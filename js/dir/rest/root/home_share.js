@@ -23,7 +23,7 @@
 
                                    
 
-                                    icon_flatjson = [];
+                                    var icon_flatjson = [];
 
                                     console.log('render feature layer by tree parent id : ', _featurelayer_id )
                                     console.log('render feature layer by tree node[id] : ', mapserver_flatjson[_featurelayer_id])
@@ -160,7 +160,7 @@ $('#jstree_icon')
 
                                     function render_image_layer(_featurelayer_id){
 
-                                        icon_flatjson = [];
+                                        var icon_flatjson = [];
     
                                         // frome array[mapserver_flatjson],  get item,  item.id = _featurelayer_id
                                                     
@@ -197,7 +197,7 @@ $('#jstree_icon')
                                 function render_raster_layer(_featurelayer_id) {
 
 
-                                    icon_flatjson = [];
+                                    var icon_flatjson = [];
 
                                     // frome array[mapserver_flatjson],  get item,  item.id = _featurelayer_id
                                                 
@@ -250,7 +250,7 @@ $('#jstree_icon')
 
                                 function render_geocode_layer(_featurelayer_id){
 
-                                    icon_flatjson = [];
+                                    var icon_flatjson = [];
 
                                     // frome array[mapserver_flatjson],  get item,  item.id = _featurelayer_id
                                                 
@@ -284,7 +284,7 @@ $('#jstree_icon')
 
                                 function render_network_analysis_layer(_NAlayer_id){
 
-                                    icon_flatjson = [];
+                                    var icon_flatjson = [];
 
                                     // frome array[NAserver_flatjson],  get item,  item.id = _NAlayer_id
                                                 

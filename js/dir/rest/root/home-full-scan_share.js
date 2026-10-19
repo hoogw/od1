@@ -23,7 +23,7 @@
 
                                    
 
-                                    var icon_flatjson = [];
+                                    icon_flatjson = [];
 
                                     console.log('render feature layer by tree parent id : ', _featurelayer_id )
                                     console.log('render feature layer by tree node[id] : ', folder_structure_flatjson[_featurelayer_id])
@@ -199,7 +199,7 @@ $('#jstree_icon')
                                     // for 2 panel,
                                     async function render_image_layer(_featurelayer_id){
 
-                                        var icon_flatjson = [];
+                                        icon_flatjson = [];
     
     
                                         // frome array[mapserver_flatjson],  get item,  item.id = _featurelayer_id
@@ -270,7 +270,7 @@ $('#jstree_icon')
                                 async function render_raster_layer(_featurelayer_id) {
 
 
-                                    var icon_flatjson = [];
+                                    icon_flatjson = [];
 
 
                                     // frome array[mapserver_flatjson],  get item,  item.id = _featurelayer_id
@@ -359,7 +359,7 @@ $('#jstree_icon')
 
                                 function render_geocode_layer(_featurelayer_id){
 
-                                    var icon_flatjson = [];
+                                    icon_flatjson = [];
 
 
                                     // frome array[folder_structure_flatjson],  get item,  item.id = _featurelayer_id
@@ -404,7 +404,7 @@ $('#jstree_icon')
 
                                 function render_network_analysis_layer(_NAlayer_id){
 
-                                    var icon_flatjson = [];
+                                    icon_flatjson = [];
 
                                     // frome array[NAserver_flatjson],  get item,  item.id = _NAlayer_id
                                                 

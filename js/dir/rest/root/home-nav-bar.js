@@ -176,7 +176,7 @@ folder_structure_flatjson = [
 
                                          if (real_service_count >0){
                                             _html_service_count += "&nbsp;|&nbsp;"
-                                            _html_service_count += "<span style='font-size:xx-small;'>Services: </span>" 
+                                            _html_service_count += "<span style='font-size:xx-small;'>Servers: </span>" 
                                             _html_service_count += '<strong style="font-size:xx-small;">' + real_service_count + '</strong>'
                                          }
 

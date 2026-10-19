@@ -164,19 +164,21 @@ folder_structure_flatjson = [
                                         // including service under root and service under folder                                              
                                         var real_service_count = get_service_count(root_allfolders_flatjson);
                                         var real_layer_count = get_layer_count(root_allfolders_flatjson); 
-                                        var real_table_count = get_table_count(mapserver_alllayers_flatjson);  
+                                        var real_table_count = get_table_count(root_allfolders_flatjson);  
                                         
-                                         var _html_service_count = ""
+                                        var _html_service_count = ""
 
-                                        
+                                        if (real_folder_count >0){
                                             _html_service_count += "&nbsp;|&nbsp;"
                                             _html_service_count += "<span style='font-size:xx-small;'>Folders: </span>"
                                             _html_service_count += '<strong style="font-size:xx-small;">' + real_folder_count + '</strong>'
-                                         
+                                        }
 
-                                        _html_service_count += "&nbsp;|&nbsp;"
-                                        _html_service_count += "<span style='font-size:xx-small;'>Services: </span>" 
-                                        _html_service_count += '<strong style="font-size:xx-small;">' + real_service_count + '</strong>'
+                                         if (real_service_count >0){
+                                            _html_service_count += "&nbsp;|&nbsp;"
+                                            _html_service_count += "<span style='font-size:xx-small;'>Services: </span>" 
+                                            _html_service_count += '<strong style="font-size:xx-small;">' + real_service_count + '</strong>'
+                                         }
 
                                          if (real_layer_count >0){
                                             _html_service_count += "&nbsp;|&nbsp;"

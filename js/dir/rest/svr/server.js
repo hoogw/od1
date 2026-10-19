@@ -570,6 +570,35 @@ function jstree_mapserver(mapserver_alllayers_flatjson, mapserver_url, mapserver
 
       
 
+        
+                            var real_group_layer_count = get_group_layer_count(mapserver_alllayers_flatjson);
+                            var real_layer_count = get_layer_count(mapserver_alllayers_flatjson); 
+                            var real_table_count = get_table_count(mapserver_alllayers_flatjson); 
+                            
+                            
+                            var _html_layer_count = ""
+
+                            if (real_group_layer_count >0){
+                                            _html_layer_count += "&nbsp;|&nbsp;"
+                                            _html_layer_count += "<span style='font-size:xx-small;'>Group Layer(folder): </span>"
+                                            _html_layer_count += '<strong style="font-size:xx-small;">' + real_group_layer_count + '</strong>'
+                            }
+                            
+                            if (real_layer_count >0){
+                                            _html_layer_count += "&nbsp;|&nbsp;"
+                                            _html_layer_count += "<span style='font-size:xx-small;'>Layers: </span>"
+                                            _html_layer_count += '<strong style="font-size:xx-small;">' + real_layer_count + '</strong>'
+                            }
+
+                            if (real_table_count >0){
+                                            _html_layer_count += "&nbsp;|&nbsp;"
+                                            _html_layer_count += "<span style='font-size:xx-small;'>Table: </span>"
+                                            _html_layer_count += '<strong style="font-size:xx-small;">' + real_table_count + '</strong>'
+                            }
+
+                            _html_for_message_mapserver += _html_layer_count 
+
+
 
         $('#message_mapserver').html( _html_for_message_mapserver);
 

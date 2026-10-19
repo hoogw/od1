@@ -2578,8 +2578,10 @@ async function get_mapserver_info_html(mapserver_url){
              function get_folder_count(node_array) {
                 var count = 0;
                 for (var i = 0; i < node_array.length; i++) {
-                    if (node_array[i].type === "folder") {
-                        count++;
+                    if (node_array[i].type){
+                        if (node_array[i].type === "folder") {
+                            count++;
+                        }
                     }
                 }
 
@@ -2590,11 +2592,13 @@ async function get_mapserver_info_html(mapserver_url){
             function get_service_count(node_array){
                 var count = 0;
                 for (var i = 0; i < node_array.length; i++) {
-                    if ((node_array[i].type !== "folder")
-                        // type not include keyword "Layer"
-                        && (node_array[i].type.includes("Layer") == false))
-                    {
-                        count++;
+                    if (node_array[i].type){
+                        if ((node_array[i].type !== "folder")
+                            // type not include keyword "Layer"
+                            && (node_array[i].type.includes("Layer") == false))
+                        {
+                            count++;
+                        }
                     }
                 }
                 return count;
@@ -2603,11 +2607,13 @@ async function get_mapserver_info_html(mapserver_url){
             function get_layer_count(node_array){
                 var count = 0;
                 for (var i = 0; i < node_array.length; i++) {
-                    if ((node_array[i].type.includes("Layer"))
-                        // Group layer regards as folder, only happen under mapserver,
-                        && (node_array[i].type.includes("Group Layer") == false)) { 
-                    
-                        count++;
+                    if (node_array[i].type){
+                        if ((node_array[i].type.includes("Layer"))
+                            // Group layer regards as folder, only happen under mapserver,
+                            && (node_array[i].type.includes("Group Layer") == false)) { 
+                        
+                            count++;
+                        }
                     }
                 }
                 return count;
@@ -2616,11 +2622,13 @@ async function get_mapserver_info_html(mapserver_url){
              function get_table_count(node_array){
                 var count = 0;
                 for (var i = 0; i < node_array.length; i++) {
-                    if ((node_array[i].type.includes("Table"))
-                        // Group layer regards as folder, only happen under mapserver,
-                        && (node_array[i].type.includes("Group Layer") == false)) { 
-                    
-                        count++;
+                    if (node_array[i].type){
+                        if ((node_array[i].type.includes("Table"))
+                            // Group layer regards as folder, only happen under mapserver,
+                            && (node_array[i].type.includes("Group Layer") == false)) { 
+                        
+                            count++;
+                        }
                     }
                 }
                 return count;
@@ -2631,9 +2639,10 @@ async function get_mapserver_info_html(mapserver_url){
             function get_group_layer_count(node_array){
                 var count = 0;
                 for (var i = 0; i < node_array.length; i++) {
-                    if (node_array[i].type.includes("Group Layer"))
-                    {
-                        count++;
+                    if (node_array[i].type){
+                        if (node_array[i].type.includes("Group Layer")){
+                            count++;
+                        }
                     }
                 }
                 return count;

@@ -2614,6 +2614,20 @@ async function get_mapserver_info_html(mapserver_url){
                 return count;
             }
 
+             function get_table_count(node_array){
+                var count = 0;
+                for (var i = 0; i < node_array.length; i++) {
+                    if ((node_array[i].type.includes("Table"))
+                        // Group layer regards as folder, only happen under mapserver,
+                        && (node_array[i].type.includes("Group Layer") == false)) { 
+                    
+                        count++;
+                    }
+                }
+                return count;
+            }
+
+
 
             function get_group_layer_count(node_array){
                 var count = 0;

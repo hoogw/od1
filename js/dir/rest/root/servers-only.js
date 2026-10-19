@@ -150,6 +150,7 @@ folder_structure_flatjson = [
                                         // including service under root and service under folder                                              
                                         var real_service_count = get_service_count(root_allfolders_flatjson);
                                         var real_layer_count = get_layer_count(root_allfolders_flatjson); 
+                                        var real_table_count = get_table_count(mapserver_alllayers_flatjson);  
                                         
                                          var _html_service_count = ""
 
@@ -167,6 +168,12 @@ folder_structure_flatjson = [
                                             _html_service_count += "&nbsp;|&nbsp;"
                                             _html_service_count += "<span style='font-size:xx-small;'>Layers: </span>"
                                             _html_service_count += '<strong style="font-size:xx-small;">' + real_layer_count + '</strong>'
+                                         }
+
+                                           if (real_table_count >0){
+                                            _html_service_count += "&nbsp;|&nbsp;"
+                                            _html_service_count += "<span style='font-size:xx-small;'>Tables: </span>"
+                                            _html_service_count += '<strong style="font-size:xx-small;">' + real_table_count + '</strong>'
                                          }
                                         
                                         _html_org += _html_service_count 

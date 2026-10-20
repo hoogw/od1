@@ -569,11 +569,17 @@ function show_current(_current_showing) {
    
    // return empty string or serial number 
    function get_serial_no_from_url(_sample_url){
-    if (_sample_url.includes(".arcgis.com/")){
-      return  _sample_url.split(".arcgis.com/")[1].split("/")[0];
-    } else {
+
+      // only for tiles sample  https://tiles.arcgis.com/tiles/ohAFyIFvXFRGcC67/arcgis/rest/services
+      if (_sample_url.includes("tiles.arcgis.com/")){
+        return  _sample_url.split("tiles.arcgis.com/tiles/")[1].split("/")[0];
+      } 
+
+      if (_sample_url.includes(".arcgis.com/")){
+        return  _sample_url.split(".arcgis.com/")[1].split("/")[0];
+      } 
+        
       return ""
-    }
    }
 
    function get_service_no_from_url(_sample_url){
@@ -585,8 +591,16 @@ function show_current(_current_showing) {
    }
 
 
+   
    function get_domain_name_from_url(_sample_url){
-    return new URL(_sample_url).hostname;
+
+    try {
+      return new URL(_sample_url).hostname;
+    } catch (error) {
+      console.error('Invalid URL:', _sample_url);
+      return '';
+    }
+    
    }
 
 

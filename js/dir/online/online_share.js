@@ -89,40 +89,10 @@ var input_current
         //input_current = await ajax_datatype_json(___url_getJson, _timeout_hub_only)
         input_current = await ajax_jsonp_json_proxy(___url_getJson, _timeout_hub_only)
 
-         /**/
-        //  - - -  ---  try more times   ---  - - -
-        /**/
+       
 
         console.log("url getJson:", ___url_getJson)
-        console.log("input current return:", input_current )
-        if (!(input_current) ||(input_current.error) || !(input_current.dataset)){
-
-
-            tryMoreTimes = 0
-
-        // something wrong
-        while (tryMoreTimes < MaxNumberOfTry){
-
-            
-      
-             tryMoreTimes += 1
-            // hrsa take a very long time to get root-folder, and many of sub-folder is login required, take very long time
-            // this time out is only for root-folder who take very long
-            // for sub-folder must revert back to short 1 sec
-            _timeout = more_time
-
-            console.log("try - ROOT - again with more waiting time, No of try, wait time in sec", tryMoreTimes, _timeout )
-            console.log("try - ROOT - again with more waiting time,url", ___url_getJson)
-            //letsgo_handler()
-            input_current = await ajax_jsonp_json_proxy(___url_getJson, _timeout_hub_only)
-
-            if ((input_current) && (input_current.dataset)){
-                break; // while loop
-            }
-
-        }// while
-    }
-
+        
 
         console.log("input current", input_current)  
 

@@ -4,33 +4,11 @@
 
 
     
-
-/**/
-//  - - -  ---  try more times   ---  - - -
-/**/
-
-    var MaxNumberOfTry = 3
-
-    // serial number + arcgis.com, may be not work on first ajax, 
-    // but will work on 2nd ajax
-    var tryMoreTimes = 0
     
-    /*
-      for most of rest-root, use 1 sec, 
-      Can not be too long, otherwise, 
-      scan folder can stuck for ever. 
-
-      hrsa take a very long time to get root-folder, and many of sub-folder is login required, take very long time
-      search for "try More Times"
-    */
-    var default_time = 1800
-    var more_time = 36000 // for more try on both root, and sub-folder
-    var _timeout = default_time; //   
+// time out is always set by url  http://....?timeout=9000
+    var _timeout
     var param_timeout; // get URL param value time out, feed to real _timeout
 
-/**/
-//  --- end  ---  try more times    - - -  --- 
-/**/
 
 
 

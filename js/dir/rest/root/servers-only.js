@@ -396,10 +396,6 @@ async function nested_to_flat(_url){
     
 
 
-/**/
-        //  - - -  ---  try more times   ---  - - -
-        /**/
-
           
             /*
 
@@ -445,33 +441,7 @@ async function nested_to_flat(_url){
 
         console.log("root url:",root_url)
         console.log("root return:", root )
-        if (!(root) ||(root.error) || !(root.currentVersion)){
-
-
-            tryMoreTimes = 0
-
-            // something wrong
-            while (tryMoreTimes < MaxNumberOfTry){
-
-                
-        
-                tryMoreTimes += 1
-                // hrsa take a very long time to get root-folder, and many of sub-folder is login required, take very long time
-                // this time out is only for root-folder who take very long
-                // for sub-folder must revert back to short 1 sec
-                _timeout = more_time
-
-                console.log("try - ROOT - again with more waiting time, No of try, wait time in sec", tryMoreTimes, _timeout )
-                console.log("try - ROOT - again with more waiting time,url", root_url)
-                //letsgo_handler()
-                root = await arcgis_ajax_cross_origin(root_url, _cross); 
-
-                if ((root) && (root.currentVersion)){
-                    break; // while loop
-                }
-
-            }// while
-        }
+       
 
         if ((root) && (root.currentVersion)){
 
@@ -614,9 +584,7 @@ async function nested_to_flat(_url){
                     
                     var node =await arcgis_ajax_cross_origin(absolute_path, _cross);  // cross origin method 
 
-                    /**/
-                //  - - -  ---  try more times   ---  - - -
-                /**/
+               
 
 
                                 /*
@@ -633,29 +601,7 @@ async function nested_to_flat(_url){
                                 */
                                 console.log("sub-folder url:",absolute_path)
                                 console.log("sub-folder return:", node )
-                                if ((!node) || (node.error) || !(node.currentVersion)){
-
-
-                                    tryMoreTimes = 0
-
-                                    // something wrong try more times
-                                    while (tryMoreTimes < MaxNumberOfTry){
-
-                                        tryMoreTimes += 1
-                                        _timeout = more_time
-
-                                        console.log("try - FOLDER - again with more waiting time, No of try, wait time in sec", tryMoreTimes, _timeout )
-                                        console.log("try - FOLDER - again with more waiting time, url : ", absolute_path )
-                                        node =await arcgis_ajax_cross_origin(absolute_path, _cross);
-
-                                        if ((node) && (node.currentVersion)){
-                                            break; // while loop
-                                        }
-
-                                    }// while
-
-
-                                }  
+                              
                                 
                                 if ((node) && (node.currentVersion)){
                                             

@@ -3,6 +3,20 @@
 
 
 
+
+/**/
+//  - - -  ---  try more times   ---  - - -
+/**/
+   
+    var MaxNumberOfTry = 3
+
+    // serial number + arcgis.com, may be not work on first ajax, 
+    // but will work on 2nd ajax
+    var tryMoreTimes = 0
+    
+/**/
+//  --- end  ---  try more times    - - -  --- 
+/**/
     
     
 // time out is always set by url  http://....?timeout=9000
@@ -910,11 +924,30 @@ var esri_system_managed_field_array = [
 
                       async function ajax_getjson_common_custom_timeout(___url_getJson, custom_timeout){
                         
-                        console.log('ajax_getjson_common url is ',___url_getJson) 
+                        console.log('ajax_getjson_common url is ',___url_getJson, custom_timeout) 
                         var response
                         var error_response_json
+
+
                         
-                        try{
+
+/**/
+//  - - -  ---  try more times   ---  - - -
+/**/
+             tryMoreTimes = 0
+
+            // something wrong
+            while (tryMoreTimes < MaxNumberOfTry){
+
+               tryMoreTimes += 1
+
+/**/
+//  --- end  ---  try more times    - - -  --- 
+/**/               
+
+
+                        
+                       try{
                             response = await $.ajax({
                                     timeout: custom_timeout,
                                     type: "get",
@@ -922,34 +955,67 @@ var esri_system_managed_field_array = [
                                     
 
                                     success: function (data) { 
-                                      console.log('ajax json success ', data)
+                                      // console.log('ajax json success ', data)
                                       // return function here only return to ajax response, not return of this whole function
                                     }, // success
 
 
 
                                     error: function (jqXHR) {
-                                      console.log('ajax json failed, jqXHR.responseJSON', jqXHR.responseJSON)
-                                      // ajax failed, error
-                                      error_response_json = jqXHR.responseJSON 
+                                      // both cors error and hard network error will reach here, no way to seperate, 
+                                      // both jqXHR status is 0, responseJSON is undefined
+
+                                      //console.log('ajax json failed, jqXHR.status', jqXHR.status)
+                                      //console.log('ajax json failed, jqXHR.responseJSON', jqXHR.responseJSON)
+                                      //console.log('ajax json failed, jqXHR.responseJSON:', jqXHR.responseJSON);
+                                      //console.log('ajax json failed, jqXHR.responseText:', jqXHR.responseText);
                                     }                                                                                              
                             });
 
-                        } catch {
 
-                          console.log('catch error for ajax_getjson_common ', error_response_json) 
-                          return error_response_json
+
+                            if (typeof response === 'object') {
+                              // is object
+                              return response 
+                            } else {
+                              // is string
+                              return (JSON.parse(response))
+                            }  
+
+                            
+                        } catch(jqXHR) {
+
+                          // both cors error and hard network error will reach here, no way to seperate, 
+                          // both jqXHR status is 0, responseJSON is undefined
+
+                            console.log('AJAX failed, jqXHR.status:', jqXHR.status);
+                            console.log('AJAX failed, jqXHR.statusText:', jqXHR.statusText);
+                            console.log('AJAX failed, jqXHR.responseJSON:', jqXHR.responseJSON);
+                            console.log('AJAX failed, jqXHR.responseText:', jqXHR.responseText);
+
+                          
+                          
                         }
+                          
 
 
-                        if (typeof response === 'object') {
-                          // is object
-                          return response 
-                        } else {
-                          // is string
-                          return (JSON.parse(response))
-                        }  
-                      }
+
+                        
+/**/
+//  - - -  ---  try more times   ---  - - -
+/**/
+
+         }// while
+
+/**/
+//  --- end  ---  try more times    - - -  --- 
+/**/
+
+
+                          // already try 3 times, nothing get, return null
+                          return null
+                        
+                }
 
 
 
@@ -1202,7 +1268,7 @@ var esri_system_managed_field_array = [
        
 
 
-       
+    
       // jsonp > json(cors)
         async function ajax_jsonp_json_proxy(___url_getJson, _custom_timeout){
             
@@ -1218,96 +1284,119 @@ var esri_system_managed_field_array = [
            // always with time out option 
 
 
-          console.log('ajax cross is default, 3 try, jsonp,cors (timeout)', _custom_timeout ,___url_getJson)   
+          
           var input;
 
 
-          try{  
 
-            input = await $.ajax({
-                              timeout:_custom_timeout,  // add timeout, because if one ajax pending for ever, it could skip it move to next ajax, instead of stuck for ever.
-                              type: 'GET',
-                              dataType: 'jsonp',
-                             
-                              url: ___url_getJson,
-                              
-                              
-                              error: function (jsonp_error_1) {
-                                                          
-                                console.log('throw error event(ajax jsonp failed jsonp_error_1) ', jsonp_error_1)                                        
-                              },
-                                                          
-                              success: function (data) {
-                                
-                              }
-                          });                          
+/**/
+//  - - -  ---  try more times   ---  - - -
+/**/
+             tryMoreTimes = 0
 
+            // something wrong
+            while (tryMoreTimes < MaxNumberOfTry){
 
-              } catch(jsonp_error_1){ 
+               tryMoreTimes += 1
 
-                          console.log('catch ( ajax jsonp failed jsonp_error_2 ) ', jsonp_error_1)  
-                          
-                          // not return error yet, because we will try datatype:jsonp
+/**/
+//  --- end  ---  try more times    - - -  --- 
+/**/               
 
-                          // jsonp failed due to remote server does NOT support jsonp, try datatype:json (need cors)
-                    
+                try{  
 
-                          console.log('ajax-datatype:json-=======> ',___url_getJson)   
-                          try {
-                          
-                                  // add timeout, because if one ajax pending for ever, it could skip it move to next ajax, instead of stuck for ever.
+                  console.log('jsonp dataType(jsonp) time-out', _custom_timeout ,___url_getJson)   
+                  input = await $.ajax({
+                                    timeout:_custom_timeout,  // add timeout, because if one ajax pending for ever, it could skip it move to next ajax, instead of stuck for ever.
+                                    type: 'GET',
+                                    dataType: 'jsonp',
                                   
-                                  input = await $.ajax({
-                                                                timeout: _custom_timeout,
-                                                                url:___url_getJson,
-
-                                                                dataType: 'json',
-
-
-                                                                success: function (data) {
-                                                                  
-                                                                }, // success
+                                    url: ___url_getJson,
+                                    
+                                    
+                                    error: function (jsonp_error) {
                                                                 
-                                                                error: function (json_error_2) {
-                                                                  
-                                                                  console.log('throw error event (ajax datatype:json failed json_error_2)', json_error_2)                                        
-                                                                }
+                                      console.log('jsonp_error', jsonp_error)                                        
+                                    },
                                                                 
-                                                            });
-                              
-                              
-                              
-                              
+                                    success: function (data) {
+                                      
+                                    }
+                                });                          
+
+                        return input        
+
+                    } catch(jsonp_error){ 
+
+                                console.log('jsonp error ', jsonp_error)  
+                                
+                                // not return error yet, because we will try datatype:jsonp
+
+                                // jsonp failed due to remote server does NOT support jsonp, try datatype:json (need cors)
+                          
+
+                                console.log('cors  (datatype:json) time-out', _custom_timeout ,___url_getJson)   
+                                try {
+                                
+                                        // add timeout, because if one ajax pending for ever, it could skip it move to next ajax, instead of stuck for ever.
+                                        
+                                        input = await $.ajax({
+                                                                      timeout: _custom_timeout,
+                                                                      url:___url_getJson,
+
+                                                                      dataType: 'json',
 
 
+                                                                      success: function (data) {
+                                                                        
+                                                                      }, // success
+                                                                      
+                                                                      error: function (cors_error) {
+                                                                        
+                                                                        console.log('cors error', cors_error)                                        
+                                                                      }
+                                                                      
+                                                                  });
+                                    
+                                    
+                                    
+                                    return input
+
+
+                                  
+                                } catch(cors_error){
+                                    
+                                    
+                                    // http://localhost:10/json2tree/searchlayer.html?url=https://maps.lacity.org/arcgis/rest/services
+                                    // internal folder will failed both ajax call, jsonp and non-jsonp. must catch error.
+                                    //The error is No 'Access-Control-Allow-Origin' header is present, but the problem is not that, 
+                                    // the problem is internal folder is forbidden.
+
+                                    
+                                    console.log('cors_error', cors_error)
+                                    
+                                  
+
+                                    
+                                } // try datatype:json   2
                             
-                          } catch(json_error_2){
-                              
-                              
-                              // http://localhost:10/json2tree/searchlayer.html?url=https://maps.lacity.org/arcgis/rest/services
-                              // internal folder will failed both ajax call, jsonp and non-jsonp. must catch error.
-                              //The error is No 'Access-Control-Allow-Origin' header is present, but the problem is not that, 
-                              // the problem is internal folder is forbidden.
+                            
+                            
 
-                              
-                              console.log('catch( json_error_2 )', json_error_2)
-                              
-                             
-
-                              
-                          } // try datatype:json   2
-                      
-                      
-                      
-
-        } // try jsonp 1
+                } // try jsonp 1
 
 
+/**/
+//  - - -  ---  try more times   ---  - - -
+/**/
 
+         }// while
 
+/**/
+//  --- end  ---  try more times    - - -  --- 
+/**/
 
-
-      return input
+      
       }// function 
 
 

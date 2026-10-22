@@ -669,11 +669,6 @@ var esri_system_managed_field_array = [
 
              //*************************   ajax arcgis server section ***********************************  
 
-
-
-
-
-
              // Only for :  arcgis rest api type  ----- url + '?f=json' ----------- 
              async function arcgis_ajax_cross_origin(_url, __cross_origin_method){
 
@@ -734,13 +729,7 @@ var esri_system_managed_field_array = [
 
              }
 
-                 
-                        
-          
-
-
-
-                          
+                           
                   
                       async function ajax_getjson(_url){
 
@@ -868,10 +857,6 @@ var esri_system_managed_field_array = [
 
                       return input
                       }// function 
-
-
-
-
 
 
                        // Only for our rest api,https://localhost:3200/restapi/rest_url?select=*&where=
@@ -1017,13 +1002,6 @@ var esri_system_managed_field_array = [
                         
                 }
 
-
-
-
-
-
-
-
                 //************* end ************   ajax arcgis server section ***********************************  
 
 
@@ -1034,9 +1012,6 @@ var esri_system_managed_field_array = [
 
 // ======================== standard =========  ajax fetch general use ==============================
 
-
-      
-        
         async function ajax_datatype_json(___url_getJson, _custom_timeout){
             
 
@@ -1128,75 +1103,6 @@ var esri_system_managed_field_array = [
 
         }
 
-
-
-
-
-                            
-
-          // No time out, general use, no prefix for url          
-          // fetch with time out option 
-        async function fetch_only(___url_getJson, _custom_timeout){
-              
-
-            console.log('fetch only ',___url_getJson)   
-
-
-          // get raw json = input 
-          /*  
-            * bug fix: 
-            * No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:10' is therefore not allowed access. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
-            * https://stackoverflow.com/questions/43871637/no-access-control-allow-origin-header-is-present-on-the-requested-resource-whe
-            */
-
-
-
-               
-         /*  works, but this NOT await,    
-           
-         
-          fetch(___url_getJson)
-                     .then(function(response) {
-                          return response.json();
-                     })
-                     .then(function(data) {
-
-                                                 
-                        console.log(data);
-
-                        
-                                                  
-                        return data
-
-                    });// fetch
-
-           */ 
-
-
-        // arcgis only, when domain not exist, fetch will error, must catch, return null
-
-          try{
-          
-                    var  _resp_f = await fetch(___url_getJson);
-
-                    return _resp_f
-
-
-              } catch (error) {
-
-
-                      console.log('fetch Error:', error);
-                    return null
-
-              }
-
-
-        }
-
-
-
-
-
         async function ajax_jsonp_only(___url_getJson, _custom_timeout){
             
 
@@ -1259,16 +1165,55 @@ var esri_system_managed_field_array = [
 
 
       return input
-      }// function 
+        }// function 
+
+        // use,   proxy.php , https://github.com/GeniusGeeek/cors-bypass-proxy
+        async function ajax_proxy_only(___url_getJson, _custom_timeout){
+
+          // url must not have ?f=json, instead put all url parameter as  "f": "json",
+          var cors_url = ___url_getJson.replace("?f=json","")
+
+          try{
+                var proxyResponse = await $.ajax({
+                      url: proxyurl_https, // proxyurl_http
+                      type: "GET", //endpoint request type
+                      timeout: _custom_timeout,
+                      crossDomain: true,
+                      //set request header here if needed by endpoint
+                      data: {
+                       
+                        // url must not have ?f=json, instead put it as  "f": "json",
+                          "cors": cors_url,
+                          "method": "GET", // should be the same with endpoint request type
+
+                          //endpoint parameter data comes here
+                          "f": "json",
+                          
+                      },
+                      success: function (data) {
+                          console.log("proxy response :", data)
+                      }
+
+                  });
 
 
+                   return proxyResponse;
 
 
+          } catch(proxy_error_1){
 
+              console.log('Error object:', proxy_error_1);
+              console.log('HTTP status:', proxy_error_1.status);
+              console.log('Status text:', proxy_error_1.statusText);
+              console.log('Response text:', proxy_error_1.responseText);
+              console.log('Response JSON:', proxy_error_1.responseJSON);
+              console.log('Error thrown:', proxy_error_1.errorThrown);
+              console.log('Text status:', proxy_error_1.textStatus);
+                  
+          }
+          
+        }
        
-
-
-    
       // jsonp > json(cors)
         async function ajax_jsonp_json_proxy(___url_getJson, _custom_timeout){
             
@@ -1398,74 +1343,6 @@ var esri_system_managed_field_array = [
 
       
       }// function 
-
-
-
-
-
-
-
-      async function ajax_json_proxy(___url_getJson, _custom_timeout){
-            
-
-          //  try, json ,  good for hub  /data.json
-
-
-        // first try json 
-    
-
-       
-
-        // always with time out option 
-
-
-       console.log('ajax json  ',___url_getJson)   
-       var input;
-
-
-       try{  
-
-         input = await $.ajax({
-                           timeout:_custom_timeout,  // add timeout, because if one ajax pending for ever, it could skip it move to next ajax, instead of stuck for ever.
-                           type: 'GET',
-                           dataType: 'json',
-                          
-                           url: ___url_getJson,
-                           
-                           
-                           error: function (json_error_1) {
-                                                       
-                             console.log('throw error event(ajax json failed json_error_1) ', json_error_1)                                        
-                           },
-                                                       
-                           success: function (data) {
-                             
-                           }
-                       });                          
-
-
-           } catch(json_error_1){ 
-
-                       console.log('catch ( ajax jsonp failed jsonp_error_1 ) ', json_error_1)  
-                       
-                          
-     }// try - catch
-
-
-
-
-
-
-   return input
-   }// function 
-
-
-
-
-
-
-
-
 
   // ==============   end ========== ajax fetch general use ==============================
 

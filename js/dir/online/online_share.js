@@ -84,9 +84,7 @@ var input_current
         ___url_getJson = ___url_string + '/data.json';
 
 
-        // need server have CORS supported, all works, 
-        //input_current = await fetch_only(___url_getJson, _timeout_hub_only)
-        //input_current = await ajax_datatype_json(___url_getJson, _timeout_hub_only)
+       
         input_current = await ajax_jsonp_json_proxy(___url_getJson, _timeout_hub_only)
 
        

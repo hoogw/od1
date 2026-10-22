@@ -2255,10 +2255,9 @@ var geojsonTemplateFeatures_array = []
 
 
 
-                      
-
-
-
+/**/
+//************* end ************   ajax arcgis server section ***********************************  
+/**/
 
 
 
@@ -2277,12 +2276,6 @@ var geojsonTemplateFeatures_array = []
 
                         return response_json
                       }
-/**/
-//************* end ************   ajax arcgis server section ***********************************  
-/**/
-
-
-
                       
 
 /**/
@@ -2380,65 +2373,7 @@ var geojsonTemplateFeatures_array = []
 
       }
 
-      // No time out, general use, no prefix for url          
-          // fetch with time out option 
-      async function fetch_only(___url_getJson, _custom_timeout){
-              
-
-            console.log('fetch only ',___url_getJson)   
-
-
-          // get raw json = input 
-          /*  
-            * bug fix: 
-            * No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:10' is therefore not allowed access. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
-            * https://stackoverflow.com/questions/43871637/no-access-control-allow-origin-header-is-present-on-the-requested-resource-whe
-            */
-
-
-
-               
-         /*  works, but this NOT await,    
-           
-         
-          fetch(___url_getJson)
-                     .then(function(response) {
-                          return response.json();
-                     })
-                     .then(function(data) {
-
-                                                 
-                        console.log(data);
-
-                        
-                                                  
-                        return data
-
-                    });// fetch
-
-           */ 
-
-
-        // arcgis only, when domain not exist, fetch will error, must catch, return null
-
-          try{
-          
-                    var  _resp_f = await fetch(___url_getJson);
-
-                    return _resp_f
-
-
-              } catch (error) {
-
-
-                      console.log('fetch Error:', error);
-                    return null
-
-              }
-
-
-      }
-
+     
       async function ajax_jsonp_only(___url_getJson, _custom_timeout){
             
 
@@ -2503,139 +2438,53 @@ var geojsonTemplateFeatures_array = []
       return input
       }// function 
 
-      async function ajax_proxy_only(___url_getJson, _custom_timeout){
-            
+    // use,   proxy.php , https://github.com/GeniusGeeek/cors-bypass-proxy
+        async function ajax_proxy_only(___url_getJson, _custom_timeout){
 
-        //dataType: "json" same as fetch, server must support CORS,
-        // if server NOT support CORS, you have to use proxy to work around 
+          // url must not have ?f=json, instead put all url parameter as  "f": "json",
+          var cors_url = ___url_getJson.replace("?f=json","")
 
-        //dataType: "json", the result is already json, no need to JSON.parse().
+          try{
+                var proxyResponse = await $.ajax({
+                      url: proxyurl_https, // proxyurl_http
+                      type: "GET", //endpoint request type
+                      timeout: _custom_timeout,
+                      crossDomain: true,
+                      //set request header here if needed by endpoint
+                      data: {
+                       
+                        // url must not have ?f=json, instead put it as  "f": "json",
+                          "cors": cors_url,
+                          "method": "GET", // should be the same with endpoint request type
 
-        // without dataType: "json", the result is string,  need to JSON.parse().
-
-
-
-
-         console.log('ajax proxy, (timeout) ',___url_getJson, _custom_timeout)   
-
-         var _proxified_url = proxify_url(___url_getJson)
-
-
-         console.log('try ajax proxy =======> ',  _proxified_url)  
-
-
-
-         var input
-
-    try{
-  
-              input  = await $.ajax({
-              
-                                          timeout: _custom_timeout,
-                                          url: _proxified_url,
-                                          type : 'GET',
-
-                                          error: function (proxy_error_1) {
-                                                                                                    
-                                                          console.log('ajax proxy_error_1 ',proxy_error_1)  
-                                                          
-                                                        
-                                                },
-
-
-                                          success: function (data) {
-                                            //console.log('success back --> ', data);
-
-                                          },
-
-
-                                        dataType: "json"
-
-
-                                        // jsonp only works for arcgis server whoever support JSONP, 
-                                        // jsonp NOT works for any file json, or file geojson
-
-                                        //dataType: "jsonp"  // not work for hub    /data.json
-                                        
-
-                                        }); // await
-
-      
-
-                                    
-                            
-                                      } catch(proxy_error_1){
+                          //endpoint parameter data comes here
+                          "f": "json",
                           
-                          
-                                        // http://localhost:10/json2tree/searchlayer.html?url=https://maps.lacity.org/arcgis/rest/services
-                                        // internal folder will failed both ajax call, jsonp and non-jsonp. must catch error.
-                                        //The error is No 'Access-Control-Allow-Origin' header is present, but the problem is not that, 
-                                        // the problem is internal folder is forbidden.
+                      },
+                      success: function (data) {
+                          console.log("proxy response :", data)
+                      }
+
+                  });
+
+
+                   return proxyResponse;
+
+
+          } catch(proxy_error_1){
+
+              console.log('Error object:', proxy_error_1);
+              console.log('HTTP status:', proxy_error_1.status);
+              console.log('Status text:', proxy_error_1.statusText);
+              console.log('Response text:', proxy_error_1.responseText);
+              console.log('Response JSON:', proxy_error_1.responseJSON);
+              console.log('Error thrown:', proxy_error_1.errorThrown);
+              console.log('Text status:', proxy_error_1.textStatus);
+                  
+          }
           
-                                        
-                                        console.log('catch( proxy_error_1 )', proxy_error_1)
-                                        
-                                       
-                                        // can't return whole error object, if return whole error object, must use catch to handle it later down stream. 
-                                        var error_status = {
-                                          errorFrom: 'ajax_proxy_only',
-                                          readyState:proxy_error_1.readyState,
-                                          responseJSON:proxy_error_1.responseJSON,
-                                          status:proxy_error_1.status,
-                                          statusText: proxy_error_1.statusText
-                                        
-                                        }
-          
-                                         return error_status
-          
-                                        
-                                    }     
-
-
-
-
-      return input
-      
-
-
-      }
-      
-      function proxify_url(_target_url){
-
-
-                              // fetch + proxy (bypass cors)
-
-                              //  ****** cors ******
-
-                                  // some site that doesn’t send Access-Control-*, our browser will block response as No 'Access-Control-Allow-Origin' header is present on the requested resource  
-                                  // https://stackoverflow.com/questions/43871637/no-access-control-allow-origin-header-is-present-on-the-requested-resource-whe
-                                  // we must add such header via this proxy
-                                  //const proxyurl = "https://cors-anywhere.herokuapp.com/";
-
-                                  //const proxyurl = "http://localhost:7000/";
-                                  //const proxyurl = "https://localhost:7200/";
-
-
-                var _proxified_target;
-
-
-                if (_target_url.includes('https://')){
-
-                          _proxified_target = proxyurl_https  + _target_url;
-                } else{
-
-                          _proxified_target = proxyurl_http + _target_url;  
-                }
-
-
-                return _proxified_target
-
-      }
+        }
        
-  
-
-
-
       // jsonp > json(cors)
         async function ajax_jsonp_json_proxy(___url_getJson, _custom_timeout){
             
@@ -2767,66 +2616,6 @@ var geojsonTemplateFeatures_array = []
       }// function 
 
 
-
-
-
-
-
-      async function ajax_json_proxy(___url_getJson, _custom_timeout){
-            
-
-          //  try, json ,  good for hub  /data.json
-
-
-        // first try json 
-    
-
-       
-
-        // always with time out option 
-
-
-       console.log('ajax json  ',___url_getJson)   
-       var input;
-
-
-       try{  
-
-         input = await $.ajax({
-                           timeout:_custom_timeout,  // add timeout, because if one ajax pending for ever, it could skip it move to next ajax, instead of stuck for ever.
-                           type: 'GET',
-                           dataType: 'json',
-                          
-                           url: ___url_getJson,
-                           
-                           
-                           error: function (json_error_1) {
-                                                       
-                             console.log('throw error event(ajax json failed json_error_1) ', json_error_1)                                        
-                           },
-                                                       
-                           success: function (data) {
-                             
-                           }
-                       });                          
-
-
-           } catch(json_error_1){ 
-
-                       console.log('catch ( ajax jsonp failed jsonp_error_1 ) ', json_error_1)  
-                       
-                          
-     }// try - catch
-
-
-
-
-
-
-   return input
-   }// function 
-
-      
 /**/
 // ==============   end ========== ajax fetch general use ==============================
 /**/
@@ -2835,7 +2624,7 @@ var geojsonTemplateFeatures_array = []
 
 
                                        
-                        function update_url_parameter(_field, _value){
+                function update_url_parameter(_field, _value){
                                       
                           var _____searchParams = new URLSearchParams(window.location.search);
 

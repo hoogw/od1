@@ -511,11 +511,16 @@ function show_current(_current_showing) {
     }
                       
    
+   
+/*
    // return empty string or serial number 
    function get_serial_no_from_url(_sample_url){
 
       // only for tiles sample  https://tiles.arcgis.com/tiles/ohAFyIFvXFRGcC67/arcgis/rest/services
       if (_sample_url.includes("tiles.arcgis.com/")){
+
+
+
         return  _sample_url.split("tiles.arcgis.com/tiles/")[1].split("/")[0];
       } 
 
@@ -525,6 +530,41 @@ function show_current(_current_showing) {
         
       return ""
    }
+
+   */
+
+
+   // return empty string or serial number 
+   function get_serial_no_from_url(_sample_url) {
+    try {
+        const url = new URL(_sample_url);
+        const hostname = url.hostname.toLowerCase();
+        const pathname = url.pathname;
+
+        // 1. ArcGIS tile services
+        // https://tiles.arcgis.com/tiles/ohAFyIFvXFRGcC67/arcgis/rest/services
+        if (hostname === "tiles.arcgis.com") {
+            const match = pathname.match(/^\/tiles\/([^/]+)/);
+            return match ? match[1] : "";
+        }
+
+        // 2. ArcGIS Online hosted services
+        // https://services1.arcgis.com/ABC123/arcgis/rest/services
+        // https://services-eu1.arcgis.com/XYZ789/arcgis/rest/services
+        if (/^services(?:-[a-z0-9]+)?\d*\.arcgis\.com$/.test(hostname)) {
+            const match = pathname.match(/^\/([^/]+)/);
+            return match ? match[1] : "";
+        }
+
+        // 3. Other ArcGIS Online URLs are not organization IDs
+        return "";
+
+    } catch (error) {
+        // Invalid URL
+        return "";
+    }
+}
+
 
    function get_service_no_from_url(_sample_url){
     if (_sample_url.includes(".arcgis.com/")){

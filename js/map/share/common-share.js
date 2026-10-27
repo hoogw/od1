@@ -202,8 +202,8 @@ var page_sources_valueList = [];
 
 
 
- var  proxyurl_https = "https://transparentgov.net:7200/";
- var  proxyurl_http = "http://transparentgov.net:7000/";  
+  var proxyurl_https = "https://transparentgov.net/proxy.php";
+ var proxyurl_http = "https://transparentgov.net/proxy.php";  
 
     
     

@@ -115,8 +115,8 @@ var _open_link = ''
     
 // for example target url = https://geohub.lacity.org,  template protocol should always be https, no matter what
 var template_protocol = 'https:'  // by default, later will adjust as template_protocol = _targetURL_protocol
-var  proxyurl_https = "https://transparentgov.net:7200/";
-var  proxyurl_http = "http://transparentgov.net:7000/"; 
+var proxyurl_https = "https://transparentgov.net/proxy.php";
+var proxyurl_http = "https://transparentgov.net/proxy.php"; 
 var portal_gallery_html = '/home/gallery.html'
 var selfHost_portal_gallery_html = '/gallery.html'   
     

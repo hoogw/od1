@@ -848,9 +848,7 @@ async function get_mapserver_info_html(mapserver_url){
             //var _prettywkt_url =  'https://spatialreference.org/ref/epsg/' + _latestVcsWkid + '/prettywkt/'   // look up wkid from EPSG   https://spatialreference.org/
             var _vcsprettywkt_url =  'https://spatialreference.org/ref/epsg/' + _latestVcsWkid    // look up wkid from EPSG   https://spatialreference.org/
 
-            //works but do not use a-s-y-n-c-a-w-a-i-t for epsg 
-            //var _prettywkt_txt = await arcgis_ajax_cross_origin(_prettywkt_url, 'proxy');  // only proxy works, cors, jsonp failed 
-            //var _prettywkt_txt = await ajax_proxy_only_customized_type(_prettywkt_url, 3000, 'text')
+         
 
             var ___url_getJson = _prettywkt_url + '/ogcwkt/'
             var _custom_timeout = 9000
@@ -1042,10 +1040,7 @@ async function get_mapserver_info_html(mapserver_url){
             //var _prettywkt_url =  'https://spatialreference.org/ref/epsg/' + _latestWkid + '/prettywkt/'   // look up wkid from EPSG   https://spatialreference.org/
             var _prettywkt_url =  'https://spatialreference.org/ref/epsg/' + _latestWkid    // look up wkid from EPSG   https://spatialreference.org/
 
-            //works but do not use a-s-y-n-c-a-w-a-i-t for epsg 
-            //var _prettywkt_txt = await arcgis_ajax_cross_origin(_prettywkt_url, 'proxy');  // only proxy works, cors, jsonp failed 
-            //var _prettywkt_txt = await ajax_proxy_only_customized_type(_prettywkt_url, 3000, 'text')
-
+           
             var ___url_getJson = _prettywkt_url + '/ogcwkt/'
             var _custom_timeout = 9000
             var _customized_datatype = 'text'

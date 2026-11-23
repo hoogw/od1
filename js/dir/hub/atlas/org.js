@@ -156,6 +156,11 @@ async function start_streaming(){
 
                           
         console.log(' stream ended, final showing ----###--- ',  input_current)
+
+        // sort by name, ascending order
+        input_current.sort((a, b) => a.name.localeCompare(b.name));
+
+
         // when streaming ended, update the final result , show partial result for what we already have 
         show_current(input_current)
  

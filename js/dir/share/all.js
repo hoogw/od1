@@ -2584,11 +2584,11 @@ function standard_json_to_html(_results) {
 
                       if (_org){
                       
-                                  html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
+                                  html +=  ' <span class="context active-span hover-span" style="font-size:xx-small;">' 
                                   html +=  '<a target="_self" href="' + _url + '">';     
                                   html +=      _org 
                                   html +=  '</a>' 
-                                  html +=  '</sup>'
+                                  html +=  '</span>'
                       }
 
 
@@ -2632,7 +2632,7 @@ function standard_json_to_html(_results) {
 
                           
                                 
-                            html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">' 
+                            html +=  ' <span class="context active-span hover-span" style="font-size:xx-small;">' 
                             html +=  '<a target="_self" href="' + _url + '">';     
                             html +=      _serialNumber
 
@@ -2642,7 +2642,7 @@ function standard_json_to_html(_results) {
 
 
                             html +=  '</a>' 
-                            html +=  '</sup>'
+                            html +=  '</span>'
 
                            
                             
@@ -2680,7 +2680,7 @@ function standard_json_to_html(_results) {
 
                                   
                                         
-                                    html +=  ' <sup class="context active-span hover-span" style="font-size:xx-small;">'
+                                    html +=  ' <span class="context active-span hover-span" style="font-size:xx-small;">'
                                     html +=  '<a target="_self" href="' + _url + '">';     
                                     html +=      _domainName 
 
@@ -2689,7 +2689,7 @@ function standard_json_to_html(_results) {
                                      }
 
                                     html +=  '</a>' 
-                                    html +=  '</sup>'
+                                    html +=  '</span>'
                                    
                                    
 

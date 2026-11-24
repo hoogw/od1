@@ -2605,6 +2605,48 @@ async function get_mapserver_info_html(mapserver_url){
                     }
                   }
 
+                  function init_ui_event_handler(){
+                        
+                    /**/
+                    //  - - - download csv  - - - 
+                    /**/
+                        $("#download_csv_button").on("click", function() {
+
+                          if (input_current){
+                            var final_csv_string = parse_json_to_csv_string(input_current)
+                            saveStringAsFile('download.csv', final_csv_string)
+                          }
+
+                         
+                        });
+                    /**/
+                    //  - - -  end  - - -   download csv    - - - 
+                    /**/
+
+
+
+
+
+
+
+
+                              // click search
+                            // when user click 'x'  or  when user click 'enter' to 'search' , both will trigger 'on search' event. you can't tell which is which, both will fire this event.  https://stackoverflow.com/questions/2977023/how-do-you-detect-the-clearing-of-a-search-html5-input
+                            $('#filter_by').on('search', search_layer_now);
+                            // fire when user every stroke any key  
+                            $("#filter_by").on('keyup',search_layer_now);
+                                
+                            // only fire when text field loose focus,  not fire when stroke any key  
+                            // when use choose option from autocomplete dropdwon list, field will loose focus, will fire this change event
+                            // works, but use alternative way >>>>>  autocomplete_options.onAutocomplete:  search_layer_now  //Callback for when autocompleted.
+                            // $("#filter_by").change(search_layer_now);
+
+                  }
+
+
+
+
+
 
 
 

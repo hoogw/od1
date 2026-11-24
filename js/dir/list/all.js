@@ -164,7 +164,8 @@ var this_element
                                 
                                  
                                 
-                                 init_ui_event_handler();
+                                 init_ui_event_handler(); // general use include download csv, search
+                                 init_ui_event_handler_for_list_only(); // special for list only 
 
 
 

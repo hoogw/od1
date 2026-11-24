@@ -2,6 +2,8 @@
 
 
 
+ var style = "mobile" //'desktop'  // default is desktop, if URL param style=mobile, will change to mobile
+        
 
 // only for what we have
 var __total_item_count;

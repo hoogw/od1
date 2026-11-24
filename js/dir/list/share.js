@@ -122,9 +122,7 @@ function show_current(_current_showing) {
 
  
 
-
- var style = "mobile" //'desktop'  // default is desktop, if URL param style=mobile, will change to mobile
-            
+    
   function init_ui_event_handler(){
 
 

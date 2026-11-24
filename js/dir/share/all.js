@@ -2538,6 +2538,76 @@ async function get_mapserver_info_html(mapserver_url){
 
 
 
+            // only for URL, name, org, not split keyword to array
+                  function search_layer_now() {
+
+                    _filter_by = $('#filter_by').val().trim().toLowerCase();
+                    update_url_parameter('filter_by', _filter_by);
+                    
+                    if (_filter_by.length >= 3) {  
+                                        
+                      // ............. filter results  ....................
+                      _filtered_results = [];
+                      var _test_string
+                      var _valid
+
+                      if (input_current.length > 0) {
+                        for (var i = 0; i < input_current.length; ++i) {
+
+                          // use : name + orgnization   
+                          _test_string = input_current[i].name + ' ' + input_current[i].org;
+                          _test_string = _test_string.toLowerCase();
+                          
+                          _valid = true;
+
+                          if(_test_string.indexOf(_filter_by) > -1) {
+                              // contain
+                          }else {
+                              // Not contain
+                              _valid = false;
+                          }// else
+
+                          if (_valid) {
+
+                            /*
+                            // limit search result to 100, if found 100, than break for loop,
+                            if (_filtered_results.length >= 100){
+                            break; // for loop
+                            } else {
+                              _filtered_results.push(input_current[i]);
+                            }//if
+                            */
+
+                            // no limit, show all search result
+                            _filtered_results.push(input_current[i]);
+
+                            
+                          }//if
+
+                        }// for
+                      }// if
+                    
+                      show_current(_filtered_results)     
+                      // ..........  End ... filter results base on _search_for  ....................          
+
+                    } else {
+                        // less than 
+                        if (_filter_by.length == 0){
+                          /**/
+                          //  -  -  - fast render 100    -  -  - 
+                          /**/
+                        isScrolling = false;
+                          /**/
+                          //  -  -  - end  -  -  -  fast render 100   -  -  - 
+                          /**/
+                            show_current(input_current)
+                        }
+                    }
+                  }
+
+
+
+
 
 // a link version
 function standard_json_to_html(_results) {

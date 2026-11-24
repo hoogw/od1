@@ -45,65 +45,6 @@ var _search_content_split
                   //   *******  search event related   *******   
 
 
-                                  
-                  // at least 1 letter to start search, 
-                  // when found 100, than break for loop, 
-                  // always limit to 100 if search something.
-                  function search_layer_now() {
-
-                    _filter_by = $('#filter_by').val().toLowerCase().trim();
-                    var _filter_by_array = _filter_by.split(" ");
-                    console.log('_filter_by  --->  ', _filter_by)
-                    update_url_parameter('filter_by', _filter_by);
-                    
-                    if (_filter_by.length >= 2) {  
-                                        
-                      // ............. filter results  ....................
-                      _filtered_results = [];
-                      var _test_string
-                      var _valid
-
-                      if (input_current.length > 0) {
-                        for (var i = 0; i < input_current.length; ++i) {
-
-                          //  not use : name + orgnization     
-                          //_test_string = input_current[i].attributes.name + ' ' + input_current[i].attributes.orgName;
-                          _test_string = input_current[i].name                                                   
-                          _test_string = _test_string.toLowerCase();
-                          
-                          _valid = true;
-
-                          //_filter_by_array.forEach(function(word){
-                          for (var k = 0; k < _filter_by_array.length; ++k) {
-                            // if(_test_string.includes(word)) {
-                            if(_test_string.indexOf(_filter_by_array[k]) > -1) {
-                                // contain
-                            }else {
-                                // Not contain
-                                _valid = false;
-                            }// else
-                          } //for
-
-                          if (_valid) {
-                            if (_filtered_results.length >= 100){
-                            break; // for loop
-                            } else {
-                              _filtered_results.push(input_current[i]);
-                            }//if
-                          }//if
-
-                        }// for
-                      }// if
-                    
-                      show_current(_filtered_results)     
-                      // ..........  End ... filter results base on _search_for  ....................          
-
-                    } else {
-                        // less than 
-                        show_current(input_current)
-                    }
-                  }
-
 
 
                   function init_ui_event_handler(){

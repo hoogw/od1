@@ -1,5 +1,7 @@
 
 
+// so far with this parameter, we can get 7657 layers, not exceed 10000. 
+// if over 10000, we need to split by years or by type(feature service, map service)
 
 var _search_parameter_by_type = '(' 
     _search_parameter_by_type +=       'type:"Map Service"'

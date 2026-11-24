@@ -71,10 +71,10 @@ async function start_streaming(){
         console.log('this page raw return', _this_page_raw_return)
         
         __total_item_count = _this_page_raw_return.meta.stats.totalCount;
-        console.log("total loop needed is : ", __total_item_count / 20)
         
-        // must add 1, for example total is 12,  12/20 = 0.6, floor is 0, must add 1
-        var loop = Math.floor(__total_item_count / 20 ) + 1
+       
+        var loop = Math.ceil(__total_item_count / 20 )
+        console.log("total loop needed is : ", loop)
 
         for (i = 0; i < (loop);  i++){ 
 

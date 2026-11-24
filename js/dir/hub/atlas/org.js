@@ -1,6 +1,18 @@
 
 
 
+var _search_parameter_by_type = '(' 
+    _search_parameter_by_type +=       'type:"Map Service"'
+    _search_parameter_by_type +=   ' OR type:"Feature Service"'
+    _search_parameter_by_type +=   ' OR type:"Image Service"'
+    _search_parameter_by_type +=   ' OR type:"Scene Service"'
+    _search_parameter_by_type +=   ' OR type:"Vector Tile Service"'
+    _search_parameter_by_type +=   ' OR type:"Feature Collection"'
+    _search_parameter_by_type +=   ' OR type:"WMS"'
+    _search_parameter_by_type +=   ' OR type:"Group+Layer"'
+    _search_parameter_by_type +=   ')'
+
+
 /*
 
     living atlas can be found at 
@@ -68,12 +80,13 @@
     ___url_getJson ="https://www.arcgis.com/sharing/rest/content/groups/47dd57c9a59d458c86d3d6b978560088/search?f=json"
     ___url_getJson += "&num=100&sortOrder=desc&sortField=numviews"
     
+     ___url_getJson += "&q=" + encodeURIComponent(_search_parameter_by_type)
 
     if (_search_data_content){
-      ___url_getJson += "&q=(" + _search_data_content + ")" 
+      ___url_getJson += encodeURIComponent(" (title:" + _search_data_content + ")") 
     } else {
-      ___url_getJson += "&q=" + encodeURIComponent('(type:"Map Service" OR type:"Feature Service"  OR type:"Image Service")')
-      //___url_getJson += "&q=" + encodeURIComponent('(type:"Image Service")')
+     
+     
     }
 
         console.log('___url_getJson', ___url_getJson)
@@ -106,9 +119,10 @@ async function start_streaming(){
         console.log('this page raw return', _this_page_raw_return)
        
           __total_item_count = _this_page_raw_return.total;
-          console.log("total loop needed is : ", __total_item_count / 100)
+          
 
-          var loop = Math.floor(__total_item_count / 100)
+          var loop = Math.ceil(__total_item_count / 100)
+          console.log("total loop needed is : ", loop)
 
           for (i = 0; i < (loop); i++) { 
 

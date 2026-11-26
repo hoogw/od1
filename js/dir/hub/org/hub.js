@@ -173,6 +173,8 @@ async function start_streaming(){
 // - - -  convert raw json to standard array for display in html  - - - 
     
 
+// only for hub, atlas
+
 /**/
 // any source csv will fit into only 3 column, 
 // name, org, url  

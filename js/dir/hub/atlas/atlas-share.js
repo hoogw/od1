@@ -38,41 +38,27 @@ var _search_content_split
           
                                 
 
-  
-                  //   *******  search event related   *******   
-
-
-                  
-
-
-               
-
-
-                  //   *******   end  ******   search event related   *******      
-
-
-
-
-
-
-// any source csv will fit into only 3 column, 
-// name, org, url    
 
 
 
 
 // - - -  convert raw json to standard array for display in html  - - - 
-    
-var name, org, url;
-var _url_candidate
 
-var _name_candidate
-var _org_candidate
+/**/
+// any source csv will fit into only 3 column, 
+// name, org, url  
+var _name_candidate // not layer property, human readable org name,must get by orgId > portal > name ( if no orgID, then use owner name )  
+var _orgName_candidate // not layer property, serical number or domain name.
 
-var _owner_candidate
-var _orgId_candidate
-var _orgName_candidate
-var _title_candidate
+var _serialNo_domain_name // not layer property, serical number or domain name.
+
+var _url_candidate // is one of layer properties
+// these 2 are not input to core 3 column, but needed for org name. 
+var _orgId_candidate // is one of layer properties
+var _owner_candidate // is one of layer properties
+var _source_candidate // is one of layer properties, 
+var _accessInformation_candidate // is one of layer properties,
+
 
 var _serial_number
 var _service_number
@@ -96,19 +82,16 @@ var this_element
         
 
         // must reset to empty for each loop
-          name = ""
-          org = "" 
-          url = ""
-          _url_candidate = ""
           _name_candidate = ""
-        _org_candidate = ""
-         
+          _orgName_candidate = ""
+          _serialNo_domain_name = ""
+          _url_candidate = ""
+          
           _owner_candidate = ""
           _orgId_candidate = ""
-          _orgName_candidate = ""
-          _title_candidate = ""
-
-        
+          _source_candidate = ""
+          _accessInformation_candidate = ""
+          
           _serial_number = ""
           _service_number = ""
           _any_instance = ""
@@ -129,26 +112,21 @@ var this_element
           _url_candidate = raw_json_array[i].url; 
           // never to lower case, because it will mess up 16 serial number
           //if (_url_candidate){ _url_candidate = _url_candidate.toLowerCase()}
-
-
-          _title_candidate = raw_json_array[i].title; // title means FeatureServer name, not org name
-          
           _owner_candidate = raw_json_array[i].owner; // owner means a real person, who upload this feature server or layer
-         
           _orgId_candidate = raw_json_array[i].orgId; // half of orgId is empty
           // use this URL to look up org name by orgId https://www.arcgis.com/sharing/rest/portals/<orgId>?f=json
+          
+          _source_candidate = raw_json_array[i].source; // source means the origin of the data
+          _accessInformation_candidate = raw_json_array[i].accessInformation; // access information for the layer
           
 
 
           // undefined.includes cause error, must use and 
         if (_url_candidate && _url_candidate.includes("/rest/services")){
     
-            
-            
-            
             start_position = _url_candidate.indexOf("/rest/services")
-            url = _url_candidate.substring(0,start_position) + "/rest/services"
-            urlExistsOrNot = standard_array.some(item => item["url"] == url); 
+            _url_candidate = _url_candidate.substring(0,start_position) + "/rest/services"
+            urlExistsOrNot = standard_array.some(item => item["url"] == _url_candidate); 
           if (urlExistsOrNot){
               // exist, skip, nothing to do
             } else {
@@ -166,47 +144,76 @@ var this_element
                   _orgName_candidate = org_name_response.name
                 }
                 if (org_name_response.orgUrl){
-                  _orgName_candidate += " {" + org_name_response.orgUrl + "}"
+                  _orgName_candidate += " " + org_name_response.orgUrl 
                 }
-                /*
+
+                /*  
+                // not use, too much info, only use name and orgUrl
                 if (org_name_response.orgPhone){
                   name += " {" + org_name_response.orgPhone + "}"
                 }
-                */
+                // not use, too much info, only use name and orgUrl
                 if (org_name_response.orgEmail){
                   _orgName_candidate += " {" + org_name_response.orgEmail + "}"
                 }
+                */
                 
             }//if 
 
 
           
             if (_orgName_candidate){
-              _name_candidate = _orgName_candidate
-            } else if (_orgId_candidate){
-              _name_candidate = _orgId_candidate
-            } else if (_owner_candidate){
-              _name_candidate = _owner_candidate
+
+                      // if org name exist, then only use it. ignore others.
+                      _name_candidate = _orgName_candidate
+
             } else {
-              _name_candidate = "org-name"
+
+                // org name is not exist, then use combination of all others. 
+                _name_candidate = "";
+                
+                if (_orgId_candidate){
+
+                  // for some reason, failed to get org name by orgId, then use orgId as name
+                  // this should be rare.
+                  _name_candidate += " orgId: " + _orgId_candidate
+
+                } 
+                
+                if (_owner_candidate){
+
+                  // half of layer or servers has no orgId, then use owner name as name, 
+                  // owner means a real person, who upload this feature server or layer
+                  _name_candidate += " Owner: " + _owner_candidate
+
+                } 
+                
+                if (_accessInformation_candidate){
+                  _name_candidate += " accessInfo: " + _accessInformation_candidate
+                }
+
+                if (_source_candidate){
+                  _name_candidate += " source: " + _source_candidate
+                }
+
+           
             }
 
              
-            name = _name_candidate
+         
              
 
               // fix bug, coeur d'Alene tribe
               // and other special char should be removed.
-              if (name.includes("'")){
-                  name = name.replace("'","`");
-              } else if (name.includes("\\")){
-                  // name = name.replace("\\", "");
-              } else if (name.includes("\/")){
-                  // name = name.replace("\/","");
-              } else if (name.includes(",")){
-
+              if (_name_candidate.includes("'")){
+                  _name_candidate = _name_candidate.replace("'","`");
+              } else if (_name_candidate.includes("\\")){
+                  // _name_candidate = _name_candidate.replace("\\", "");
+              } else if (_name_candidate.includes("\/")){
+                  // _name_candidate = _name_candidate.replace("\/","");
+              } else if (_name_candidate.includes(",")){
                 // comma must be removed 
-                  // name = name.replace(","," ");
+                  // _name_candidate = _name_candidate.replace(","," ");
               }
               
               
@@ -219,16 +226,16 @@ var this_element
               _domain_candidate = get_domain_name_from_url(_url_candidate)
               _any_instance = get_instance_name_from_url(_url_candidate)
 
-               // online
+              // online
               if (_serial_number){
                // online
 
                         // 1st priority serial number
-                        org = _serial_number
+                        _serialNo_domain_name = _serial_number
 
                         // 2nd priority, services is not default
                         if (_service_number !== "services"){
-                          org = _serial_number + "/" + _service_number
+                          _serialNo_domain_name = _serial_number + "/" + _service_number
                         }
                   
 
@@ -237,25 +244,20 @@ var this_element
               } else {
                 // portal
 
-                        org = _domain_candidate
+                        _serialNo_domain_name = _domain_candidate
                       
                         if (_any_instance !== "arcgis"){
-                          org = _domain_candidate + "/" + _any_instance
+                          _serialNo_domain_name = _domain_candidate + "/" + _any_instance
                         }
 
                        
               }
               
 
-
-            
-          
-              
-
               this_element = {
-                      "name":name,
-                      "org":org,  
-                      "url":url
+                      "name":_name_candidate,
+                      "org":_serialNo_domain_name,  
+                      "url":_url_candidate
                     }
 
 
@@ -288,10 +290,6 @@ var this_element
 
 
 
-
-
-//  - - -  end  - - -  convert raw json to standard array for display in html  - - - 
-    
 
                   
 
